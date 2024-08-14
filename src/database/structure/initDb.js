@@ -1,3 +1,9 @@
+import {
+	errorLog,
+	infoLog,
+	succesLog,
+	warningLog,
+} from "../../utils/logger.js";
 import { getPool } from "./getPool.js";
 
 async function initDB() {
@@ -5,80 +11,108 @@ async function initDB() {
 		const pool = await getPool();
 		const connection = await pool.getConnection();
 
-		console.log("Eliminando base de datos si existe");
+		warningLog("Eliminando base de datos si existe");
 		await connection.query("DROP DATABASE IF EXISTS citas_medicas");
 
-		console.log("Creando base de datos citas_medicas");
 		await connection.query("CREATE DATABASE citas_medicas");
-		await connection.query("USE citas_medicas");
+		succesLog("Base de datos citas_medicas creada.");
 
-		console.log("Eliminando tablas si existen");
+		await connection.query("USE citas_medicas");
+		infoLog("DB en uso: citas_medicas");
+
+		warningLog("Eliminando tablas si existen");
 		await connection.query(
-			"DROP TABLE IF EXISTS Responses, Consultations, Users, Specialties"
+			"DROP TABLE IF EXISTS ratings, responses, consultations, users, specialties"
 		);
-		console.log("Creando tablas...");
+
+		infoLog("Creando tablas...");
 
 		await connection.query(`
-            CREATE TABLE IF NOT EXISTS Specialties (
+            CREATE TABLE specialties (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 name VARCHAR(255) NOT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
 
+		succesLog("Tabla Specialties creada.");
+
 		await connection.query(`
-            CREATE TABLE IF NOT EXISTS Users (
+            CREATE TABLE users (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 userName VARCHAR(255) NOT NULL,
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
                 userType ENUM('paciente', 'doctor') NOT NULL,
-                firstName VARCHAR(255) NOT NULL,
-                lastName VARCHAR(255) DEFAULT NULL,
-                biography TEXT,
+                firstName VARCHAR(50) NOT NULL,
+                lastName VARCHAR(100) DEFAULT NULL,
+                biography VARCHAR(500) DEFAULT NULL,
                 avatar VARCHAR(255) DEFAULT NULL,
-                specialtyId INT,
+                specialtyId INT NOT NULL,
                 experience INT,
-                rating FLOAT,
+                mediaRating FLOAT,
+                codigoMedico INT DEFAULT NULL,
+                validationCode INT UNIQUE,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (specialtyId) REFERENCES Specialties(id)
+                FOREIGN KEY (specialtyId) REFERENCES specialties(id)
             )
         `);
 
+		succesLog("Tabla Users creada.");
+
 		await connection.query(`
-            CREATE TABLE IF NOT EXISTS Consultations (
+            CREATE TABLE consultations (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                date DATETIME DEFAULT CURRENT_TIMESTAMP,
                 title VARCHAR(255) NOT NULL,
-                description TEXT NOT NULL,
-                specialtyId INT,
+                description VARCHAR(255) NOT NULL,
+                specialtyId INT NOT NULL,
                 severity ENUM('high', 'medium', 'low') NOT NULL,
-                patientId INT,
-                doctorId INT,
+                patientId INT NOT NULL,
+                doctorId INT NOT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (specialtyId) REFERENCES Specialties(id),
-                FOREIGN KEY (patientId) REFERENCES Users(id),
-                FOREIGN KEY (doctorId) REFERENCES Users(id)
+                FOREIGN KEY (specialtyId) REFERENCES specialties(id),
+                FOREIGN KEY (patientId) REFERENCES users(id),
+                FOREIGN KEY (doctorId) REFERENCES users(id)
             )
         `);
 
+		succesLog("Tabla consultations creada.");
+
 		await connection.query(`
-            CREATE TABLE IF NOT EXISTS Responses (
+            CREATE TABLE responses (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 content TEXT NOT NULL,
-                consultationId INT,
-                doctorId INT,
-                rating INT CHECK (rating >= 1 AND rating <= 5),
+                consultationId INT NOT NULL,
+                doctorId INT NOT NULL,
+                rating INT DEFAULT NULL,
                 date DATETIME DEFAULT CURRENT_TIMESTAMP,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (consultationId) REFERENCES Consultations(id),
-                FOREIGN KEY (doctorId) REFERENCES Users(id)
+                FOREIGN KEY (consultationId) REFERENCES consultations(id),
+                FOREIGN KEY (doctorId) REFERENCES users(id)
             )
         `);
 
-		console.log("¡Tablas creadas exitosamente!");
+		succesLog("Tabla responses creada.");
+
+		await connection.query(`
+            CREATE TABLE ratings (
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            userId INT NOT NULL,
+            consultationId INT NOT NULL,
+            rating INT NOT NULL,
+            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (userId) REFERENCES users(id),
+            FOREIGN KEY (consultationId) REFERENCES consultations(id)
+        )
+            `);
+
+		succesLog("Tabla ratings creada.");
+
+		infoLog("¡Todas las tablas creadas exitosamente!");
 		process.exit(0);
 	} catch (error) {
-		console.error("Error al crear las tablas:", error);
+		errorLog("Error al crear las tablas:", error);
 		process.exit(1);
 	}
 }
