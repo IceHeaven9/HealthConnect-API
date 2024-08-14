@@ -1,22 +1,24 @@
-import { getPool } from './getPool.js';
+import { getPool } from "./getPool.js";
 
+async function initDB() {
+	try {
+		const pool = await getPool();
+		const connection = await pool.getConnection();
 
-const initDB = async () => {
-    try {
-        let pool = await getPool();
+		console.log("Eliminando base de datos si existe");
+		await connection.query("DROP DATABASE IF EXISTS citas_medicas");
 
-        console.log('Eliminando base de datos si existe');
-        await pool.query('DROP DATABASE IF EXISTS citas_medicas');
-        
-        console.log('Creando base de datos citas_medicas');
-        await pool.query('CREATE DATABASE citas_medicas');
-        await pool.query('USE citas_medicas');
-        
-        console.log('Eliminando tablas si existen');
-        await pool.query('DROP TABLE IF EXISTS Responses, Consultations, Users, Specialties');
-        console.log('Creando tablas...');
+		console.log("Creando base de datos citas_medicas");
+		await connection.query("CREATE DATABASE citas_medicas");
+		await connection.query("USE citas_medicas");
 
-        await pool.query(`
+		console.log("Eliminando tablas si existen");
+		await connection.query(
+			"DROP TABLE IF EXISTS Responses, Consultations, Users, Specialties"
+		);
+		console.log("Creando tablas...");
+
+		await connection.query(`
             CREATE TABLE IF NOT EXISTS Specialties (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 name VARCHAR(255) NOT NULL,
@@ -24,7 +26,7 @@ const initDB = async () => {
             )
         `);
 
-        await pool.query(`
+		await connection.query(`
             CREATE TABLE IF NOT EXISTS Users (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 userName VARCHAR(255) NOT NULL,
@@ -43,7 +45,7 @@ const initDB = async () => {
             )
         `);
 
-        await pool.query(`
+		await connection.query(`
             CREATE TABLE IF NOT EXISTS Consultations (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 title VARCHAR(255) NOT NULL,
@@ -59,7 +61,7 @@ const initDB = async () => {
             )
         `);
 
-        await pool.query(`
+		await connection.query(`
             CREATE TABLE IF NOT EXISTS Responses (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 content TEXT NOT NULL,
@@ -73,14 +75,12 @@ const initDB = async () => {
             )
         `);
 
-        console.log('¡Tablas creadas exitosamente!');
-        process.exit(0);
-    } catch (error) {
-        console.error('Error al crear las tablas:', error);
-        process.exit(1);
-    }
+		console.log("¡Tablas creadas exitosamente!");
+		process.exit(0);
+	} catch (error) {
+		console.error("Error al crear las tablas:", error);
+		process.exit(1);
+	}
 }
 
 initDB();
-
-
