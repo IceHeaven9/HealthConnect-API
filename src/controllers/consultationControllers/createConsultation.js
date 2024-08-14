@@ -1,8 +1,4 @@
-import { Router } from "express";
-
-export const consultationRoutes = Router();
-
-consultationRoutes.post("/consultation", async (req, res) => {
+export const createConsultationController = async (req, res) => {
 	const {
 		title,
 		description,
@@ -39,4 +35,4 @@ consultationRoutes.post("/consultation", async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ mensaje: "Error al crear la cita", error });
 	}
-});
+};

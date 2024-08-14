@@ -3,13 +3,13 @@ import cors from "cors";
 import morgan from "morgan";
 import fileUpload from "express-fileupload";
 import {
-  notFoundController,
-  errorController,
+	notFoundController,
+	errorController,
 } from "./src/controllers/errors/index.js";
 
 import { API_HOST } from "./constants.js";
 import { infoLog } from "./src/utils/logger.js";
-
+import { consultationRoutes } from "./src/routes/consultation.js";
 const app = express();
 
 // Middlewares
@@ -31,6 +31,8 @@ app.use("/public", express.static("./public"));
 // Establecemos el directorio de los archivos cargados
 app.use("/uploads", express.static("./uploads"));
 
+app.use(consultationRoutes);
+
 // Middleware de Ruta no encontrada
 app.use(notFoundController);
 
@@ -38,5 +40,5 @@ app.use(notFoundController);
 app.use(errorController);
 
 app.listen(API_HOST, () => {
-  infoLog("Server is running on port 3000");
+	infoLog("Server is running on port 3000");
 });
