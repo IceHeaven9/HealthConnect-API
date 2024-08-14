@@ -1,8 +1,8 @@
-import { notFoundError } from '../../services/errorService.js';
+import { errorLog } from "../../utils/logger.js";
 
 export const notFoundController = (req, res, next) => {
-	const resourcePath = req.path;
-	console.log(`Recurso no encontrado: ${resourcePath}`);
+  const resourcePath = req.path;
+  errorLog(`404 NOT FOUND THIS ROUTE: ${resourcePath}`);
 
-	next(notFoundError(resourcePath));
+  next();
 };
