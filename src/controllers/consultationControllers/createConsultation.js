@@ -1,3 +1,6 @@
+import { createConsultation } from "../../models/consultation.js";
+import { generateErrors } from "../../utils/generateErrors.js";
+
 export const createConsultationController = async (req, res) => {
 	const {
 		title,
@@ -18,10 +21,10 @@ export const createConsultationController = async (req, res) => {
 		!doctorid ||
 		!date
 	) {
-		return res.status(400).json({ mensaje: "Faltan datos necesarios" });
+		generateErrors(400, "Todos los campos son obligatorios");
 	}
 
-	const idConsultation = await crearCita({
+	const idConsultation = await createConsultation({
 		title,
 		description,
 		severity,
