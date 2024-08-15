@@ -15,20 +15,24 @@ export async function createUser({
 	userType,
 	biography,
 	codigoMedico,
+	experience,
+	avatar,
 	email,
 	userName,
 	hashedPassword,
 	validationCode,
 }) {
 	const [{ insertId }] = await Db.query(
-		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, email, password, userName, validationCode)
-    VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :email, :hashedPassword, :userName, :validationCode)`,
+		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, experience, avatar, email, password, userName, validationCode)
+    VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :experience, :avatar, :email, :hashedPassword, :userName, :validationCode)`,
 		{
 			firstName,
 			lastName,
 			userType,
 			biography,
 			codigoMedico,
+			experience,
+			avatar,
 			email,
 			userName,
 			hashedPassword,

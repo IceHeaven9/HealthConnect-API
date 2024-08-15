@@ -5,7 +5,6 @@ import {
 } from "../../database/users.js";
 import { sendValidationEmail } from "../../emails/validationEmail.js";
 import { hashPassword } from "../../utils/hashPassword.js";
-import { infoLog } from "../../utils/logger.js";
 import { parseRegisterPayload } from "../../validations/auth.js";
 import crypto from "node:crypto";
 
@@ -16,6 +15,9 @@ export const registerController = async (req, res) => {
 		userType,
 		biography,
 		codigoMedico,
+		specialtyId,
+		experience,
+		avatar,
 		email,
 		password,
 		userName,
@@ -32,6 +34,8 @@ export const registerController = async (req, res) => {
 		userType,
 		biography,
 		codigoMedico,
+		experience,
+		avatar,
 		email,
 		hashedPassword,
 		userName,
@@ -39,8 +43,6 @@ export const registerController = async (req, res) => {
 	});
 
 	sendValidationEmail({ firstName, email, validationCode });
-
-	infoLog(`User registered: ${email}`);
 
 	res.status(201).json({
 		id,
