@@ -1,4 +1,4 @@
-import { createConsultation } from "../../models/consultation.js";
+import { createConsultation } from "../../database/consultation.js";
 import { generateErrors } from "../../utils/generateErrors.js";
 
 export const createConsultationController = async (req, res) => {
@@ -21,7 +21,7 @@ export const createConsultationController = async (req, res) => {
 		!doctorid ||
 		!date
 	) {
-		generateErrors(400, "Todos los campos son obligatorios");
+		throw generateErrors(400, "Todos los campos son obligatorios");
 	}
 
 	const idConsultation = await createConsultation({

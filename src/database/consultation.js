@@ -1,4 +1,4 @@
-import { Db } from "../database/structure/db.js";
+import { Db } from "./structure/db.js";
 
 export const createConsultation = async ({
 	title,
