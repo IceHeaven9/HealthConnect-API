@@ -49,7 +49,7 @@ async function initDB() {
                 experience INT DEFAULT NULL,
                 mediaRating FLOAT DEFAULT NULL,
                 codigoMedico INT DEFAULT NULL,
-                validationCode INT UNIQUE,
+                validationCode INT DEFAULT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (specialtyId) REFERENCES specialties(id)
             )

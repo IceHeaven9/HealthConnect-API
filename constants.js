@@ -1,7 +1,27 @@
 import "dotenv/config";
 
-export const API_HOST = process.env.API_HOST;
+export const {
+	//==========================
+	// API SETTINGS
+	//==========================
+	API_HOST,
+	JWT_SECRET,
+	FRONTEND_HOST,
 
-export const { DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT } = process.env;
+	//==========================
+	// DB SETTINGS
+	//==========================
+	DB_HOST,
+	DB_USER,
+	DB_PASS,
+	DB_NAME,
+	DB_PORT,
 
-export const { JWT_SECRET } = process.env;
+	//==========================
+	// EMAIL SETTINGS
+	//==========================
+	EMAIL_HOST,
+	EMAIL_PORT,
+	EMAIL_USER,
+	EMAIL_PASS,
+} = process.env;

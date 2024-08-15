@@ -16,6 +16,7 @@ const registerSchema = Joi.object({
 	lastName: Joi.string().min(3).max(255),
 	userName: Joi.string().min(3).max(255).required(),
 	biography: Joi.string().max(500),
+	validationCode: Joi.number().min(100000).max(999999),
 	codigoMedico: Joi.number().min(10).max(10),
 	userType: Joi.string().valid("paciente", "doctor").required(),
 	email: Joi.string().email().required(),

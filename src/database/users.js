@@ -18,10 +18,11 @@ export async function createUser({
 	email,
 	userName,
 	hashedPassword,
+	validationCode,
 }) {
 	const [{ insertId }] = await Db.query(
-		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, email, password, userName)
-    VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :email, :hashedPassword, :userName)`,
+		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, email, password, userName, validationCode)
+    VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :email, :hashedPassword, :userName, :validationCode)`,
 		{
 			firstName,
 			lastName,
@@ -31,6 +32,7 @@ export async function createUser({
 			email,
 			userName,
 			hashedPassword,
+			validationCode,
 		}
 	);
 
@@ -62,6 +64,11 @@ export async function assertUsernameNotInUse(userName) {
 	}
 }
 
+export async function removeValidationCodeFromUser(userId) {
+	await Db.query("UPDATE users SET validationCode = NULL WHERE id = :userId", {
+		userId,
+	});
+}
 // export async function assertUserExists(userId) {
 // 	const user = await getUserInfo(userId);
 // 	if (!user) {
@@ -113,10 +120,4 @@ export async function assertUsernameNotInUse(userName) {
 //       userId,
 //     }
 //   );
-// }
-
-// export async function removeValidationCodeFromUser(userId) {
-//   await db.query("UPDATE users SET validationCode = NULL WHERE id = :userId", {
-//     userId,
-//   });
 // }
