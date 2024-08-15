@@ -15,6 +15,7 @@ async function getDB() {
 			password: DB_PASS,
 			database: DB_NAME,
 			port: DB_PORT,
+			namedPlaceholders: true,
 		});
 		return pool;
 	} catch (error) {

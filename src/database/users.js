@@ -1,63 +1,87 @@
 import { generateErrors } from "../utils/generateErrors.js";
-import { db } from "./db.js";
+import { Db } from "./structure/db.js";
 
 export async function findUserByEmail(email) {
-	const [[user]] = await db.query("SELECT * FROM users WHERE email = :email", {
+	const [[user]] = await Db.query("SELECT * FROM users WHERE email = :email", {
 		email,
 	});
 
 	return user;
 }
 
-// export async function getUserInfo(userId) {
-//   const [[user]] = await db.query(
-//     'SELECT id, username, name FROM users WHERE id = :userId',
-//     {
-//       userId,
-//     }
-//   );
+export async function createUser({
+	firstName,
+	lastName,
+	userType,
+	biography,
+	codigoMedico,
+	email,
+	userName,
+	hashedPassword,
+}) {
+	const [{ insertId }] = await Db.query(
+		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, email, password, userName)
+    VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :email, :hashedPassword, :userName)`,
+		{
+			firstName,
+			lastName,
+			userType,
+			biography,
+			codigoMedico,
+			email,
+			userName,
+			hashedPassword,
+		}
+	);
 
-//   return user;
-// }
+	return insertId;
+}
 
-// export async function createUser({
-//   name,
-//   last_name,
-//   role,
-//   address,
-//   phone_number,
-//   email,
-//   username,
-//   hashedPassword,
-// }) {
-//   const [{ insertId }] = await db.query(
-//     `INSERT INTO users(name, last_name, role, address, phone_number, email, password, username)
-//     VALUES (:name, :last_name, :role, :address, :phone_number, :email, :hashedPassword, :username)`,
-//     {
-//       name,
-//       last_name,
-//       role,
-//       address,
-//       phone_number,
-//       email,
-//       username,
-//       hashedPassword,
-//     }
-//   );
+export async function assertEmailNotInUse(email) {
+	const user = await findUserByEmail(email);
 
-//   return insertId;
-// }
+	if (user) {
+		throw generateErrors(400, "EMAIL_IN_USE", "The email is already in use");
+	}
+}
+
+export async function assertUsernameNotInUse(userName) {
+	const [[result]] = await Db.query(
+		"SELECT username FROM users WHERE userName = :userName",
+		{
+			userName,
+		}
+	);
+
+	if (result) {
+		throw generateErrors(
+			400,
+			"USERNAME_IN_USE",
+			"The username is already in use"
+		);
+	}
+}
 
 // export async function assertUserExists(userId) {
-//   const user = await getUserInfo(userId);
-//   if (!user) {
-//     throw generateErrors(404, 'USER_NOT_FOUND', 'The user do not exists.');
-//   }
+// 	const user = await getUserInfo(userId);
+// 	if (!user) {
+// 		throw generateErrors(404, "USER_NOT_FOUND", "The user do not exists.");
+// 	}
 // }
 
 // export async function getUserProfile(userId) {
+// 	const [[user]] = await db.query(
+// 		"SELECT name, username, last_name, address, phone_number, password FROM users WHERE id = :userId",
+// 		{
+// 			userId,
+// 		}
+// 	);
+
+// 	return user;
+// }
+// export async function getUserInfo(userId) {
 //   const [[user]] = await db.query(
-//     'SELECT name, username, last_name, address, phone_number, password FROM users WHERE id = :userId',
+//     'SELECT id, username, name FROM users WHERE id = :userId',
 //     {
 //       userId,
 //     }
@@ -95,29 +119,4 @@ export async function findUserByEmail(email) {
 //   await db.query("UPDATE users SET validationCode = NULL WHERE id = :userId", {
 //     userId,
 //   });
-// }
-
-// export async function assertEmailNotInUse(email) {
-//   const user = await findUserByEmail(email);
-
-//   if (user) {
-//     throw generateErrors(400, "EMAIL_IN_USE", "The email is already in use");
-//   }
-// }
-
-// export async function assertUsernameNotInUse(username) {
-//   const [[result]] = await db.query(
-//     "SELECT username FROM users WHERE username = :username",
-//     {
-//       username,
-//     }
-//   );
-
-//   if (result) {
-//     throw generateErrors(
-//       400,
-//       "USERNAME_IN_USE",
-//       "The username is already in use"
-//     );
-//   }
 // }
