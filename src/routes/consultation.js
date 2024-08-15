@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { createConsultationController } from "../controllers/consultationControllers/createConsultation";
-import { asyncHandler } from "../utils/asyncHandler";
+import { createConsultationController } from "../controllers/consultationControllers/createConsultation.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 export const consultationRoutes = Router();
 

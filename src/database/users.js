@@ -2,11 +2,11 @@ import { generateErrors } from "../utils/generateErrors.js";
 import { db } from "./db.js";
 
 export async function findUserByEmail(email) {
-  const [[user]] = await db.query("SELECT * FROM users WHERE email = :email", {
-    email,
-  });
+	const [[user]] = await db.query("SELECT * FROM users WHERE email = :email", {
+		email,
+	});
 
-  return user;
+	return user;
 }
 
 // export async function getUserInfo(userId) {

@@ -10,9 +10,12 @@ import {
 import { API_HOST } from "./constants.js";
 import { infoLog } from "./src/utils/logger.js";
 import { consultationRoutes } from "./src/routes/consultation.js";
+import { authRoutes } from "./src/routes/auth.js";
+
 const app = express();
 
 // Middlewares
+
 // Middleware para parsear el body de las peticiones
 app.use(express.json());
 
@@ -31,6 +34,8 @@ app.use("/public", express.static("./public"));
 // Establecemos el directorio de los archivos cargados
 app.use("/uploads", express.static("./uploads"));
 
+app.use(authRoutes);
+
 app.use(consultationRoutes);
 
 // Middleware de Ruta no encontrada
@@ -39,6 +44,6 @@ app.use(notFoundController);
 // Middleware gestión de errores
 app.use(errorController);
 
-app.listen(API_HOST, () => {
-	infoLog("Server is running on port 3000");
+app.listen(API_HOST || 3000, () => {
+	infoLog(`Server is running on port ${API_HOST}`);
 });

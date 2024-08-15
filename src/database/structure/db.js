@@ -23,4 +23,4 @@ async function getDB() {
 	}
 }
 
-export const Db = getDB();
+export const Db = await getDB();
