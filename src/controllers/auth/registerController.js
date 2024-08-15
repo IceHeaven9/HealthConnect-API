@@ -15,7 +15,6 @@ export const registerController = async (req, res) => {
 		userType,
 		biography,
 		codigoMedico,
-		specialtyId,
 		experience,
 		avatar,
 		email,
