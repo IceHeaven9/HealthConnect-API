@@ -17,6 +17,10 @@ export const loginController = async (req, res) => {
 		);
 	}
 
+	if (user.validationCode) {
+		throw generateErrors(401, "UNVERIFIED_EMAIL", "Email is not verified");
+	}
+
 	const token = jwt.sign(
 		{
 			id: user.id,
