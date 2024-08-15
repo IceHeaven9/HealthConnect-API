@@ -4,30 +4,27 @@ import {
 	succesLog,
 	warningLog,
 } from "../../utils/logger.js";
-import { getPool } from "./getPool.js";
+import { Db } from "./db.js";
 
 async function initDB() {
 	try {
-		const pool = await getPool();
-		const connection = await pool.getConnection();
-
 		warningLog("Eliminando base de datos si existe");
-		await connection.query("DROP DATABASE IF EXISTS citas_medicas");
+		await Db.query("DROP DATABASE IF EXISTS citas_medicas");
 
-		await connection.query("CREATE DATABASE citas_medicas");
+		await Db.query("CREATE DATABASE citas_medicas");
 		succesLog("Base de datos citas_medicas creada.");
 
-		await connection.query("USE citas_medicas");
+		await Db.query("USE citas_medicas");
 		infoLog("DB en uso: citas_medicas");
 
 		warningLog("Eliminando tablas si existen");
-		await connection.query(
+		await Db.query(
 			"DROP TABLE IF EXISTS ratings, responses, consultations, users, specialties"
 		);
 
 		infoLog("Creando tablas...");
 
-		await connection.query(`
+		await Db.query(`
             CREATE TABLE specialties (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 name VARCHAR(255) NOT NULL,
@@ -37,7 +34,7 @@ async function initDB() {
 
 		succesLog("Tabla Specialties creada.");
 
-		await connection.query(`
+		await Db.query(`
             CREATE TABLE users (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 userName VARCHAR(255) NOT NULL,
@@ -60,7 +57,7 @@ async function initDB() {
 
 		succesLog("Tabla Users creada.");
 
-		await connection.query(`
+		await Db.query(`
             CREATE TABLE consultations (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 date DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -79,7 +76,7 @@ async function initDB() {
 
 		succesLog("Tabla consultations creada.");
 
-		await connection.query(`
+		await Db.query(`
             CREATE TABLE responses (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 content TEXT NOT NULL,
@@ -95,7 +92,7 @@ async function initDB() {
 
 		succesLog("Tabla responses creada.");
 
-		await connection.query(`
+		await Db.query(`
             CREATE TABLE ratings (
             id INT PRIMARY KEY AUTO_INCREMENT,
             userId INT NOT NULL,

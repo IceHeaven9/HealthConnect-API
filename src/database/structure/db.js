@@ -16,6 +16,8 @@ async function getDB() {
 			database: DB_NAME,
 			port: DB_PORT,
 			namedPlaceholders: true,
+			connectionLimit: 10,
+			timezone: "Z",
 		});
 		return pool;
 	} catch (error) {
