@@ -9,13 +9,14 @@ export const loginController = async (req, res) => {
 	const { email, password } = parseLoginPayload(req.body);
 	const user = await findUserByEmail(email);
 
-	if (!user || !bcrypt.compare(password, user.password)) {
+	if (!user || !(await bcrypt.compare(password, user.password))) {
 		throw generateErrors(
 			401,
 			"INVALID_CREDENTIALS",
 			"Invalid mail or password"
 		);
 	}
+	console.log("Login successful", password);
 
 	if (user.validationCode) {
 		throw generateErrors(401, "UNVERIFIED_EMAIL", "Email is not verified");
