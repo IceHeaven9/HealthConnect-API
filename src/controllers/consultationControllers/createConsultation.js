@@ -1,3 +1,6 @@
+import {createConsultation} from '../../models/consultation.js';
+
+
 export const createConsultationController = async (req, res) => {
 	const {
 		title,
