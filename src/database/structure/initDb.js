@@ -19,20 +19,20 @@ async function initDB() {
 
     warningLog("Eliminando tablas si existen");
     await Db.query(
-      "DROP TABLE IF EXISTS ratings, responses, consultations, users, specialties"
+      "DROP TABLE IF EXISTS ratings, responses, consultations, users, specialities"
     );
 
     infoLog("Creando tablas...");
 
     await Db.query(`
-            CREATE TABLE specialties (
+            CREATE TABLE specialities (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 name VARCHAR(255) NOT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
 
-    succesLog("Tabla Specialties creada.");
+    succesLog("Tabla Specialities creada.");
 
     await Db.query(`
             CREATE TABLE users (
@@ -51,7 +51,7 @@ async function initDB() {
                 codigoMedico INT DEFAULT NULL,
                 validationCode INT DEFAULT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (specialtyId) REFERENCES specialties(id)
+                FOREIGN KEY (specialityId) REFERENCES specialities(id)
             )
         `);
 
@@ -68,7 +68,7 @@ async function initDB() {
                 patientId INT NOT NULL,
                 doctorId INT NOT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (specialtyId) REFERENCES specialties(id),
+                FOREIGN KEY (specialityId) REFERENCES specialities(id),
                 FOREIGN KEY (patientId) REFERENCES users(id),
                 FOREIGN KEY (doctorId) REFERENCES users(id)
             )
