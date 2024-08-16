@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../constants.js";
+import { JWT_SECRET } from "../../constants.js";
 import { generateErrors } from "../utils/generateErrors.js";
 
 // Middleware para analizar el token JWT y asignar el usuario actual a la solicitud

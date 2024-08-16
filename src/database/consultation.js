@@ -18,7 +18,7 @@ export const createConsultation = async ({
 };
 
 // Funcion para obtener los datos de una consulta por id
-export const listConsultationsController = async (req, res) => {
+export const getConsultationDetails = async (req, res) => {
   const { title, speciality, severity, patient, orderBy } = req.query;
 
   try {
