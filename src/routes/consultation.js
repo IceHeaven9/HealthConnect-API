@@ -2,23 +2,28 @@ import { Router } from "express";
 import { createConsultationController } from "../controllers/consultationControllers/createConsultation.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { getConsultationDetailsController } from "../controllers/consultationControllers/getconsultationbyid.js";
+import { getConsultationController } from "../controllers/consultationControllers/getConsultations.js";
+import { authMiddleware } from "../middlewares/authMiddleware";
 
 export const consultationRoutes = Router();
 
 // Ruta para crear una consulta
 consultationRoutes.post(
-  "/consultations",
-  asyncHandler(createConsultationController)
+	"/consultations",
+	authMiddleware,
+	asyncHandler(createConsultationController)
 );
 
 // Ruta para obtener todas las consultas
 consultationRoutes.get(
-  "/consultations",
-  asyncHandler(getConsultationController)
+	"/consultations",
+	authMiddleware,
+	asyncHandler(getConsultationController)
 );
 
 // Ruta para obtener los datos de una consulta
 consultationRoutes.get(
-  "/consultations/:id/details",
-  asyncHandler(getConsultationDetailsController)
+	"/consultations/:id/details",
+	authMiddleware,
+	asyncHandler(getConsultationDetailsController)
 );
