@@ -39,7 +39,7 @@ export const getConsultationDetails = async (req, res) => {
             JOIN 
                 users p ON c.patientId = p.id
             JOIN 
-                specialties s ON c.specialityId = s.id
+                specialities s ON c.specialityId = s.id
             LEFT JOIN 
                 responses r ON c.id = r.consultationId
             WHERE 
