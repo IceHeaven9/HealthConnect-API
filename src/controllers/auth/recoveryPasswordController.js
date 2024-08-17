@@ -25,11 +25,12 @@ export const recoveryPasswordController = async (req, res) => {
 		}
 	);
 
-	res.status(200).json({
-		token,
-	});
-
 	await sendResetPasswordEmail(email, token);
 
-	// Envía el correo electrónico
+	res
+		.status(200)
+		.json({
+			message:
+				"Se ha enviado un correo con instrucciones para restablecer tu contraseña",
+		});
 };
