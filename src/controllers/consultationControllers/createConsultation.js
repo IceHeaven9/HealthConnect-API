@@ -1,6 +1,7 @@
 import { createConsultation } from "../../database/consultation.js";
 import { generateErrors } from "../../utils/generateErrors.js";
 
+
 export const createConsultationController = async (req, res) => {
 	const {
 		title,
