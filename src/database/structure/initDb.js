@@ -67,6 +67,7 @@ async function initDB() {
                 severity ENUM('high', 'medium', 'low') NOT NULL,
                 patientId INT NOT NULL,
                 doctorId INT NOT NULL,
+                status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (specialityId) REFERENCES specialities(id),
                 FOREIGN KEY (patientId) REFERENCES users(id),

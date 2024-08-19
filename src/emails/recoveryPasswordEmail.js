@@ -1,12 +1,12 @@
-import { transport } from "./email";
+import { transport } from "./email.js";
 import { FRONTEND_HOST } from "../../constants.js";
 
 export async function sendResetPasswordEmail(email, token) {
-	transport.sendMail({
-		from: "SaludConnect <cristhians7x@gmail.com>",
-		to: `<${email}>`,
-		subject: "Recuperación de contraseña",
-		html: `
+  transport.sendMail({
+    from: "SaludConnect <cristhians7x@gmail.com>",
+    to: `<${email}>`,
+    subject: "Recuperación de contraseña",
+    html: `
         <html>
           <head>
           <style>
@@ -31,5 +31,5 @@ export async function sendResetPasswordEmail(email, token) {
           </body>
         </html>
       `,
-	});
+  });
 }
