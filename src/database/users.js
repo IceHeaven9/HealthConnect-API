@@ -3,86 +3,86 @@ import { hashPassword } from "../utils/hashPassword.js";
 import { Db } from "./structure/db.js";
 
 export async function findUserByEmail(email) {
-	const [[user]] = await Db.query("SELECT * FROM users WHERE email = :email", {
-		email,
-	});
+  const [[user]] = await Db.query("SELECT * FROM users WHERE email = :email", {
+    email,
+  });
 
-	return user;
+  return user;
 }
 
 export async function createUser({
-	firstName,
-	lastName,
-	userType,
-	biography,
-	codigoMedico,
-	experience,
-	avatar,
-	email,
-	userName,
-	hashedPassword,
-	validationCode,
+  firstName,
+  lastName,
+  userType,
+  biography,
+  codigoMedico,
+  experience,
+  avatar,
+  email,
+  userName,
+  hashedPassword,
+  validationCode,
 }) {
-	const [{ insertId }] = await Db.query(
-		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, experience, avatar, email, password, userName, validationCode)
+  const [{ insertId }] = await Db.query(
+    `INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, experience, avatar, email, password, userName, validationCode)
     VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :experience, :avatar, :email, :hashedPassword, :userName, :validationCode)`,
-		{
-			firstName,
-			lastName,
-			userType,
-			biography,
-			codigoMedico,
-			experience,
-			avatar,
-			email,
-			userName,
-			hashedPassword,
-			validationCode,
-		}
-	);
+    {
+      firstName,
+      lastName,
+      userType,
+      biography,
+      codigoMedico,
+      experience,
+      avatar,
+      email,
+      userName,
+      hashedPassword,
+      validationCode,
+    }
+  );
 
-	return insertId;
+  return insertId;
 }
 
 export async function assertEmailNotInUse(email) {
-	const user = await findUserByEmail(email);
+  const user = await findUserByEmail(email);
 
-	if (user) {
-		throw generateErrors(400, "EMAIL_IN_USE", "The email is already in use");
-	}
+  if (user) {
+    throw generateErrors(400, "EMAIL_IN_USE", "The email is already in use");
+  }
 }
 
 export async function assertUsernameNotInUse(userName) {
-	const [[result]] = await Db.query(
-		"SELECT username FROM users WHERE userName = :userName",
-		{
-			userName,
-		}
-	);
+  const [[result]] = await Db.query(
+    "SELECT username FROM users WHERE userName = :userName",
+    {
+      userName,
+    }
+  );
 
-	if (result) {
-		throw generateErrors(
-			400,
-			"USERNAME_IN_USE",
-			"The username is already in use"
-		);
-	}
+  if (result) {
+    throw generateErrors(
+      400,
+      "USERNAME_IN_USE",
+      "The username is already in use"
+    );
+  }
 }
 
 export async function removeValidationCodeFromUser(userId) {
-	await Db.query("UPDATE users SET validationCode = NULL WHERE id = :userId", {
-		userId,
-	});
+  await Db.query("UPDATE users SET validationCode = NULL WHERE id = :userId", {
+    userId,
+  });
 }
 
 // Funcion para obtener los datos de los medicos
 export async function getDoctors() {
-	const [doctors] = await Db.query(`
+  const [doctors] = await Db.query(`
     SELECT 
         u.firstName, 
         u.lastName, 
         u.biography, 
-        s.name AS specialty 
+        s.name AS speciality 
     FROM 
         users u
     JOIN 
@@ -90,22 +90,22 @@ export async function getDoctors() {
     WHERE 
         u.userType = 'doctor'
 `);
-	return doctors;
+  return doctors;
 }
 
 export async function findUserById(id) {
-	const [[user]] = await Db.query("SELECT * FROM users WHERE id = :id", {
-		id,
-	});
-	return user;
+  const [[user]] = await Db.query("SELECT * FROM users WHERE id = :id", {
+    id,
+  });
+  return user;
 }
 
 export async function setNewPassword(password, id) {
-	const hashedPassword = await hashPassword(password);
-	await Db.query("UPDATE users SET password = :hashedPassword WHERE id = :id", {
-		hashedPassword,
-		id,
-	});
+  const hashedPassword = await hashPassword(password);
+  await Db.query("UPDATE users SET password = :hashedPassword WHERE id = :id", {
+    hashedPassword,
+    id,
+  });
 }
 
 // export async function assertUserExists(userId) {
