@@ -3,8 +3,8 @@ import cors from "cors";
 import morgan from "morgan";
 import fileUpload from "express-fileupload";
 import {
-	notFoundController,
-	errorController,
+  notFoundController,
+  errorController,
 } from "./src/controllers/errors/index.js";
 
 import { API_HOST } from "./constants.js";
@@ -12,6 +12,7 @@ import { infoLog } from "./src/utils/logger.js";
 import { consultationRoutes } from "./src/routes/consultation.js";
 import { authRoutes } from "./src/routes/auth.js";
 import { specilitiesRoutes } from "./src/routes/specialities.js";
+import { usersRoutes } from "./src/routes/users.js";
 
 const app = express();
 
@@ -35,11 +36,14 @@ app.use("/public", express.static("./public"));
 // Establecemos el directorio de los archivos cargados
 app.use("/uploads", express.static("./uploads"));
 
+// Rutas
 app.use(authRoutes);
 
 app.use(consultationRoutes);
 
 app.use(specilitiesRoutes);
+
+app.use(usersRoutes);
 
 // Middleware de Ruta no encontrada
 app.use(notFoundController);
@@ -48,5 +52,5 @@ app.use(notFoundController);
 app.use(errorController);
 
 app.listen(API_HOST || 3000, () => {
-	infoLog(`Server is running on port ${API_HOST}`);
+  infoLog(`Server is running on port ${API_HOST}`);
 });
