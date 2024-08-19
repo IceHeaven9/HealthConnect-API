@@ -11,6 +11,7 @@ import { API_HOST } from "./constants.js";
 import { infoLog } from "./src/utils/logger.js";
 import { consultationRoutes } from "./src/routes/consultation.js";
 import { authRoutes } from "./src/routes/auth.js";
+import { specilitiesRoutes } from "./src/routes/specialities.js";
 
 const app = express();
 
@@ -37,6 +38,8 @@ app.use("/uploads", express.static("./uploads"));
 app.use(authRoutes);
 
 app.use(consultationRoutes);
+
+app.use(specilitiesRoutes);
 
 // Middleware de Ruta no encontrada
 app.use(notFoundController);
