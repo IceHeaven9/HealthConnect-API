@@ -1,4 +1,4 @@
-import { fa, faker } from "@faker-js/faker";
+import { faker } from "@faker-js/faker";
 import { Db } from "../structure/db.js";
 import { hashPassword } from "../../utils/hashPassword.js";
 import { infoLog, succesLog } from "../../utils/logger.js";
