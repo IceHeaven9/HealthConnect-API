@@ -3,8 +3,8 @@ import cors from "cors";
 import morgan from "morgan";
 import fileUpload from "express-fileupload";
 import {
-  notFoundController,
-  errorController,
+	notFoundController,
+	errorController,
 } from "./src/controllers/errors/index.js";
 
 import { API_HOST } from "./constants.js";
@@ -13,6 +13,7 @@ import { consultationRoutes } from "./src/routes/consultation.js";
 import { authRoutes } from "./src/routes/auth.js";
 import { specilitiesRoutes } from "./src/routes/specialities.js";
 import { usersRoutes } from "./src/routes/users.js";
+import { responsesRoutes } from "./src/routes/responses.js";
 
 const app = express();
 
@@ -41,6 +42,8 @@ app.use(authRoutes);
 
 app.use(consultationRoutes);
 
+app.use(responsesRoutes);
+
 app.use(specilitiesRoutes);
 
 app.use(usersRoutes);
@@ -52,5 +55,5 @@ app.use(notFoundController);
 app.use(errorController);
 
 app.listen(API_HOST || 3000, () => {
-  infoLog(`Server is running on port ${API_HOST}`);
+	infoLog(`Server is running on port ${API_HOST}`);
 });
