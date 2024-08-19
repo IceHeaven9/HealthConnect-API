@@ -1,4 +1,5 @@
 import { generateErrors } from "../utils/generateErrors.js";
+import { hashPassword } from "../utils/hashPassword.js";
 import { Db } from "./structure/db.js";
 
 export async function findUserByEmail(email) {
@@ -91,6 +92,26 @@ export async function getDoctors() {
 `);
   return doctors;
 }
+
+export async function findUserById(id){ 
+  const [[user]] = await Db.query(
+    "SELECT * FROM users WHERE id = :id",
+    {
+      id,
+    }
+  
+)};
+
+export async function setNewPassword(password, id){
+  const hashedPassword = await hashPassword(password);
+  await Db.query(
+    "UPDATE users SET password = :hashedPassword WHERE id = :id",
+    {
+      hashedPassword,
+      id,
+    })};
+
+
 
 // export async function assertUserExists(userId) {
 // 	const user = await getUserInfo(userId);
