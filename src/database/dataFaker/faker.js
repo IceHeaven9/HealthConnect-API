@@ -147,26 +147,54 @@ await createResponses();
 
 succesLog("Datos responses insertados correctamente");
 
-// Insertar datos falsos a la tabla ratings
+// Insertar datos falsos a la tabla files_consultations
 
-async function createRatings() {
+async function createFilesConsultations() {
   for (let i = 0; i < 20; i++) {
-    const ratings = {
-      userId: faker.helpers.arrayElement(getPatientsIds),
+    const filesConsultations = {
       consultationId: faker.helpers.arrayElement(getConsultationsIds),
-      rating: faker.helpers.arrayElement([1, 2, 3, 4, 5]),
+      fileName: faker.system.fileName(),
+      filePath: faker.system.filePath(),
     };
 
     await Db.query(
-      "INSERT INTO ratings (userId, consultationId, rating) VALUES (:userId, :consultationId, :rating)",
-      ratings
+      "INSERT INTO files_consultations (consultationId, fileName, filePath) VALUES (:consultationId, :fileName, :filePath)",
+      filesConsultations
     );
   }
 }
 
-infoLog("Insertando datos de ratings...");
+infoLog("Insertando datos de files_consultations...");
 
-await createRatings();
+await createFilesConsultations();
 
-succesLog("Datos ratings insertados correctamente");
+succesLog("Datos files_consultations insertados correctamente");
+
+// Insertar datos falsos a la tabla files_responses
+
+const getResponses = await Db.query("SELECT id FROM responses");
+const getResponsesIds = getResponses[0].map((response) => response.id);
+
+async function createFilesResponses() {
+  for (let i = 0; i < 20; i++) {
+    const filesResponses = {
+      responseId: faker.helpers.arrayElement(getResponsesIds),
+      fileName: faker.system.fileName(),
+      filePath: faker.system.filePath(),
+    };
+
+    await Db.query(
+      "INSERT INTO files_responses (responseId, fileName, filePath) VALUES (:responseId, :fileName, :filePath)",
+      filesResponses
+    );
+  }
+}
+
+infoLog("Insertando datos de files_responses...");
+
+await createFilesResponses();
+
+succesLog("Datos files_responses insertados correctamente");
+
+infoLog("¡Todos los datos insertados exitosamente!");
 await Db.end();
