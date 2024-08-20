@@ -21,7 +21,7 @@ const app = express();
 
 // Middleware para parsear el body de las peticiones
 app.use(express.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Middleware cors
 app.use(cors());
 
