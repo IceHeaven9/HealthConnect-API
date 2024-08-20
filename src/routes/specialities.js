@@ -4,4 +4,5 @@ import { getSpecilitiesController } from "../controllers/specialities/getspecili
 
 export const specilitiesRoutes = Router();
 
+// Endpoint que devuelve todas las especialidades	
 specilitiesRoutes.get("/specialities", asyncHandler(getSpecilitiesController));
