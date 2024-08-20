@@ -1,4 +1,4 @@
-import { getSpecialities } from "../../database/specilities.js";
+import { getSpecialities } from "../../database/specialities.js";
 
 export const getSpecilitiesController = async (req, res) => {
 	const specialities = await getSpecialities();
