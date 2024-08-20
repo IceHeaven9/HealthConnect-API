@@ -45,7 +45,7 @@ async function initDB() {
                 userName VARCHAR(255) NOT NULL,
                 biography VARCHAR(500) DEFAULT NULL,
                 avatar VARCHAR(255) DEFAULT NULL,
-                specialityId INT NOT NULL,
+                specialityId INT DEFAULT NULL,
                 experience INT DEFAULT NULL,
                 mediaRating FLOAT DEFAULT NULL,
                 codigoMedico INT DEFAULT NULL,
