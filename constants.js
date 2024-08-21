@@ -8,6 +8,7 @@ export const {
 	JWT_SECRET,
 	FRONTEND_HOST,
 	API_HOST = "http://localhost:3000",
+	CODIGO_MEDICO,
 
 	//==========================
 	// DB SETTINGS
