@@ -1,31 +1,37 @@
 # API DE CONSULTAS MEDICAS
 
 ## Descripción
+
 Esta API permite gestionar consultas médicas, incluyendo la creación, actualización, eliminación y consulta de citas médicas. Está diseñada para ser utilizada por clínicas y consultorios médicos para facilitar la administración de sus citas.
 
 ## Características
+
 - Crear nuevas citas médicas.
 - Consultar citas existentes.
 - Actualizar información de citas.
 - Eliminar citas.
 - Gestión de pacientes y médicos.
+- Especialidades Medicas.
+- Respuestas del Medico a la consulta.
+-
 
 ## Tecnologías Utilizadas
+
 - Node.js
 - Express
 - MySql2
 - JWT para autenticación
 - Nodemailer
 - Express Fileupload
-- Joi 
+- Joi
 - bcrypt
 - cors
 
 ## Requisitos Previos
+
 - Node.js instalado
 - Mysql Server
-- Postman 
-
+- Postman
 
 ## Funcionalidades
 
@@ -40,54 +46,48 @@ Esta API permite gestionar consultas médicas, incluyendo la creación, actualiz
 
 ## Dependencias
 
-	"dependencies": {
-		"bcrypt": "^5.1.1",
-		"chalk": "^5.3.0",
-		"cors": "^2.8.5",
-		"crypto": "^1.0.1",
-		"dotenv": "^16.4.5",
-		"express": "^4.19.2",
-		"express-fileupload": "^1.5.1",
-		"joi": "^17.13.3",
-		"jsonwebtoken": "^9.0.2",
-		"morgan": "^1.10.0",
-		"mysql2": "^3.11.0",
-		"nodemailer": "^6.9.14",
-		"nodemon": "^3.1.4"},
+    "dependencies": {
+    	"bcrypt": "^5.1.1",
+    	"chalk": "^5.3.0",
+    	"cors": "^2.8.5",
+    	"crypto": "^1.0.1",
+    	"dotenv": "^16.4.5",
+    	"express": "^4.19.2",
+    	"express-fileupload": "^1.5.1",
+    	"joi": "^17.13.3",
+    	"jsonwebtoken": "^9.0.2",
+    	"morgan": "^1.10.0",
+    	"mysql2": "^3.11.0",
+    	"nodemailer": "^6.9.14",
+    	"nodemon": "^3.1.4"},
 
-	"devDependencies": {
-		"@faker-js/faker": "^8.4.1"}
-
+    "devDependencies": {
+    	"@faker-js/faker": "^8.4.1"}
 
 ## Instalación
 
 1. Clonar el repositorio:
 
-    git clone https://github.com/DenisseBabio/PFB-Citas-M-dicas.git
-
+   git clone https://github.com/DenisseBabio/PFB-Citas-M-dicas.git
 
 2. Navegar al directorio del proyecto:
 
-    cd PFB-Citas-M-dicas
-    
+   cd PFB-Citas-M-dicas
 
 3. Instalar dependencias:
 
-    npm install
-
+   npm install
 
 ## Configuración
-    
 
-1. Configurar las variables de entorno:
+1.  Configurar las variables de entorno:
     Crea un archivo `.env` en la raíz del proyecto y añade las variables necesarias, por ejemplo:
 
              PORT=3000
              DB_URI=mongodb://localhost:27017/consultas_medicas
              JWT_SECRET=your_secret_key
-    
 
-2. Iniciar servidor:
+2.  Iniciar servidor:
 
              npm run dev
 
@@ -97,14 +97,12 @@ Esta API permite gestionar consultas médicas, incluyendo la creación, actualiz
 
               npm run initDb
 
-
 2.  Añade las semillas de datos:
 
               npm run seedDb
 
-    
-
 ## Uso
+
 Una vez que el servidor esté en funcionamiento, puedes interactuar con la API utilizando herramientas como Postman o cURL. A continuación se presentan algunos ejemplos de endpoints:
 
 1.  Iniciar el servidor:
@@ -112,7 +110,6 @@ Una vez que el servidor esté en funcionamiento, puedes interactuar con la API u
         npm run dev
 
 2.  La API estará disponible en `http://localhost:3000`.
-
 
 ## Endpoints
 
@@ -125,18 +122,15 @@ Una vez que el servidor esté en funcionamiento, puedes interactuar con la API u
 - **Para restablecer contraseña**: `POST /api/reset/:token`
 - **Para cambiar la contraseña**: `POST /api/change-password`
 
-
 ### Consultas
 
 - **Para crear una consulta**: `POST /consultations`
 - **Para obtener todas las consultas**: `GET /consultations`
-- **Para obtener los datos de una consulta**: `GET /consultations/:id/details` 
-
+- **Para obtener los datos de una consulta**: `GET /consultations/:id/details`
 
 ### Respuestas
 
 - **Para responder a una consulta**: `POST /consultations/:id/response`
-
 
 ### Especialidades
 
@@ -146,7 +140,6 @@ Una vez que el servidor esté en funcionamiento, puedes interactuar con la API u
 
 - **Para obtener la lista de médicos**: `GET /doctors`
 
-
-
 ## Licencia
+
 © 2024 Hackaboss. Todos los derechechos reservados.

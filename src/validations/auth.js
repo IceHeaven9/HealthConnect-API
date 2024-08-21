@@ -21,7 +21,6 @@ const registerSchema = Joi.object({
 	validationCode: Joi.number().min(100000).max(999999),
 	codigoMedico: Joi.number(),
 	experience: Joi.number().min(1),
-	avatar: Joi.string().max(255),
 	userType: Joi.string().valid("paciente", "doctor").required(),
 	email: Joi.string().email().required(),
 	password: Joi.string().min(6).required(),

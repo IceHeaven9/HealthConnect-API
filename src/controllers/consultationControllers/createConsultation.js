@@ -4,24 +4,17 @@ import { generateErrors } from "../../utils/generateErrors.js";
 export const createConsultationController = async (req, res) => {
 	const { title, description, severity, specialityid, doctorid, date } =
 		req.body;
+	const user = req.currentUser;
+	const id = user.id;
 
-	const id = req.currentUser.id;
-	console.log(id);
-	// // if (
-	// // 	!title ||
-	// // 	!description ||
-	// // 	!severity ||
-	// // 	!specialityid ||
-	// // 	!id ||
-	// // 	!doctorid ||
-	// // 	!date
-	// // ) {
-	// // 	throw generateErrors(
-	// // 		400,
-	// // 		"ValidationError",
-	// // 		"Todos los campos son obligatorios"
-	// // 	);
-	// // }
+	if (user.userType !== "paciente") {
+		throw generateErrors(
+			403,
+			"UNAUTHORIZED",
+			"los medicos no pueden crear citas"
+		);
+	}
+
 	const idConsultation = await createConsultation({
 		title,
 		description,

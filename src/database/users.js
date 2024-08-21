@@ -16,15 +16,14 @@ export async function createUser({
 	biography,
 	codigoMedico,
 	experience,
-	avatar,
 	email,
 	userName,
 	hashedPassword,
 	validationCode,
 }) {
 	const [{ insertId }] = await Db.query(
-		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, experience, avatar, email, password, userName, validationCode)
-				VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :experience, :avatar, :email, :hashedPassword, :userName, :validationCode)`,
+		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, experience, email, password, userName, validationCode)
+				VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :experience, :email, :hashedPassword, :userName, :validationCode)`,
 		{
 			firstName,
 			lastName,
@@ -32,7 +31,6 @@ export async function createUser({
 			biography,
 			codigoMedico,
 			experience,
-			avatar,
 			email,
 			userName,
 			hashedPassword,
@@ -107,55 +105,9 @@ export async function setNewPassword(password1, id) {
 	});
 }
 
-// export async function assertUserExists(userId) {
-// 	const user = await getUserInfo(userId);
-// 	if (!user) {
-// 		throw generateErrors(404, "USER_NOT_FOUND", "The user do not exists.");
-// 	}
-// }
-
-// export async function getUserProfile(userId) {
-// 	const [[user]] = await db.query(
-// 		"SELECT name, username, last_name, address, phone_number, password FROM users WHERE id = :userId",
-// 		{
-// 			userId,
-// 		}
-// 	);
-
-// 	return user;
-// }
-// export async function getUserInfo(userId) {
-//   const [[user]] = await db.query(
-//     'SELECT id, username, name FROM users WHERE id = :userId',
-//     {
-//       userId,
-//     }
-//   );
-
-//   return user;
-// }
-
-// export async function updateUserProfile({
-//   name,
-//   username,
-//   last_name,
-//   password,
-//   phone_number,
-//   address,
-//   avatar,
-//   userId,
-// }) {
-//   await db.query(
-//     'UPDATE users SET name = :name, last_name = :last_name, username = :username, password = :password, phone_number = :phone_number, address = :address WHERE id = :userId',
-//     {
-//       name,
-//       last_name,
-//       password,
-//       username,
-//       phone_number,
-//       address,
-//       avatar,
-//       userId,
-//     }
-//   );
-// }
+export const uploadUserAvatar = async (userId, avatarPath) => {
+	await Db.query("UPDATE users SET avatar = ? WHERE id = ?", [
+		avatarPath,
+		userId,
+	]);
+};
