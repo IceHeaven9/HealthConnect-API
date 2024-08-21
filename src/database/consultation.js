@@ -185,6 +185,7 @@ export const getConsultationsBySpecialityId = async (specialityId) => {
 		`SELECT 
         c.id,
         c.description,
+        c.status,
         fc.fileName AS consultationFileName,
         fc.filePath AS consultationFilePath,
         fr.fileName AS responseFileName,
