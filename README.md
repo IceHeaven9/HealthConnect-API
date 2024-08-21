@@ -4,16 +4,57 @@
 
 Esta API permite gestionar consultas médicas, incluyendo la creación, actualización, eliminación y consulta de citas médicas. Está diseñada para ser utilizada por clínicas y consultorios médicos para facilitar la administración de sus citas.
 
-## Características
+## **Características Principales**
 
-- Crear nuevas citas médicas.
-- Consultar citas existentes.
-- Actualizar información de citas.
-- Eliminar citas.
-- Gestión de pacientes y médicos.
-- Especialidades Medicas.
-- Respuestas del Medico a la consulta.
--
+### **Para Usuarios No Registrados**
+
+- **Exploración Rápida**: Accede a la landing page con un listado completo de consultas médicas disponibles, permitiendo a cualquier usuario explorar las consultas antes de registrarse.
+
+- **Búsqueda y Filtros Avanzados**:
+  - **Por Palabra Clave**: Encuentra consultas relevantes mediante la búsqueda en títulos, descripciones, o nombres de médicos.
+  - **Por Especialidad**: Filtra consultas por especialidades médicas específicas como Traumatología, Pediatría, entre otras.
+  - **Por Nivel de Gravedad**: Prioriza consultas según su urgencia (alta, media, baja).
+- **Ordenación Inteligente**: Organiza las consultas por diferentes criterios como fecha de publicación, especialidad médica, o nivel de gravedad.
+- **Registro y Autenticación Sencillos**:
+  - Regístrate fácilmente con un correo electrónico, elige un nombre de usuario y establece una contraseña segura.
+  - Selecciona tu tipo de usuario (paciente o médico) para personalizar tu experiencia.
+  - Recibe un correo electrónico de validación para asegurar la seguridad de tu cuenta.
+- **Recuperación de Contraseña**: Si olvidas tu contraseña, recupérala rápidamente mediante un enlace seguro enviado a tu correo electrónico.
+
+### **Para Pacientes Registrados**
+
+- **Acceso Completo a la Plataforma**: Disfruta de todas las funciones disponibles para usuarios no registrados, con el añadido de funcionalidades exclusivas para pacientes.
+
+- **Consulta en Detalle**: Accede a la ficha completa de cada consulta, con todas las respuestas de los médicos y detalles adicionales proporcionados por otros pacientes.
+- **Gestión Integral del Perfil**:
+  - Personaliza tu perfil con tu nombre, apellidos, biografía, y un avatar.
+  - Modifica tu dirección de correo electrónico, nombre de usuario, o contraseña cuando lo desees.
+- **Creación de Consultas Médicas**:
+  - **Título y Descripción**: Redacta una consulta médica detallada que incluya síntomas y antecedentes relevantes.
+  - **Adjuntar Archivos**: Sube imágenes o documentos para proporcionar información adicional a los médicos.
+  - **Selección de Médico o Especialidad**: Escoge a un médico específico o permite que la plataforma asigne un especialista basado en la consulta.
+  - **Prioridad de Consulta**: Indica el nivel de gravedad para asegurar la atención adecuada.
+- **Historial de Consultas**: Accede a un registro completo de todas las consultas que has realizado, incluyendo respuestas y resoluciones.
+- **Interacción Dinámica con Consultas**:
+  - Elimina una consulta si no ha recibido respuestas.
+  - Califica la calidad de las respuestas recibidas por parte de los médicos (1-5 estrellas).
+- **Exploración de Profesionales**:
+  - Accede a un listado de médicos con su calificación promedio basada en las respuestas que han proporcionado.
+  - Consulta la ficha detallada de cada médico, que incluye su especialidad, años de experiencia, y biografía.
+
+### **Para Médicos Registrados**
+
+- **Exploración de Consultas**: Visualiza el listado completo de consultas disponibles, filtrado y ordenado según tus preferencias.
+- **Gestión Profesional del Perfil**:
+  - Actualiza tu perfil con información relevante como especialidad médica, años de experiencia, biografía, y avatar.
+  - Consulta y mantén un historial de tu rating promedio basado en las valoraciones de los pacientes.
+- **Atención a Consultas**:
+  - Responde a consultas asignadas dentro de tu especialidad con respuestas detalladas y profesionales.
+  - Elimina respuestas propias si aún no han sido valoradas, asegurando la calidad de tu trabajo.
+- **Historial y Seguimiento**:
+  - Revisa un historial detallado de todas las consultas a las que has respondido o que te han sido asignadas.
+- **Calificación Transparente**:
+  - Consulta las valoraciones que recibes de los pacientes para cada respuesta proporcionada (1-5 estrellas).
 
 ## Tecnologías Utilizadas
 
@@ -21,28 +62,31 @@ Esta API permite gestionar consultas médicas, incluyendo la creación, actualiz
 - Express
 - MySql2
 - JWT para autenticación
+- Sharp
+
 - Nodemailer
 - Express Fileupload
 - Joi
-- bcrypt
-- cors
+- Bcrypt
+- Cors
 
 ## Requisitos Previos
 
-- Node.js instalado
+- Node.js
+
 - Mysql Server
 - Postman
 
 ## Funcionalidades
 
-- **Autenticación**: Autenticación segura mediante JSON Web Tokens (JWT).
-- **Subida de Imágenes**: Soporte para la subida de imágenes de perfil y publicaciones.
-- **Optimización de Imágenes**: Redimensionamiento y optimización de imágenes utilizando Sharp.
-- **Validación de Datos**: Validación de datos de entrada utilizando la biblioteca Joi.
-- **Envío de Correos Electrónicos**: Envío de correos electrónicos para verificación de cuenta y otras notificaciones mediante Nodemailer.
-- **Registro de Correos Electrónicos**: Registro y verificación de usuarios por correo electrónico.
-- **Log de Solicitudes**: Registro de solicitudes HTTP mediante Morgan.
-- **Manejo de Errores**: Manejo avanzado de errores y respuestas estándar.
+1. **Autenticación y Gestión de Usuarios**: Registro, inicio de sesión, y recuperación de contraseñas de usuarios utilizando contraseñas cifradas y tokens JWT para autenticación segura.
+
+2. **Interacción con la Base de Datos**: Manejo de una base de datos MySQL para almacenar y recuperar información sobre usuarios, consultas médicas, respuestas, y otros datos necesarios.
+3. **Gestión de Consultas Médicas**: Los pacientes pueden crear, ver, y administrar sus consultas; mientras que los médicos pueden responder a ellas, utilizando validación de datos para garantizar entradas correctas.
+4. **Carga y Manipulación de Archivos**: Los usuarios pueden subir imágenes y documentos adjuntos a sus consultas, que pueden ser procesados y optimizados.
+5. **Notificaciones por Correo Electrónico**: Envío de correos electrónicos para validación de cuentas y recuperación de contraseñas.
+
+Estas funcionalidades permiten crear una plataforma robusta y segura para la interacción entre pacientes y médicos en línea.
 
 ## Dependencias
 
