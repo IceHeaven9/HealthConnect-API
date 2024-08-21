@@ -18,11 +18,7 @@ authRoutes.post("/validate-email", asyncHandler(validateEmailController));
 authRoutes.post("/recover-password", asyncHandler(recoveryPasswordController));
 
 // Endpoint para restablecer la contraseña
-authRoutes.post(
-	"/reset/:token",
-	authMiddleware,
-	asyncHandler(resetPasswordController)
-);
+authRoutes.post("/reset/:token", asyncHandler(resetPasswordController));
 
 authRoutes.post(
 	"/change-password",
