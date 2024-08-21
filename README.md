@@ -183,7 +183,6 @@ Una vez que el servidor esté en funcionamiento, puedes interactuar con la API u
 - **Verificación de Correo Electrónico**: `POST /api/validate-email`
 - **Recuperación de contraseña**: `POST /api/recover-password`
 - **Para restablecer contraseña**: `POST /api/reset/:token`
-- **Para cambiar la contraseña**: `POST /api/change-password`
 
 ### Consultas
 
@@ -197,13 +196,15 @@ Una vez que el servidor esté en funcionamiento, puedes interactuar con la API u
 
 ### Especialidades
 
-- **Para devolver todas las especialidades**: `GET /consultations`
+- **Para devolver todas las especialidades**: `GET /specialities`
 
 ### Usuarios
 
 - **Para obtener la lista de médicos**: `GET /doctors`
 
 - **Para subir un avatar**: `POST /avatar`
+
+- **Para cambiar la contraseña**: `POST /api/change-password`
 
 ## Licencia
 
