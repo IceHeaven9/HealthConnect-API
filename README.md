@@ -1,8 +1,16 @@
-# API DE CONSULTAS MEDICAS
+# API DE SALUDCONNECT
 
 ## Descripción
 
-Esta API permite gestionar consultas médicas, incluyendo la creación, actualización, eliminación y consulta de citas médicas. Está diseñada para ser utilizada por clínicas y consultorios médicos para facilitar la administración de sus citas.
+¡Bienvenido a SaludConnect!
+
+Imagina tener acceso a un equipo completo de especialistas médicos a un solo clic de distancia, desde la comodidad de tu hogar. Esta plataforma no es solo una herramienta digital; es un puente entre pacientes y médicos, diseñado para transformar la manera en que interactuamos con la atención médica.
+
+SaludConnect nace con el propósito de brindar respuestas rápidas y profesionales a tus inquietudes de salud. Ya no es necesario esperar días o semanas para consultar con un especialista. Aquí, los pacientes pueden exponer sus síntomas, adjuntar imágenes o documentos, y recibir la orientación médica necesaria de forma ágil y segura.
+
+Para los profesionales de la salud, esta plataforma ofrece una oportunidad única de extender su alcance, permitiéndoles ofrecer su experiencia y conocimientos a quienes más lo necesitan, sin importar la distancia.
+
+Con funcionalidades diseñadas para maximizar la eficiencia y la seguridad, SaludConnect es más que una simple aplicación; es un espacio donde la tecnología y la medicina se unen para ofrecer un servicio de salud accesible y de alta calidad.
 
 ## **Características Principales**
 
@@ -73,9 +81,10 @@ Esta API permite gestionar consultas médicas, incluyendo la creación, actualiz
 ## Requisitos Previos
 
 - Node.js
+- NPM o similar
 
 - Mysql Server
-- Postman
+- Postman o similar
 
 ## Funcionalidades
 
@@ -103,10 +112,13 @@ Estas funcionalidades permiten crear una plataforma robusta y segura para la int
     	"morgan": "^1.10.0",
     	"mysql2": "^3.11.0",
     	"nodemailer": "^6.9.14",
-    	"nodemon": "^3.1.4"},
+    	"nodemon": "^3.1.4",
+    	"sharp": "^0.33.5"
+    },
 
     "devDependencies": {
-    	"@faker-js/faker": "^8.4.1"}
+    	"@faker-js/faker": "^8.4.1"
+    }
 
 ## Instalación
 
@@ -127,27 +139,34 @@ Estas funcionalidades permiten crear una plataforma robusta y segura para la int
 1.  Configurar las variables de entorno:
     Crea un archivo `.env` en la raíz del proyecto y añade las variables necesarias, por ejemplo:
 
-             PORT=3000
-             DB_URI=mongodb://localhost:27017/consultas_medicas
-             JWT_SECRET=your_secret_key
+        PORT=3000
+        FRONTEND_HOST=
+        JWT_SECRET="EXAMPLE"
 
-2.  Iniciar servidor:
 
-             npm run dev
+        DB_HOST=127.0.0.1
+        DB_USER=dev
+        DB_PASS=password
+        DB_NAME=citas_medicas
+
+        EMAIL_HOST=smtp.host
+        EMAIL_PORT=smtp.port
+        EMAIL_USER=smtp.user.account
+        EMAIL_PASS=smtp.user.pass
 
 ## Base de datos
 
 1.  Crear la base de datos y las tablas:
 
-              npm run initDb
+        npm run initDb
 
 2.  Añade las semillas de datos:
 
-              npm run seedDb
+        npm run seedDb
 
 ## Uso
 
-Una vez que el servidor esté en funcionamiento, puedes interactuar con la API utilizando herramientas como Postman o cURL. A continuación se presentan algunos ejemplos de endpoints:
+Una vez que el servidor esté en funcionamiento, puedes interactuar con la API utilizando herramientas como Postman.
 
 1.  Iniciar el servidor:
 
@@ -184,6 +203,8 @@ Una vez que el servidor esté en funcionamiento, puedes interactuar con la API u
 
 - **Para obtener la lista de médicos**: `GET /doctors`
 
+- **Para subir un avatar**: `POST /avatar`
+
 ## Licencia
 
-© 2024 Hackaboss. Todos los derechechos reservados.
+© 2024 HACK A BOSS. Todos los derechechos reservados.
