@@ -48,7 +48,7 @@ succesLog("Datos specilities insertados correctamente");
 const [getSpecialities] = await Db.query("SELECT id FROM specialities");
 const specialityIds = getSpecialities.map((speciality) => speciality.id);
 
-const demoUserCount = 50;
+const demoUserCount = 200;
 const globalPassword = "pass1234";
 
 async function createDemoUsers() {
@@ -94,7 +94,7 @@ const getPatients = await Db.query(
 const getPatientsIds = getPatients[0].map((patient) => patient.id);
 
 async function createConsultations() {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 200; i++) {
     const consultations = {
       title: faker.lorem.words(),
       description: faker.lorem.paragraph(),
@@ -126,7 +126,7 @@ const getConsultationsIds = getConsultations[0].map(
 );
 
 async function createResponses() {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 200; i++) {
     const responses = {
       content: faker.lorem.paragraph(),
       consultationId: faker.helpers.arrayElement(getConsultationsIds),
@@ -150,7 +150,7 @@ succesLog("Datos responses insertados correctamente");
 // Insertar datos falsos a la tabla files_consultations
 
 async function createFilesConsultations() {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 200; i++) {
     const filesConsultations = {
       consultationId: faker.helpers.arrayElement(getConsultationsIds),
       fileName: faker.system.fileName(),
@@ -176,7 +176,7 @@ const getResponses = await Db.query("SELECT id FROM responses");
 const getResponsesIds = getResponses[0].map((response) => response.id);
 
 async function createFilesResponses() {
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 200; i++) {
     const filesResponses = {
       responseId: faker.helpers.arrayElement(getResponsesIds),
       fileName: faker.system.fileName(),

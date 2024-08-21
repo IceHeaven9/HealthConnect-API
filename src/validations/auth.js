@@ -24,6 +24,7 @@ const registerSchema = Joi.object({
   userType: Joi.string().valid("paciente", "doctor").required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
+  specialityId: Joi.number(),
 });
 
 export function parseRegisterPayload(payload) {
