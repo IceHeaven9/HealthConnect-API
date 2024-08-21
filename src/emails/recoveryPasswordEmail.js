@@ -28,9 +28,14 @@ export async function sendResetPasswordEmail(email, token) {
                 Click aqui para restablecer tu contraseña
               </a>
             </p>
+            <p>
+              Si el enlace no funciona, copia y pega la siguiente URL en tu navegador:
+            </p>
+            <p>
+              ${FRONTEND_HOST}/reset/${token}
+            </p>
           </body>
         </html>
       `,
 	});
-	console.log(`Email de recuperación de contraseña enviado a ${email}`);
 }
