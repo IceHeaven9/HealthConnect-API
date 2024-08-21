@@ -99,11 +99,11 @@ export async function findUserById(id) {
 	return user;
 }
 
-export async function setNewPassword(password, id) {
-	const hashedPassword = await hashPassword(password);
+export async function setNewPassword(password1, id) {
+	const hashedPassword = await hashPassword(password1);
 	await Db.query("UPDATE users SET password = :hashedPassword WHERE id = :id", {
 		hashedPassword,
-		id,
+		id: id,
 	});
 }
 

@@ -16,7 +16,6 @@ export const loginController = async (req, res) => {
 			"Invalid mail or password"
 		);
 	}
-	console.log("Login successful", password);
 
 	if (user.validationCode) {
 		throw generateErrors(401, "UNVERIFIED_EMAIL", "Email is not verified");
