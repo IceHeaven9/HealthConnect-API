@@ -1,13 +1,28 @@
-import { getConsultationDetails } from "../../database/consultation.js";
+import {
+  getConsultationDetails,
+  getConsultationsById_BySpecialityId,
+} from "../../database/consultation.js";
+import { findUserById } from "../../database/users.js";
 
 // Función para obtener los datos de una consulta
 export const getConsultationDetailsController = async (req, res) => {
-	const { id } = req.params;
+  const { id } = req.params;
+  const userId = req.currentUser.id;
+  const user = await findUserById(userId);
 
-	if (!id) {
-		throw generateErrors(400, "INVALID_REQUEST", "Missing consultation ID");
-	}
+  if (!id) {
+    throw generateErrors(400, "INVALID_REQUEST", "Missing consultation ID");
+  }
 
-	const consultation = await getConsultationDetails(req, res);
-	res.status(200).json(consultation);
+  if (user.userType === "paciente") {
+    const consultation = await getConsultationDetails(req, res);
+    res.status(200).json(consultation);
+  }
+
+  if (user.userType === "doctor") {
+    const getConsultationsBySpecialityId =
+      await getConsultationsById_BySpecialityId(userId, user.specialityId);
+
+    res.status(200).json(getConsultationsBySpecialityId);
+  }
 };
