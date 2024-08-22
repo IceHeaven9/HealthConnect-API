@@ -16,7 +16,6 @@ async function initDB() {
 
 		await Db.query('USE citas_medicas');
 		infoLog('DB en uso: citas_medicas');
-		s;
 
 		warningLog('Eliminando tablas si existen');
 		await Db.query(
@@ -70,62 +69,62 @@ async function initDB() {
 		succesLog('Tabla intermedia User_Specialities creada.');
 
 		await Db.query(`
-    CREATE TABLE consultations (
-        id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-        date DATE DEFAULT NULL,
-        title VARCHAR(255) NOT NULL,
-        description VARCHAR(500) DEFAULT NULL,
-        severity ENUM('high', 'medium', 'low') DEFAULT 'low',
-        patientId INT NOT NULL,
-        specialityId INT NOT NULL,
-        doctorId INT NOT NULL,
-        status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
-        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (specialityId) REFERENCES specialities(id),
-        FOREIGN KEY (patientId) REFERENCES users(id),
-        FOREIGN KEY (doctorId) REFERENCES users(id)
-    )
-`);
+            CREATE TABLE consultations (
+                id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                date DATE DEFAULT NULL,
+                title VARCHAR(255) NOT NULL,
+                description VARCHAR(500) DEFAULT NULL,
+                severity ENUM('high', 'medium', 'low') DEFAULT 'low',
+                patientId INT NOT NULL,
+                specialityId INT NOT NULL,
+                doctorId INT NOT NULL,
+                status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
+                createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (specialityId) REFERENCES specialities(id),
+                FOREIGN KEY (patientId) REFERENCES users(id),
+                FOREIGN KEY (doctorId) REFERENCES users(id)
+            )
+        `);
 
 		succesLog('Tabla consultations creada.');
 
 		await Db.query(`
-    CREATE TABLE responses (
-        id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-        content VARCHAR(5000) NOT NULL,
-        consultationId INT NOT NULL,
-        doctorId INT NOT NULL,
-        rating INT DEFAULT NULL,
-        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (consultationId) REFERENCES consultations(id)
-    )
-`);
+            CREATE TABLE responses (
+                id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                content VARCHAR(5000) NOT NULL,
+                consultationId INT NOT NULL,
+                doctorId INT NOT NULL,
+                rating INT DEFAULT NULL,
+                createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (consultationId) REFERENCES consultations(id)
+            )
+        `);
 
 		succesLog('Tabla responses creada.');
 
 		await Db.query(`
-        CREATE TABLE files_consultations (
-            id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-            consultationId INT NOT NULL,
-            fileName VARCHAR(255) NOT NULL,
-            filePath VARCHAR(255) NOT NULL,
-            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (consultationId) REFERENCES consultations(id)
-        )
-    `);
+            CREATE TABLE files_consultations (
+                id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                consultationId INT NOT NULL,
+                fileName VARCHAR(255) NOT NULL,
+                filePath VARCHAR(255) NOT NULL,
+                createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (consultationId) REFERENCES consultations(id)
+            )
+        `);
 
 		succesLog('Tabla files_consultations creada.');
 
 		await Db.query(`
-        CREATE TABLE files_responses (
-            id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-            responseId INT NOT NULL,
-            fileName VARCHAR(255) NOT NULL,
-            filePath VARCHAR(255) NOT NULL,
-            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (responseId) REFERENCES responses(id)
-        )
-    `);
+            CREATE TABLE files_responses (
+                id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                responseId INT NOT NULL,
+                fileName VARCHAR(255) NOT NULL,
+                filePath VARCHAR(255) NOT NULL,
+                createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (responseId) REFERENCES responses(id)
+            )
+        `);
 
 		succesLog('Tabla files_responses creada.');
 
