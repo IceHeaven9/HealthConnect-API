@@ -15,10 +15,12 @@ export const createResponsesController = async (req, res) => {
 		return res.status(404).json({ message: 'Consulta no encontrada' });
 	}
 
-	if (
-		(userType === 'paciente' && consultation.patientId !== userId) ||
-		(userType === 'doctor' && consultation.doctorId !== user.doctor)
-	) {
+	if (userType === 'paciente' && consultation.patientId !== userId) {
+		return res
+			.status(403)
+			.json({ message: 'Los pacientes no pueden responder a consultas' });
+	}
+	if (userType === 'doctor' && consultation.doctorId !== user.doctor) {
 		return res.status(403).json({ message: 'No autorizado' });
 	}
 
