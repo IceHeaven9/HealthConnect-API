@@ -20,6 +20,7 @@ export const createResponsesController = async (req, res) => {
 			.status(403)
 			.json({ message: 'Los pacientes no pueden responder a consultas' });
 	}
+
 	if (userType === 'doctor' && consultation.doctorId !== user.doctor) {
 		return res.status(403).json({ message: 'No autorizado' });
 	}
