@@ -1,7 +1,7 @@
 import { Db } from "./structure/db.js";
 
 export const getSpecialities = async () => {
-  const specialities = await Db.query(`SELECT * FROM specialities;`);
+	const specialities = await Db.query(`SELECT id, name FROM specialities;`);
 
-  return specialities;
+	return specialities;
 };
