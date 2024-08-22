@@ -48,7 +48,7 @@ succesLog("Datos specilities insertados correctamente");
 const [getSpecialities] = await Db.query("SELECT id FROM specialities");
 const specialityIds = getSpecialities.map((speciality) => speciality.id);
 
-const demoUserCount = 200;
+const demoUserCount = 100;
 const globalPassword = "pass1234";
 
 async function createDemoUsers() {
@@ -126,7 +126,7 @@ const getConsultationsIds = getConsultations[0].map(
 );
 
 async function createResponses() {
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 100; i++) {
     const responses = {
       content: faker.lorem.paragraph(),
       consultationId: faker.helpers.arrayElement(getConsultationsIds),
