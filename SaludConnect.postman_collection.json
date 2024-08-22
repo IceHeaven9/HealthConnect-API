@@ -1,0 +1,430 @@
+{
+	"info": {
+		"_postman_id": "6b2c85ea-ae53-41bb-9151-fae202b48ad8",
+		"name": "SaludConnect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34742645"
+	},
+	"item": [
+		{
+			"name": "REGISTER",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"cristhian_devfs@outlook.com\",\r\n    \"userName\":\"cristhian\",\r\n    \"firstName\":\"cris\",\r\n    \"lastName\":\"medrano\",\r\n    \"userType\":\"doctor\",\r\n    \"codigoMedico\":123456789,\r\n    \"experience\":5,\r\n    \"password\":\"user1234\",\r\n    \"biography\":\" esto es una prueba para comprobar que el dato de la biografia\",\r\n    \"specialityId\":3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/register",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "VERIFY EMAIL",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"cristhian_devfs@outlook.com\",\r\n    \"code\":722288\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/validate-email",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"validate-email"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOGIN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"email\":\"Carole_Altenwerth@hotmail.com\",\r\n\"password\":\"pass1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CHANGE PASSWORD",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsInVzZXJOYW1lIjoiY3Jpc3RoaWFuIiwiZW1haWwiOiJjcmlzdGhpYW5fZGV2ZnNAb3V0bG9vay5jb20iLCJhdmF0YXIiOm51bGwsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI0MjQzMDM2LCJleHAiOjE3MjQ4NDc4MzZ9.UfhibrXg9bXapcJIVsRM25azQ_owz8YdhROkDnavptg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"oldPassword\":\"user1234\",\r\n    \"newPassword1\":\"user12345\",\r\n    \"newPassword2\":\"user12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/change-password",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RECOVERY PASSWORD",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"cristhian_devfs@outlook.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/recover-password",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"recover-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE PASSWORD WITH RECOVERY TOKEN",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password1\":\"pass12345\",\r\n    \"password2\":\"pass12345\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/reset/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAxLCJ1c2VyTmFtZSI6ImNyaXN0aGlhbiIsImVtYWlsIjoiY3Jpc3RoaWFuX2RldmZzQG91dGxvb2suY29tIiwiYXZhdGFyIjpudWxsLCJ1c2VyVHlwZSI6ImRvY3RvciIsImlhdCI6MTcyNDI4MjQ1MSwiZXhwIjoxNzI0ODg3MjUxfQ.xlcZB615-X8Bu-MxEzX_cLrHPhUDxEc6ijnaIS1Vjg8",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"reset",
+						"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAxLCJ1c2VyTmFtZSI6ImNyaXN0aGlhbiIsImVtYWlsIjoiY3Jpc3RoaWFuX2RldmZzQG91dGxvb2suY29tIiwiYXZhdGFyIjpudWxsLCJ1c2VyVHlwZSI6ImRvY3RvciIsImlhdCI6MTcyNDI4MjQ1MSwiZXhwIjoxNzI0ODg3MjUxfQ.xlcZB615-X8Bu-MxEzX_cLrHPhUDxEc6ijnaIS1Vjg8"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsInVzZXJOYW1lIjoiY3Jpc3RoaWFuIiwiZW1haWwiOiJjcmlzdGhpYW5fZGV2ZnNAb3V0bG9vay5jb20iLCJhdmF0YXIiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvdXBsb2Fkcy8zNTE2NTQ2NTQ2MjY1MTU0NzY4NDEzNDY4ODc2ODc0MzQxNjM1Ny53ZWJwIiwidXNlclR5cGUiOiJkb2N0b3IiLCJpYXQiOjE3MjQyMzQ3MzQsImV4cCI6MTcyNDgzOTUzNH0.aI29P28m4RDG2NetcYsdyo_Rjau4Sa8kgJjdwTKfU6c",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE CONSULTATION",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsInVzZXJOYW1lIjoiY3Jpc3RoaWFuIiwiZW1haWwiOiJjcmlzdGhpYW5fZGV2ZnNAb3V0bG9vay5jb20iLCJhdmF0YXIiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvYXZhdGFycy9jNDY1ZmVjZi1jMDQyLTQ3ZTktODdjZi00NGM5YmVjMGM2N2Mud2VicCIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI0MjQzMTU4LCJleHAiOjE3MjQ4NDc5NTh9.G1L7LZvu3TqZxHPEzQW1LnI3kPjca7tbeLV-n5L_lmA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\":\"ENFERMO2\",\r\n\t\"description\":\"me duele la barriga2\",\r\n\t\"severity\":\"low\",\r\n\t\"specialityid\":\"6\",\r\n\t\"doctorid\":2,\r\n    \"date\":\"2028-02-18\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/consultations",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"consultations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE RESPONSE FOR CONSULTATION",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODYsInVzZXJOYW1lIjoiTWFycXVlcy5Sb2JlcnRzIiwiZW1haWwiOiJDYXJvbGVfQWx0ZW53ZXJ0aEBob3RtYWlsLmNvbSIsImF2YXRhciI6Imh0dHBzOi8vaS5wcmF2YXRhci5jYy8xNTA_dT1NYXJxdWVzLlJvYmVydHMiLCJ1c2VyVHlwZSI6InBhY2llbnRlIiwiaWF0IjoxNzI0Mjg5MTU0LCJleHAiOjE3MjQ4OTM5NTR9.0GUupn5eSvuXuxJtQIAKbtR-MFRkU1vFUV2t9akztyg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"content\": \"Esta es la respuesta a la consulta.\",\r\n  \"rating\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/consultations/1/response",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"consultations",
+						"1",
+						"response"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL SPECIALITIES",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/specialities",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"specialities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ALL DOCTORS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/doctors",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"doctors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET CONSULTTATIONS WITH FILTERS",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwidXNlck5hbWUiOiJKZXdlbDc5IiwiZW1haWwiOiJUaGFkZGV1czk2QGdtYWlsLmNvbSIsImF2YXRhciI6Imh0dHBzOi8vaS5wcmF2YXRhci5jYy8xNTA_dT1KZXdlbDc5IiwidXNlclR5cGUiOiJkb2N0b3IiLCJpYXQiOjE3MjQyODUzMjYsImV4cCI6MTcyNDg5MDEyNn0.r_2Pel4l4r-ReXYuG8irfs0XGyCoED9_NBze5F2hnEA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/consultations",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"consultations"
+					],
+					"query": [
+						{
+							"key": "title",
+							"value": "admitto",
+							"disabled": true
+						},
+						{
+							"key": "speciality",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "severity",
+							"value": "low",
+							"disabled": true
+						},
+						{
+							"key": "patient",
+							"value": "cris medrano",
+							"disabled": true
+						},
+						{
+							"key": "orderBy",
+							"value": "DESC",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET CONSULTATION BY ID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlck5hbWUiOiJKZXJtZXkuQmFydGVsbDMiLCJlbWFpbCI6Ik1hdGhpbGRlMTZAeWFob28uY29tIiwiYXZhdGFyIjoiaHR0cHM6Ly9pLnByYXZhdGFyLmNjLzE1MD91PUplcm1leS5CYXJ0ZWxsMyIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI0Mjg3NTIxLCJleHAiOjE3MjQ4OTIzMjF9.9xsuhcxhLQAWZZOiveOdrNjOv-8pA53iX2QdKIh_9jU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/consultations/1/details",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"consultations",
+						"1",
+						"details"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPLOAD AVATAR",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjAxLCJ1c2VyTmFtZSI6ImNyaXN0aGlhbiIsImVtYWlsIjoiY3Jpc3RoaWFuX2RldmZzQG91dGxvb2suY29tIiwiYXZhdGFyIjpudWxsLCJ1c2VyVHlwZSI6ImRvY3RvciIsImlhdCI6MTcyNDI4Mzc3NCwiZXhwIjoxNzI0ODg4NTc0fQ.FlTLxDl2iwJJYG9mVi33Yx2Ij9HFp61EB5WVKP58lIg",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "avatarFile",
+							"type": "file",
+							"src": "/C:/Users/crist/Pictures/leon-arte_3840x2160_xtrafondos.com.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:3000/avatar",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"avatar"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
