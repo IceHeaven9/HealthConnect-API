@@ -12,7 +12,6 @@ export const validateEmailController = async (req, res) => {
 	if (!user) {
 		throw generateErrors(400, "INVALID_CODE", "The code is invalid");
 	}
-	console.log(user);
 
 	if (!user.validationCode) {
 		throw generateErrors(

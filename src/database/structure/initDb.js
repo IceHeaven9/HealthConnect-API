@@ -3,26 +3,27 @@ import {
 	infoLog,
 	succesLog,
 	warningLog,
-} from "../../utils/logger.js";
-import { Db } from "./db.js";
+} from '../../utils/logger.js';
+import { Db } from './db.js';
 
 async function initDB() {
 	try {
-		warningLog("Eliminando base de datos si existe");
-		await Db.query("DROP DATABASE IF EXISTS citas_medicas");
+		warningLog('Eliminando base de datos si existe');
+		await Db.query('DROP DATABASE IF EXISTS citas_medicas');
 
-		await Db.query("CREATE DATABASE citas_medicas");
-		succesLog("Base de datos citas_medicas creada.");
+		await Db.query('CREATE DATABASE citas_medicas');
+		succesLog('Base de datos citas_medicas creada.');
 
-		await Db.query("USE citas_medicas");
-		infoLog("DB en uso: citas_medicas");
+		await Db.query('USE citas_medicas');
+		infoLog('DB en uso: citas_medicas');
+		s;
 
-		warningLog("Eliminando tablas si existen");
+		warningLog('Eliminando tablas si existen');
 		await Db.query(
-			"DROP TABLE IF EXISTS files_responses, files_consultations, responses, consultations, user_specialities, users, specialities"
+			'DROP TABLE IF EXISTS files_responses, files_consultations, responses, consultations, user_specialities, users, specialities'
 		);
 
-		infoLog("Creando tablas...");
+		infoLog('Creando tablas...');
 
 		await Db.query(`
             CREATE TABLE specialities (
@@ -32,7 +33,7 @@ async function initDB() {
             )
         `);
 
-		succesLog("Tabla Specialities creada.");
+		succesLog('Tabla Specialities creada.');
 
 		await Db.query(`
             CREATE TABLE users (
@@ -54,7 +55,7 @@ async function initDB() {
             )
         `);
 
-		succesLog("Tabla Users creada.");
+		succesLog('Tabla Users creada.');
 
 		await Db.query(`
             CREATE TABLE user_specialities (
@@ -66,7 +67,7 @@ async function initDB() {
             )
         `);
 
-		succesLog("Tabla intermedia User_Specialities creada.");
+		succesLog('Tabla intermedia User_Specialities creada.');
 
 		await Db.query(`
     CREATE TABLE consultations (
@@ -86,7 +87,7 @@ async function initDB() {
     )
 `);
 
-		succesLog("Tabla consultations creada.");
+		succesLog('Tabla consultations creada.');
 
 		await Db.query(`
     CREATE TABLE responses (
@@ -100,7 +101,7 @@ async function initDB() {
     )
 `);
 
-		succesLog("Tabla responses creada.");
+		succesLog('Tabla responses creada.');
 
 		await Db.query(`
         CREATE TABLE files_consultations (
@@ -113,7 +114,7 @@ async function initDB() {
         )
     `);
 
-		succesLog("Tabla files_consultations creada.");
+		succesLog('Tabla files_consultations creada.');
 
 		await Db.query(`
         CREATE TABLE files_responses (
@@ -126,12 +127,12 @@ async function initDB() {
         )
     `);
 
-		succesLog("Tabla files_responses creada.");
+		succesLog('Tabla files_responses creada.');
 
-		infoLog("¡Todas las tablas creadas exitosamente!");
+		infoLog('¡Todas las tablas creadas exitosamente!');
 		process.exit(0);
 	} catch (error) {
-		errorLog("Error al crear las tablas:", error);
+		errorLog('Error al crear las tablas:', error);
 		process.exit(1);
 	}
 }
