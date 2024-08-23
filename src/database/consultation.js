@@ -262,3 +262,12 @@ export const getConsultationsBySpecialityId = async (req, specialityIds) => {
 	}
 	return uniqueConsultations;
 };
+
+// Funcion para relacionar el id de un doctor con el id de una consulta
+export const setDoctorId = async (consultationId, doctorId) => {
+	await Db.query(
+		'INSERT INTO doctors_consultations (doctorId, consultationId) VALUES (?, ?)',
+		[doctorId, consultationId]
+	);
+};
+º;

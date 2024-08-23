@@ -1,7 +1,7 @@
 import {
 	errorLog,
 	infoLog,
-	succesLog,
+	succesLog as succesLog,
 	warningLog,
 } from '../../utils/logger.js';
 import { Db } from './db.js';
@@ -19,7 +19,7 @@ async function initDB() {
 
 		warningLog('Eliminando tablas si existen');
 		await Db.query(
-			'DROP TABLE IF EXISTS files_responses, files_consultations, responses, consultations, user_specialities, users, specialities'
+			'DROP TABLE IF EXISTS files_responses, files_consultations, responses, doctors_consultations, consultations, user_specialities, users, specialities'
 		);
 
 		infoLog('Creando tablas...');
@@ -75,16 +75,26 @@ async function initDB() {
                 severity ENUM('high', 'medium', 'low') DEFAULT 'low',
                 patientId INT NOT NULL,
                 specialityId INT NOT NULL,
-                doctorId INT NOT NULL,
                 status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (specialityId) REFERENCES specialities(id),
-                FOREIGN KEY (patientId) REFERENCES users(id),
-                FOREIGN KEY (doctorId) REFERENCES users(id)
+                FOREIGN KEY (patientId) REFERENCES users(id)
             )
         `);
 
 		succesLog('Tabla consultations creada.');
+
+		await Db.query(`
+            CREATE TABLE doctors_consultations (
+                doctorId INT NOT NULL,
+                consultationId INT NOT NULL,
+                PRIMARY KEY (doctorId, consultationId),
+                FOREIGN KEY (doctorId) REFERENCES users(id),
+                FOREIGN KEY (consultationId) REFERENCES consultations(id)
+            )
+        `);
+
+		succesLog('Tabla intermedia Doctors_Consultations creada.');
 
 		await Db.query(`
             CREATE TABLE responses (
@@ -94,7 +104,8 @@ async function initDB() {
                 doctorId INT NOT NULL,
                 rating INT DEFAULT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (consultationId) REFERENCES consultations(id)
+                FOREIGN KEY (consultationId) REFERENCES consultations(id),
+                FOREIGN KEY (doctorId) REFERENCES users(id)
             )
         `);
 

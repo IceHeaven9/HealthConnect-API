@@ -133,14 +133,13 @@ async function createConsultations() {
 			title: faker.lorem.words(),
 			description: faker.lorem.paragraph(),
 			severity: faker.helpers.arrayElement(['high', 'medium', 'low']),
-			doctorId: faker.helpers.arrayElement(getDoctorsIds),
 			patientId: faker.helpers.arrayElement(getPatientsIds),
 			specialityId: faker.helpers.arrayElement(specialityIds),
 			status: faker.helpers.arrayElement(['pending', 'completed']),
 		};
 
 		await Db.query(
-			'INSERT INTO consultations (title, description, severity, doctorId, patientId, specialityId, status) VALUES (:title, :description, :severity, :doctorId, :patientId, :specialityId, :status)',
+			'INSERT INTO consultations (title, description, severity, patientId, specialityId, status) VALUES (:title, :description, :severity, :patientId, :specialityId, :status)',
 			consultations
 		);
 	}
