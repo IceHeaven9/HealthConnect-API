@@ -25,29 +25,59 @@ export const getConsultationById_ByPatientID = async (req, res) => {
 
 	const [rows] = await Db.query(
 		`
-            SELECT 
+            SELECT DISTINCT
+                c.id,
                 c.title,
-                CONCAT(d.firstName, ' ', d.lastName) AS doctor,
-                s.name AS speciality,
                 c.severity,
-                c.date,
-                CONCAT(p.firstName, ' ', p.lastName) AS patient,
-                COUNT(r.id) AS numberOfResponses
+                c.description,
+                c.status,
+                fc.fileName AS consultationFileName,
+                fc.filePath AS consultationFilePath,
+                fr.fileName AS responseFileName,
+                fr.filePath AS responseFilePath,
+                u.avatar AS patientAvatar,
+                u.firstName AS patientName,
+                u.email AS patientEmail,
+                r.rating,
+                d.avatar AS doctorAvatar,
+                CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+                s.name AS specialityName
             FROM 
                 consultations c
-            JOIN 
-                users d ON c.doctorId = d.id
-            JOIN 
-                users p ON c.patientId = p.id
-            JOIN 
-                specialities s ON c.specialityId = s.id
+            LEFT JOIN 
+                files_consultations fc ON c.id = fc.consultationId
+            LEFT JOIN 
+                files_responses fr ON c.id = fr.responseId
+            LEFT JOIN 
+                users u ON c.patientId = u.id
             LEFT JOIN 
                 responses r ON c.id = r.consultationId
+            LEFT JOIN 
+                users d ON c.doctorId = d.id
+            JOIN 
+                specialities s ON c.specialityId = s.id
             WHERE 
                 c.id = ? AND
                 c.patientId = ?
             GROUP BY 
-                c.id;
+                c.id,
+                c.title,
+                c.severity,
+                c.description,
+                c.status,
+                fc.fileName,
+                fc.filePath,
+                fr.fileName,
+                fr.filePath,
+                u.avatar,
+                u.firstName,
+                u.email,
+                r.rating,
+                d.avatar,
+                d.firstName,
+                d.lastName,
+                s.name
+            ORDER BY c.id DESC;
         `,
 		[consultationId, userId]
 	);
@@ -60,46 +90,157 @@ export const getConsultationById_ByPatientID = async (req, res) => {
 };
 
 // Función para obtener una consulta por el id de la consulta y solo si coincide con la especialidad del doctor
-export const getConsultationsById_ByDoctorId = async (Id, doctorId) => {
-	console.log(doctorId, Id);
+export const getConsultationsById_ByDoctorId = async (
+	consultationId,
+	doctorId
+) => {
 	const [rows] = await Db.query(
 		`
-      SELECT 
+      SELECT DISTINCT
         c.id,
         c.title,
-        CONCAT(d.firstName, ' ', d.lastName) AS doctor,
-        s.name AS speciality,
         c.severity,
-        c.date,
-        CONCAT(p.firstName, ' ', p.lastName) AS patient,
-        COUNT(r.id) AS numberOfResponses
+        c.description,
+        c.status,
+        fc.fileName AS consultationFileName,
+        fc.filePath AS consultationFilePath,
+        fr.fileName AS responseFileName,
+        fr.filePath AS responseFilePath,
+        u.avatar AS patientAvatar,
+        u.firstName AS patientName,
+        u.email AS patientEmail,
+        r.rating,
+        d.avatar AS doctorAvatar,
+        CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+        s.name AS specialityName
       FROM 
         consultations c
-      JOIN 
-        users d ON c.doctorId = d.id
-      JOIN 
-        users p ON c.patientId = p.id
-      JOIN 
-        specialities s ON c.specialityId = s.id
+      LEFT JOIN 
+        files_consultations fc ON c.id = fc.consultationId
+      LEFT JOIN 
+        files_responses fr ON c.id = fr.responseId
+      LEFT JOIN 
+        users u ON c.patientId = u.id
       LEFT JOIN 
         responses r ON c.id = r.consultationId
+      LEFT JOIN 
+        users d ON c.doctorId = d.id
+      JOIN 
+        specialities s ON c.specialityId = s.id
       WHERE 
         c.id = ? AND
-        c.specialityId = ?
+        c.doctorId = ?
       GROUP BY 
         c.id,
-        c.date,
         c.title,
+        c.severity,
+        c.description,
+        c.status,
+        fc.fileName,
+        fc.filePath,
+        fr.fileName,
+        fr.filePath,
+        u.avatar,
+        u.firstName,
+        u.email,
+        r.rating,
+        d.avatar,
         d.firstName,
         d.lastName,
-        s.name,
-        c.severity,
-        p.firstName,
-        p.lastName;
+        s.name
+      ORDER BY c.id DESC;
     `,
-		[Id, doctorId]
+		[consultationId, doctorId]
 	);
-	return rows;
+
+	if (rows.length === 0) {
+		throw generateErrors(404, 'SERVER_ERROR', 'Consulta no encontrada');
+	}
+
+	return rows[0];
+};
+// Funcion para obtener una consulta por id
+// Se utiliza para obtener una consulta sin condiciones
+export const getConsultationById = async (id) => {
+	const [consultation] = await Db.query(
+		`
+        SELECT 
+            c.title,
+            CONCAT(d.firstName, ' ', d.lastName) AS doctor,
+            CONCAT(p.firstName, ' ', p.lastName) AS patient,
+            s.name AS speciality,
+            c.severity,
+            c.date,
+            c.status,
+            c.severity,
+            c.description
+        FROM 
+            consultations c
+        JOIN 
+            users d ON c.doctorId = d.id
+        JOIN 
+            users p ON c.patientId = p.id
+        JOIN 
+            specialities s ON c.specialityId = s.id
+        WHERE 
+            c.id = ?
+        `,
+		[id]
+	);
+	return consultation;
+};
+
+// Funcion para obtener todas las consultas por la id de su especialidad
+export const getConsultationsBySpecialityId = async (req, specialityIds) => {
+	const { title, severity } = req.query;
+	const placeholders = specialityIds.map(() => '?').join(',');
+	const [consultations] = await Db.query(
+		`SELECT DISTINCT
+        c.id,
+        c.title,
+        c.severity,
+        c.description,
+        c.status,
+        fc.fileName AS consultationFileName,
+        fc.filePath AS consultationFilePath,
+        fr.fileName AS responseFileName,
+        fr.filePath AS responseFilePath,
+        u.avatar AS patientAvatar,
+        u.firstName AS patientName,
+        u.email AS patientEmail,
+        r.rating,
+        d.avatar AS doctorAvatar,
+        CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+        s.name AS specialityName
+    FROM 
+        consultations c
+    LEFT JOIN 
+        files_consultations fc ON c.id = fc.consultationId
+    LEFT JOIN 
+        files_responses fr ON c.id = fr.responseId
+    LEFT JOIN 
+        users u ON c.patientId = u.id
+    LEFT JOIN 
+        responses r ON c.id = r.consultationId
+    LEFT JOIN 
+        users d ON c.doctorId = d.id
+    JOIN 
+        specialities s ON c.specialityId = s.id
+    WHERE 
+        c.specialityId IN (${placeholders}) AND
+        c.title LIKE ? AND
+        c.severity LIKE ?`,
+		[...specialityIds, `%${title || ''}%`, `%${severity || ''}%`]
+	);
+	// Eliminar duplicados
+	const uniqueConsultations = Array.from(
+		new Set(consultations.map((c) => c.id))
+	).map((id) => consultations.find((c) => c.id === id));
+
+	if (uniqueConsultations.length === 0) {
+		throw generateErrors(404, 'SERVER_ERROR', 'Consultas no encontradas');
+	}
+	return uniqueConsultations;
 };
 export const getConsultations = async (req, res) => {
 	const { title, speciality, severity } = req.query;
@@ -179,86 +320,4 @@ export const getConsultations = async (req, res) => {
 		throw generateErrors(404, 'SERVER_ERROR', 'Consultas no encontradas');
 	}
 	res.status(200).json(uniqueConsultations);
-};
-// Funcion para obtener una consulta por id
-// Se utiliza para obtener una consulta sin condiciones
-export const getConsultationById = async (id) => {
-	const [consultation] = await Db.query(
-		`
-        SELECT 
-            c.title,
-            CONCAT(d.firstName, ' ', d.lastName) AS doctor,
-            CONCAT(p.firstName, ' ', p.lastName) AS patient,
-            s.name AS speciality,
-            c.severity,
-            c.date,
-            c.status,
-            c.severity,
-            c.description
-        FROM 
-            consultations c
-        JOIN 
-            users d ON c.doctorId = d.id
-        JOIN 
-            users p ON c.patientId = p.id
-        JOIN 
-            specialities s ON c.specialityId = s.id
-        WHERE 
-            c.id = ?
-        `,
-		[id]
-	);
-	return consultation;
-};
-
-// Funcion para obtener todas las consultas por la id de su especialidad
-export const getConsultationsBySpecialityId = async (req, specialityIds) => {
-	const { title, severity } = req.query;
-	const placeholders = specialityIds.map(() => '?').join(',');
-	const [consultations] = await Db.query(
-		`SELECT DISTINCT
-        c.id,
-        c.title,
-        c.severity,
-        c.description,
-        c.status,
-        fc.fileName AS consultationFileName,
-        fc.filePath AS consultationFilePath,
-        fr.fileName AS responseFileName,
-        fr.filePath AS responseFilePath,
-        u.avatar AS patientAvatar,
-        u.firstName AS patientName,
-        u.email AS patientEmail,
-        r.rating,
-        d.avatar AS doctorAvatar,
-        CONCAT(d.firstName, ' ', d.lastName) AS doctorName
-    FROM 
-        consultations c
-    LEFT JOIN 
-        files_consultations fc ON c.id = fc.consultationId
-    LEFT JOIN 
-        files_responses fr ON c.id = fr.responseId
-    LEFT JOIN 
-        users u ON c.patientId = u.id
-    LEFT JOIN 
-        responses r ON c.id = r.consultationId
-    LEFT JOIN 
-        users d ON c.doctorId = d.id
-    JOIN 
-        specialities s ON c.specialityId = s.id
-    WHERE 
-        c.specialityId IN (${placeholders}) AND
-        c.title LIKE ? AND
-        c.severity LIKE ?`,
-		[...specialityIds, `%${title || ''}%`, `%${severity || ''}%`]
-	);
-	// Eliminar duplicados
-	const uniqueConsultations = Array.from(
-		new Set(consultations.map((c) => c.id))
-	).map((id) => consultations.find((c) => c.id === id));
-
-	if (uniqueConsultations.length === 0) {
-		throw generateErrors(404, 'SERVER_ERROR', 'Consultas no encontradas');
-	}
-	return uniqueConsultations;
 };
