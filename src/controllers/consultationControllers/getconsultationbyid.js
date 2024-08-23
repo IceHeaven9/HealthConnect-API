@@ -1,6 +1,6 @@
 import {
 	getConsultationDetails,
-	getConsultationsById_BySpecialityId,
+	getConsultationsById_ByDoctorId,
 } from '../../database/consultation.js';
 import { findUserById } from '../../database/users.js';
 
@@ -21,7 +21,7 @@ export const getConsultationDetailsController = async (req, res) => {
 
 	if (user.userType === 'doctor') {
 		const getConsultationsBySpecialityId =
-			await getConsultationsById_BySpecialityId(id, user.specialityId);
+			await getConsultationsById_ByDoctorId(id, user.id);
 
 		res.status(200).json(getConsultationsBySpecialityId);
 	}

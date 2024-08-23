@@ -60,8 +60,8 @@ export const getConsultationDetails = async (req, res) => {
 };
 
 // Función para obtener una consulta por el id de la consulta y solo si coincide con la especialidad del doctor
-export const getConsultationsById_BySpecialityId = async (Id, specialityId) => {
-	console.log(specialityId, Id);
+export const getConsultationsById_ByDoctorId = async (Id, doctorId) => {
+	console.log(doctorId, Id);
 	const [rows] = await Db.query(
 		`
       SELECT 
@@ -88,16 +88,16 @@ export const getConsultationsById_BySpecialityId = async (Id, specialityId) => {
         c.specialityId = ?
       GROUP BY 
         c.id,
+        c.date,
         c.title,
         d.firstName,
         d.lastName,
         s.name,
         c.severity,
-        c.date,
         p.firstName,
         p.lastName;
     `,
-		[Id, specialityId]
+		[Id, doctorId]
 	);
 	return rows;
 };
@@ -214,6 +214,7 @@ export const getConsultationById = async (id) => {
 // Funcion para obtener todas las consultas por la id de su especialidad
 export const getConsultationsBySpecialityId = async (req, specialityId) => {
 	const { title, severity } = req.query;
+	console.log(specialityId);
 	const [consultations] = await Db.query(
 		`SELECT DISTINCT
         c.id,
