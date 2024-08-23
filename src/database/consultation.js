@@ -331,51 +331,36 @@ export const getConsultations = async (req, res) => {
 };
 
 export const getUnassignedConsultations = async (specialities) => {
-	const [consultations] = await Db.query(
-		'SELECT id, specialityId FROM consultations'
-	);
-	const [assignedConsultations] = await Db.query(
-		'SELECT consultationId FROM doctors_consultations'
-	);
+	const placeholders = specialities.map(() => '?').join(',');
 
-	const assignedConsultationIds = new Set(
-		assignedConsultations.map((ac) => ac.consultationId)
-	);
-	const unassignedConsultations = consultations.filter(
-		(c) =>
-			!assignedConsultationIds.has(c.id) &&
-			specialities.includes(c.specialityId)
-	);
-	const unassignedConsultationIds = unassignedConsultations.map((c) => c.id);
-
-	const placeholders = unassignedConsultationIds.map(() => '?').join(',');
 	const [detailedUnassignedConsultations] = await Db.query(
 		`SELECT 
-        c.id,
-        c.title,
-        c.description,
-        c.severity,
-        c.specialityId,
-        c.patientId,
-        c.date,
-        CONCAT(p.firstName, ' ', p.lastName) AS patient,
-        p.avatar AS patientAvatar,
-        s.name AS speciality,
-        GROUP_CONCAT(fc.fileName) AS consultationFileNames,
-        GROUP_CONCAT(fc.filePath) AS consultationFilePaths
-    FROM 
-        consultations c
-    LEFT JOIN 
-        users p ON c.patientId = p.id
-    LEFT JOIN 
-        specialities s ON c.specialityId = s.id
-    LEFT JOIN 
-        files_consultations fc ON c.id = fc.consultationId
-    WHERE 
-        c.id IN (${placeholders})
-    GROUP BY 
-        c.id, c.title, c.description, c.severity, c.specialityId, c.patientId, c.date, p.firstName, p.lastName, p.avatar, s.name`,
-		unassignedConsultationIds
+            c.id,
+            c.title,
+            c.description,
+            c.severity,
+            c.specialityId,
+            c.patientId,
+            c.date,
+            CONCAT(p.firstName, ' ', p.lastName) AS patient,
+            p.avatar AS patientAvatar,
+            s.name AS speciality,
+            GROUP_CONCAT(fc.fileName) AS consultationFileNames,
+            GROUP_CONCAT(fc.filePath) AS consultationFilePaths
+        FROM 
+            consultations c
+        LEFT JOIN 
+            users p ON c.patientId = p.id
+        LEFT JOIN 
+            specialities s ON c.specialityId = s.id
+        LEFT JOIN 
+            files_consultations fc ON c.id = fc.consultationId
+        WHERE 
+            c.id NOT IN (SELECT consultationId FROM doctors_consultations) AND
+            c.specialityId IN (${placeholders})
+        GROUP BY 
+            c.id, c.title, c.description, c.severity, c.specialityId, c.patientId, c.date, p.firstName, p.lastName, p.avatar, s.name`,
+		specialities
 	);
 
 	return detailedUnassignedConsultations;
