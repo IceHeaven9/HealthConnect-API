@@ -19,7 +19,7 @@ export const createConsultation = async ({
 };
 
 // Función para obtener los datos de una consulta por id de consulta y solo si coincide con el id del paciente
-export const getConsultationDetails = async (req, res) => {
+export const getConsultationById_ByPatientID = async (req, res) => {
 	const userId = req.currentUser.id;
 	const consultationId = req.params.id;
 
@@ -101,7 +101,6 @@ export const getConsultationsById_ByDoctorId = async (Id, doctorId) => {
 	);
 	return rows;
 };
-// Funcion para obtener todas las consultas de un paciente
 export const getConsultations = async (req, res) => {
 	const { title, speciality, severity } = req.query;
 
@@ -170,6 +169,7 @@ export const getConsultations = async (req, res) => {
 			patientId,
 		]
 	);
+	// Funcion para obtener todas las consultas de un paciente
 
 	// Eliminar duplicados
 	const uniqueConsultations = Array.from(new Set(rows.map((c) => c.id))).map(
@@ -212,9 +212,9 @@ export const getConsultationById = async (id) => {
 };
 
 // Funcion para obtener todas las consultas por la id de su especialidad
-export const getConsultationsBySpecialityId = async (req, specialityId) => {
+export const getConsultationsBySpecialityId = async (req, specialityIds) => {
 	const { title, severity } = req.query;
-	console.log(specialityId);
+	const placeholders = specialityIds.map(() => '?').join(',');
 	const [consultations] = await Db.query(
 		`SELECT DISTINCT
         c.id,
@@ -247,10 +247,10 @@ export const getConsultationsBySpecialityId = async (req, specialityId) => {
     JOIN 
         specialities s ON c.specialityId = s.id
     WHERE 
-        c.specialityId = ? AND
+        c.specialityId IN (${placeholders}) AND
         c.title LIKE ? AND
         c.severity LIKE ?`,
-		[specialityId, `%${title || ''}%`, `%${severity || ''}%`]
+		[...specialityIds, `%${title || ''}%`, `%${severity || ''}%`]
 	);
 	// Eliminar duplicados
 	const uniqueConsultations = Array.from(
