@@ -20,7 +20,7 @@ export const getConsultationController = async (req, res) => {
 	if (user.userType === 'doctor') {
 		const consultations = await getConsultationsBySpecialityId(
 			req,
-			user.specialityId
+			user.specialities
 		);
 
 		res.status(200).json(consultations);

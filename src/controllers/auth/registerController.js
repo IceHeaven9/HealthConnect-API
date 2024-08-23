@@ -17,12 +17,12 @@ export const registerController = async (req, res) => {
 		userType,
 		biography,
 		codigoMedico,
+		specialityId,
 		experience,
 		email,
 		password,
 		userName,
 	} = parseRegisterPayload(req.body);
-	const specialityId = req.body.specialityId;
 
 	if (userType === 'doctor' && !codigoMedico) {
 		return res

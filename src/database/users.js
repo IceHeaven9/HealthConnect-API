@@ -94,9 +94,20 @@ export async function findUserById(id) {
 	const [[user]] = await Db.query('SELECT * FROM users WHERE id = :id', {
 		id,
 	});
+
+	const [specialities] = await Db.query(
+		`SELECT s.id 
+         FROM user_specialities us
+         JOIN specialities s ON us.specialityId = s.id
+         WHERE us.userId = :id`,
+		{
+			id,
+		}
+	);
+	user.specialities = specialities.map((row) => row.id);
+
 	return user;
 }
-
 export async function setNewPassword(password1, id) {
 	const hashedPassword = await hashPassword(password1);
 	await Db.query('UPDATE users SET password = :hashedPassword WHERE id = :id', {
@@ -113,10 +124,9 @@ export const uploadUserAvatar = async (userId, avatarPath) => {
 };
 
 export async function assignSpecialitiesToUser(userId, specialityIds) {
-	const values = specialityIds
-		.map((specialityId) => `(${userId}, ${specialityId})`)
-		.join(', ');
+	const values = specialityIds.map((specialityId) => [userId, specialityId]);
 	await Db.query(
-		`INSERT INTO user_specialities (userId, specialityId) VALUES ${values}`
+		`INSERT INTO user_specialities (userId, specialityId) VALUES ?`,
+		[values]
 	);
 }
