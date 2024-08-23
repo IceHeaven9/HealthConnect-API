@@ -271,7 +271,6 @@ export const setDoctorId = async (consultationId, doctorId) => {
 };
 
 export const getUnassignedConsultations = async (specialities) => {
-	console.log(specialities);
 	const [consultations] = await Db.query(
 		'SELECT id, specialityId FROM consultations'
 	);
@@ -322,7 +321,7 @@ export const getUnassignedConsultations = async (specialities) => {
 	return detailedUnassignedConsultations;
 };
 
-export const assignDoctorToConsultation = async (consultationId, doctorId) => {
+export const assignDoctorToConsultation = async (doctorId, consultationId) => {
 	const setDoctor = await Db.query(
 		'INSERT INTO doctors_consultations (doctorId, consultationId) VALUES (?, ?)',
 		[doctorId, consultationId]
