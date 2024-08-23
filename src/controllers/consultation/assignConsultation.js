@@ -1,4 +1,4 @@
-import { assignDoctorToConsultation } from '../../database/consultation.js';
+import { setDoctorId } from '../../database/consultation.js';
 
 export const assignConsultationController = async (req, res) => {
 	const doctor = req.currentUser;
@@ -6,10 +6,7 @@ export const assignConsultationController = async (req, res) => {
 	const { consultationId } = req.body;
 
 	if (doctor.userType === 'doctor') {
-		const setDoctor = await assignDoctorToConsultation(
-			doctorid,
-			consultationId
-		);
+		const setDoctor = await setDoctorId(doctorid, consultationId);
 
 		if (doctor.userType != 'doctor') {
 			throw generateErrors(403, 'UNAUTHORIZED', 'Acceso no autorizado');
