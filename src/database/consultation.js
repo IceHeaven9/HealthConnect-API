@@ -52,7 +52,9 @@ export const getConsultationById_ByPatientID = async (req, res) => {
             LEFT JOIN 
                 responses r ON c.id = r.consultationId
             LEFT JOIN 
-                users d ON c.doctorId = d.id
+                doctors_consultations dc ON c.id = dc.consultationId
+            LEFT JOIN 
+                users d ON dc.doctorId = d.id
             JOIN 
                 specialities s ON c.specialityId = s.id
             WHERE 
@@ -123,12 +125,14 @@ export const getConsultationsById_ByDoctorId = async (
       LEFT JOIN 
         responses r ON c.id = r.consultationId
       LEFT JOIN 
-        users d ON c.doctorId = d.id
+        doctors_consultations dc ON c.id = dc.consultationId
+      LEFT JOIN 
+        users d ON dc.doctorId = d.id
       JOIN 
         specialities s ON c.specialityId = s.id
       WHERE 
         c.id = ? AND
-        c.doctorId = ?
+        dc.doctorId = ?
       GROUP BY 
         c.id,
         c.title,
@@ -176,7 +180,9 @@ export const getConsultationById = async (id) => {
         FROM 
             consultations c
         JOIN 
-            users d ON c.doctorId = d.id
+            doctors_consultations dc ON c.id = dc.consultationId
+        JOIN 
+            users d ON dc.doctorId = d.id
         JOIN 
             users p ON c.patientId = p.id
         JOIN 
@@ -188,7 +194,6 @@ export const getConsultationById = async (id) => {
 	);
 	return consultation;
 };
-
 // Funcion para obtener todas las consultas por la id de su especialidad
 export const getConsultationsBySpecialityId = async (req, specialityIds) => {
 	const { title, severity } = req.query;
@@ -222,7 +227,9 @@ export const getConsultationsBySpecialityId = async (req, specialityIds) => {
     LEFT JOIN 
         responses r ON c.id = r.consultationId
     LEFT JOIN 
-        users d ON c.doctorId = d.id
+        doctors_consultations dc ON c.id = dc.consultationId
+    LEFT JOIN 
+        users d ON dc.doctorId = d.id
     JOIN 
         specialities s ON c.specialityId = s.id
     WHERE 
@@ -275,7 +282,9 @@ export const getConsultations = async (req, res) => {
             LEFT JOIN 
                 responses r ON c.id = r.consultationId
             LEFT JOIN 
-                users d ON c.doctorId = d.id
+                doctors_consultations dc ON c.id = dc.consultationId
+            LEFT JOIN 
+                users d ON dc.doctorId = d.id
             JOIN 
                 specialities s ON c.specialityId = s.id
             WHERE 
