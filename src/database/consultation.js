@@ -8,12 +8,11 @@ export const createConsultation = async ({
 	severity,
 	specialityid,
 	id,
-	doctorid,
 	date,
 }) => {
 	const [result] = await Db.query(
-		`INSERT INTO consultations (title, description, severity, specialityid, patientId, doctorid, date) VALUES (?, ?, ?, ?, ?, ?,?)`,
-		[title, description, severity, specialityid, id, doctorid, date]
+		`INSERT INTO consultations (title, description, severity, specialityid, patientId, date) VALUES (?, ?, ?, ?, ?, ?)`,
+		[title, description, severity, specialityid, id, date]
 	);
 	return result.insertId;
 };
@@ -270,4 +269,3 @@ export const setDoctorId = async (consultationId, doctorId) => {
 		[doctorId, consultationId]
 	);
 };
-º;
