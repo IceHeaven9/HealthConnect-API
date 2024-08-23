@@ -321,3 +321,11 @@ export const getUnassignedConsultations = async (specialities) => {
 
 	return detailedUnassignedConsultations;
 };
+
+export const assignDoctorToConsultation = async (consultationId, doctorId) => {
+	const setDoctor = await Db.query(
+		'INSERT INTO doctors_consultations (doctorId, consultationId) VALUES (?, ?)',
+		[doctorId, consultationId]
+	);
+	return setDoctor;
+};
