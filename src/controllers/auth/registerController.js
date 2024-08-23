@@ -1,13 +1,14 @@
-import crypto from "node:crypto";
-import { CODIGO_MEDICO } from "../../../constants.js";
+import crypto from 'node:crypto';
+import { CODIGO_MEDICO } from '../../../constants.js';
 import {
 	assertEmailNotInUse,
 	assertUsernameNotInUse,
+	assignSpecialitiesToUser,
 	createUser,
-} from "../../database/users.js";
-import { sendValidationEmail } from "../../emails/validationEmail.js";
-import { hashPassword } from "../../utils/hashPassword.js";
-import { parseRegisterPayload } from "../../validations/auth.js";
+} from '../../database/users.js';
+import { sendValidationEmail } from '../../emails/validationEmail.js';
+import { hashPassword } from '../../utils/hashPassword.js';
+import { parseRegisterPayload } from '../../validations/auth.js';
 
 export const registerController = async (req, res) => {
 	const {
@@ -16,21 +17,21 @@ export const registerController = async (req, res) => {
 		userType,
 		biography,
 		codigoMedico,
-		specialityId,
 		experience,
 		email,
 		password,
 		userName,
 	} = parseRegisterPayload(req.body);
+	const specialityId = req.body.specialityId;
 
-	if (userType === "doctor" && !codigoMedico) {
+	if (userType === 'doctor' && !codigoMedico) {
 		return res
 			.status(400)
-			.json({ message: "El código médico es obligatorio para los doctores" });
+			.json({ message: 'El código médico es obligatorio para los doctores' });
 	}
 
 	if (codigoMedico != CODIGO_MEDICO) {
-		return res.status(400).json({ message: "El código médico no es correcto" });
+		return res.status(400).json({ message: 'El código médico no es correcto' });
 	}
 
 	await assertEmailNotInUse(email);
@@ -46,12 +47,13 @@ export const registerController = async (req, res) => {
 		biography,
 		codigoMedico,
 		experience,
-		specialityId,
 		email,
 		hashedPassword,
 		userName,
 		validationCode,
 	});
+
+	await assignSpecialitiesToUser(id, specialityId);
 
 	sendValidationEmail({ firstName, email, validationCode });
 

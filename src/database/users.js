@@ -1,6 +1,6 @@
-import { generateErrors } from "../utils/generateErrors.js";
-import { hashPassword } from "../utils/hashPassword.js";
-import { Db } from "./structure/db.js";
+import { generateErrors } from '../utils/generateErrors.js';
+import { hashPassword } from '../utils/hashPassword.js';
+import { Db } from './structure/db.js';
 
 export async function findUserByEmail(email) {
 	const [[user]] = await Db.query(`SELECT * FROM users WHERE email = :email`, {
@@ -16,15 +16,14 @@ export async function createUser({
 	biography,
 	codigoMedico,
 	experience,
-	specialityId,
 	email,
 	userName,
 	hashedPassword,
 	validationCode,
 }) {
 	const [{ insertId }] = await Db.query(
-		`INSERT INTO users(firstName, lastName, userType, specialityId, biography, codigoMedico, experience, email, password, userName, validationCode)
-				VALUES (:firstName, :lastName, :userType, :specialityId, :biography, :codigoMedico, :experience, :email, :hashedPassword, :userName, :validationCode)`,
+		`INSERT INTO users(firstName, lastName, userType, biography, codigoMedico, experience, email, password, userName, validationCode)
+				VALUES (:firstName, :lastName, :userType, :biography, :codigoMedico, :experience, :email, :hashedPassword, :userName, :validationCode)`,
 		{
 			firstName,
 			lastName,
@@ -32,7 +31,6 @@ export async function createUser({
 			biography,
 			codigoMedico,
 			experience,
-			specialityId,
 			email,
 			userName,
 			hashedPassword,
@@ -47,13 +45,13 @@ export async function assertEmailNotInUse(email) {
 	const user = await findUserByEmail(email);
 
 	if (user) {
-		throw generateErrors(400, "EMAIL_IN_USE", "The email is already in use");
+		throw generateErrors(400, 'EMAIL_IN_USE', 'The email is already in use');
 	}
 }
 
 export async function assertUsernameNotInUse(userName) {
 	const [[result]] = await Db.query(
-		"SELECT username FROM users WHERE userName = :userName",
+		'SELECT username FROM users WHERE userName = :userName',
 		{
 			userName,
 		}
@@ -62,14 +60,14 @@ export async function assertUsernameNotInUse(userName) {
 	if (result) {
 		throw generateErrors(
 			400,
-			"USERNAME_IN_USE",
-			"The username is already in use"
+			'USERNAME_IN_USE',
+			'The username is already in use'
 		);
 	}
 }
 
 export async function removeValidationCodeFromUser(userId) {
-	await Db.query("UPDATE users SET validationCode = NULL WHERE id = :userId", {
+	await Db.query('UPDATE users SET validationCode = NULL WHERE id = :userId', {
 		userId,
 	});
 }
@@ -93,7 +91,7 @@ export async function getDoctors() {
 }
 
 export async function findUserById(id) {
-	const [[user]] = await Db.query("SELECT * FROM users WHERE id = :id", {
+	const [[user]] = await Db.query('SELECT * FROM users WHERE id = :id', {
 		id,
 	});
 	return user;
@@ -101,15 +99,24 @@ export async function findUserById(id) {
 
 export async function setNewPassword(password1, id) {
 	const hashedPassword = await hashPassword(password1);
-	await Db.query("UPDATE users SET password = :hashedPassword WHERE id = :id", {
+	await Db.query('UPDATE users SET password = :hashedPassword WHERE id = :id', {
 		hashedPassword,
 		id: id,
 	});
 }
 
 export const uploadUserAvatar = async (userId, avatarPath) => {
-	await Db.query("UPDATE users SET avatar = ? WHERE id = ?", [
+	await Db.query('UPDATE users SET avatar = ? WHERE id = ?', [
 		avatarPath,
 		userId,
 	]);
 };
+
+export async function assignSpecialitiesToUser(userId, specialityIds) {
+	const values = specialityIds
+		.map((specialityId) => `(${userId}, ${specialityId})`)
+		.join(', ');
+	await Db.query(
+		`INSERT INTO user_specialities (userId, specialityId) VALUES ${values}`
+	);
+}

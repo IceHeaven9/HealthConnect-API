@@ -142,7 +142,7 @@ Estas funcionalidades permiten crear una plataforma robusta y segura para la int
         PORT=3000
         FRONTEND_HOST=
         JWT_SECRET="EXAMPLE"
-
+        CODIGO_MEDICO=123456789
 
         DB_HOST=127.0.0.1
         DB_USER=dev

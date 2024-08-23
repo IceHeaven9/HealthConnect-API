@@ -45,12 +45,10 @@ async function initDB() {
                 userName VARCHAR(255) NOT NULL,
                 biography VARCHAR(500) DEFAULT NULL,
                 avatar VARCHAR(255) DEFAULT NULL,
-                specialityId INT DEFAULT NULL,
                 experience INT DEFAULT NULL,
                 codigoMedico INT DEFAULT NULL,
                 validationCode INT DEFAULT NULL,
-                createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (specialityId) REFERENCES specialities(id)
+                createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
 
