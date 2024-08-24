@@ -11,7 +11,7 @@ export const unassignedConsultationController = async (req, res) => {
 		res.status(200).json(unassignedConsultations);
 	}
 
-	if (user.userType === 'patient') {
+	if (user.userType === 'paciente') {
 		res.status(403).json({ message: 'Unauthorized access' });
 	}
 };

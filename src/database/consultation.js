@@ -196,7 +196,7 @@ export const getConsultationById = async (id) => {
 };
 // Funcion para obtener todas las consultas por la id de su especialidad
 export const getConsultationsBySpecialityId = async (req, specialityIds) => {
-	const { title, severity } = req.query;
+	const { title, severity, patientName, specialityName } = req.query;
 	const placeholders = specialityIds.map(() => '?').join(',');
 	const [consultations] = await Db.query(
 		`SELECT DISTINCT
@@ -235,8 +235,16 @@ export const getConsultationsBySpecialityId = async (req, specialityIds) => {
     WHERE 
         c.specialityId IN (${placeholders}) AND
         c.title LIKE ? AND
-        c.severity LIKE ?`,
-		[...specialityIds, `%${title || ''}%`, `%${severity || ''}%`]
+        c.severity LIKE ? AND
+        u.firstName LIKE ? AND
+        s.name LIKE ?`,
+		[
+			...specialityIds,
+			`%${title || ''}%`,
+			`%${severity || ''}%`,
+			`%${patientName || ''}%`,
+			`%${specialityName || ''}%`,
+		]
 	);
 	// Eliminar duplicados
 	const uniqueConsultations = Array.from(
@@ -249,7 +257,7 @@ export const getConsultationsBySpecialityId = async (req, specialityIds) => {
 	return uniqueConsultations;
 };
 export const getConsultations = async (req, res) => {
-	const { title, speciality, severity } = req.query;
+	const { title, severity, patientName, specialityName } = req.query;
 
 	const patientId = req.currentUser.id;
 
@@ -270,7 +278,8 @@ export const getConsultations = async (req, res) => {
                 u.email AS patientEmail,
                 r.rating,
                 d.avatar AS doctorAvatar,
-                CONCAT(d.firstName, ' ', d.lastName) AS doctorName
+                CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+                s.name AS specialityName
             FROM 
                 consultations c
             LEFT JOIN 
@@ -289,8 +298,9 @@ export const getConsultations = async (req, res) => {
                 specialities s ON c.specialityId = s.id
             WHERE 
                 c.title LIKE ? AND
-                s.name LIKE ? AND
                 c.severity LIKE ? AND
+                u.firstName LIKE ? AND
+                s.name LIKE ? AND
                 c.patientId = ?
             GROUP BY 
                 c.id,
@@ -308,17 +318,18 @@ export const getConsultations = async (req, res) => {
                 r.rating,
                 d.avatar,
                 d.firstName,
-                d.lastName
+                d.lastName,
+                s.name
             ORDER BY c.id DESC;
         `,
 		[
 			`%${title || ''}%`,
-			`%${speciality || ''}%`,
 			`%${severity || ''}%`,
+			`%${patientName || ''}%`,
+			`%${specialityName || ''}%`,
 			patientId,
 		]
 	);
-	// Funcion para obtener todas las consultas de un paciente
 
 	// Eliminar duplicados
 	const uniqueConsultations = Array.from(new Set(rows.map((c) => c.id))).map(
