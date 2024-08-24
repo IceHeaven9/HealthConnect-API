@@ -105,25 +105,26 @@ Con funcionalidades diseñadas para maximizar la eficiencia y la seguridad, Salu
 ## Dependencias
 
     "dependencies": {
-    	"bcrypt": "^5.1.1",
-    	"chalk": "^5.3.0",
-    	"cors": "^2.8.5",
-    	"crypto": "^1.0.1",
-    	"dotenv": "^16.4.5",
-    	"express": "^4.19.2",
-    	"express-fileupload": "^1.5.1",
-    	"joi": "^17.13.3",
-    	"jsonwebtoken": "^9.0.2",
-    	"morgan": "^1.10.0",
-    	"mysql2": "^3.11.0",
-    	"nodemailer": "^6.9.14",
-    	"nodemon": "^3.1.4",
-    	"sharp": "^0.33.5"
-    },
+      "bcrypt": "^5.1.1",
+      "chalk": "^5.3.0",
+      "cors": "^2.8.5",
+      "crypto": "^1.0.1",
+      "dotenv": "^16.4.5",
+      "express": "^4.19.2",
+      "express-fileupload": "^1.5.1",
+      "joi": "^17.13.3",
+      "jsonwebtoken": "^9.0.2",
+      "morgan": "^1.10.0",
+      "mysql2": "^3.11.0",
+      "nodemailer": "^6.9.14",
+      "nodemon": "^3.1.4",
+      "sharp": "^0.33.5"
+      },
 
-    "devDependencies": {
-    	"@faker-js/faker": "^8.4.1"
-    }
+      "devDependencies": {
+        "@faker-js/faker": "^8.4.1",
+        "prettier": "^3.3.3"
+        }
 
 ## Instalación
 
