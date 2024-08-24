@@ -16,13 +16,14 @@ Con funcionalidades diseñadas para maximizar la eficiencia y la seguridad, Salu
 
 ### **Para Usuarios No Registrados**
 
-- **Exploración Rápida**: Accede a la landing page con un listado completo de consultas médicas disponibles, permitiendo a cualquier usuario explorar las consultas antes de registrarse.
+- **Exploración Rápida**: Accede a la landing page con un listado completo de médicos y especialidades disponibles, permitiendo a cualquier usuario explorar los tipos de consultas que pueden realizar antes de registrarse.
 
 - **Búsqueda y Filtros Avanzados**:
+
   - **Por Palabra Clave**: Encuentra consultas relevantes mediante la búsqueda en títulos, descripciones, o nombres de médicos.
   - **Por Especialidad**: Filtra consultas por especialidades médicas específicas como Traumatología, Pediatría, entre otras.
   - **Por Nivel de Gravedad**: Prioriza consultas según su urgencia (alta, media, baja).
-- **Ordenación Inteligente**: Organiza las consultas por diferentes criterios como fecha de publicación, especialidad médica, o nivel de gravedad.
+
 - **Registro y Autenticación Sencillos**:
   - Regístrate fácilmente con un correo electrónico, elige un nombre de usuario y establece una contraseña segura.
   - Selecciona tu tipo de usuario (paciente o médico) para personalizar tu experiencia.
@@ -40,11 +41,13 @@ Con funcionalidades diseñadas para maximizar la eficiencia y la seguridad, Salu
 - **Creación de Consultas Médicas**:
   - **Título y Descripción**: Redacta una consulta médica detallada que incluya síntomas y antecedentes relevantes.
   - **Adjuntar Archivos**: Sube imágenes o documentos para proporcionar información adicional a los médicos.
+  - **Ordenación Inteligente**: Organiza las consultas por diferentes criterios como fecha de publicación, especialidad médica, o nivel de gravedad.
   - **Selección de Médico o Especialidad**: Escoge a un médico específico o permite que la plataforma asigne un especialista basado en la consulta.
   - **Prioridad de Consulta**: Indica el nivel de gravedad para asegurar la atención adecuada.
 - **Historial de Consultas**: Accede a un registro completo de todas las consultas que has realizado, incluyendo respuestas y resoluciones.
 - **Interacción Dinámica con Consultas**:
   - Elimina una consulta si no ha recibido respuestas.
+  - Descarga los archivos de la respuesta.
   - Califica la calidad de las respuestas recibidas por parte de los médicos (1-5 estrellas).
 - **Exploración de Profesionales**:
   - Accede a un listado de médicos con su calificación promedio basada en las respuestas que han proporcionado.
@@ -52,12 +55,13 @@ Con funcionalidades diseñadas para maximizar la eficiencia y la seguridad, Salu
 
 ### **Para Médicos Registrados**
 
-- **Exploración de Consultas**: Visualiza el listado completo de consultas disponibles, filtrado y ordenado según tus preferencias.
+- **Exploración de Consultas**: Visualiza el listado completo de consultas disponibles, filtrado y ordenado según tus preferencias y especialidades.
 - **Gestión Profesional del Perfil**:
   - Actualiza tu perfil con información relevante como especialidad médica, años de experiencia, biografía, y avatar.
   - Consulta y mantén un historial de tu rating promedio basado en las valoraciones de los pacientes.
 - **Atención a Consultas**:
   - Responde a consultas asignadas dentro de tu especialidad con respuestas detalladas y profesionales.
+  - Adjunta archivos a las respuestas: recetas, analiticas..., evitando que el paciente se desplace de no ser necesario.
   - Elimina respuestas propias si aún no han sido valoradas, asegurando la calidad de tu trabajo.
 - **Historial y Seguimiento**:
   - Revisa un historial detallado de todas las consultas a las que has respondido o que te han sido asignadas.
@@ -95,7 +99,8 @@ Con funcionalidades diseñadas para maximizar la eficiencia y la seguridad, Salu
 4. **Carga y Manipulación de Archivos**: Los usuarios pueden subir imágenes y documentos adjuntos a sus consultas, que pueden ser procesados y optimizados.
 5. **Notificaciones por Correo Electrónico**: Envío de correos electrónicos para validación de cuentas y recuperación de contraseñas.
 
-Estas funcionalidades permiten crear una plataforma robusta y segura para la interacción entre pacientes y médicos en línea.
+6. **Manejo de Errores y Seguridad**: La API maneja errores y asegura las interacciones mediante autenticación y hashing de contraseñas.
+   Estas funcionalidades permiten crear una plataforma robusta y segura para la interacción entre pacientes y médicos en línea.
 
 ## Dependencias
 
@@ -189,6 +194,8 @@ Una vez que el servidor esté en funcionamiento, puedes interactuar con la API u
 - **Para crear una consulta**: `POST /consultations`
 - **Para obtener todas las consultas**: `GET /consultations`
 - **Para obtener los datos de una consulta**: `GET /consultations/:id/details`
+- **Para obtener todas las consultas no asignadas a ningun doctor**: `GET /unassigned-consultation`
+- **Para asignar una consulta a un doctor**: `POST /assign-consultation`
 
 ### Respuestas
 
