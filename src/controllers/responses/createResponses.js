@@ -3,6 +3,8 @@ import { setResponse } from '../../database/responses.js';
 import { findUserById } from '../../database/users.js';
 import { parseResponsePayload } from '../../validations/responses.js';
 
+// Controlador para crear respuestas
+
 export const createResponsesController = async (req, res) => {
 	const { id } = req.params;
 	const { content, rating } = parseResponsePayload(req.body);

@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { validate } from './validate.js';
 
 // Validaciones para el login
+
 const loginSchema = Joi.object({
 	email: Joi.string().email().required(),
 	password: Joi.string().min(6).required(),
@@ -13,6 +14,7 @@ export function parseLoginPayload(payload) {
 }
 
 // Validaciones para el registro
+
 const registerSchema = Joi.object({
 	firstName: Joi.string().min(3).max(255).required(),
 	lastName: Joi.string().min(3).max(255),
@@ -31,6 +33,8 @@ export function parseRegisterPayload(payload) {
 	const result = validate(registerSchema, payload);
 	return result.value;
 }
+
+// Validaciones para el usuario
 
 const userSchema = {
 	email: Joi.string().email().required(),

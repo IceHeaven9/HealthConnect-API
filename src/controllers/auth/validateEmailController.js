@@ -4,6 +4,8 @@ import {
 } from '../../database/users.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
+// Controlador para validar el email
+
 export const validateEmailController = async (req, res) => {
 	const { email, code } = req.body;
 

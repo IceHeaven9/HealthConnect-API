@@ -10,13 +10,15 @@ import { assignConsultationController } from '../controllers/consultation/assign
 export const consultationRoutes = Router();
 
 // Ruta para crear una consulta
+
 consultationRoutes.post(
 	'/consultations',
 	authMiddleware,
 	asyncHandler(createConsultationController)
 );
 
-// Ruta para obtener consultas sin atención
+// Ruta para obtener consultas sin asignar
+
 consultationRoutes.get(
 	'/unassigned-consultation',
 	authMiddleware,
@@ -24,6 +26,7 @@ consultationRoutes.get(
 );
 
 // Ruta para asignar un medico a una consulta
+
 consultationRoutes.post(
 	'/assign-consultation',
 	authMiddleware,
@@ -31,6 +34,7 @@ consultationRoutes.post(
 );
 
 // Ruta para obtener todas las consultas
+
 consultationRoutes.get(
 	'/consultations',
 	authMiddleware,
@@ -38,6 +42,7 @@ consultationRoutes.get(
 );
 
 // Ruta para obtener los datos de una consulta
+
 consultationRoutes.get(
 	'/consultations/:id/details',
 	authMiddleware,

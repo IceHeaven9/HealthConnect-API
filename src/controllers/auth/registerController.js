@@ -10,6 +10,8 @@ import { sendValidationEmail } from '../../emails/validationEmail.js';
 import { hashPassword } from '../../utils/hashPassword.js';
 import { parseRegisterPayload } from '../../validations/auth.js';
 
+// Controlador para registrar un usuario
+
 export const registerController = async (req, res) => {
 	const {
 		firstName,

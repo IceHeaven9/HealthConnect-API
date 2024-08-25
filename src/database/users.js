@@ -2,12 +2,7 @@ import { generateErrors } from '../utils/generateErrors.js';
 import { hashPassword } from '../utils/hashPassword.js';
 import { Db } from './structure/db.js';
 
-export async function findUserByEmail(email) {
-	const [[user]] = await Db.query(`SELECT * FROM users WHERE email = :email`, {
-		email: email,
-	});
-	return user;
-}
+// Funcion para crear un usuario
 
 export async function createUser({
 	firstName,
@@ -41,6 +36,38 @@ export async function createUser({
 	return insertId;
 }
 
+// Funcion para obtener los datos de los usuarios por email
+
+export async function findUserByEmail(email) {
+	const [[user]] = await Db.query(`SELECT * FROM users WHERE email = :email`, {
+		email: email,
+	});
+	return user;
+}
+
+// Funcion para obtener los datos de un usuario por id
+
+export async function findUserById(id) {
+	const [[user]] = await Db.query('SELECT * FROM users WHERE id = :id', {
+		id,
+	});
+
+	const [specialities] = await Db.query(
+		`SELECT s.id 
+		 FROM user_specialities us
+		 JOIN specialities s ON us.specialityId = s.id
+		 WHERE us.userId = :id`,
+		{
+			id,
+		}
+	);
+	user.specialities = specialities.map((row) => row.id);
+
+	return user;
+}
+
+// Funcion para verificar que el email no este en uso
+
 export async function assertEmailNotInUse(email) {
 	const user = await findUserByEmail(email);
 
@@ -48,6 +75,8 @@ export async function assertEmailNotInUse(email) {
 		throw generateErrors(400, 'EMAIL_IN_USE', 'The email is already in use');
 	}
 }
+
+// Funcion para verificar que el username no este en uso
 
 export async function assertUsernameNotInUse(userName) {
 	const [[result]] = await Db.query(
@@ -66,6 +95,8 @@ export async function assertUsernameNotInUse(userName) {
 	}
 }
 
+// Funcion para quitar el codigo de validacion de un usuario
+
 export async function removeValidationCodeFromUser(userId) {
 	await Db.query('UPDATE users SET validationCode = NULL WHERE id = :userId', {
 		userId,
@@ -73,6 +104,7 @@ export async function removeValidationCodeFromUser(userId) {
 }
 
 // Funcion para obtener los datos de los medicos
+
 export async function getDoctors() {
 	const [doctors] = await Db.query(`
         SELECT 
@@ -97,24 +129,8 @@ export async function getDoctors() {
 	return doctors;
 }
 
-export async function findUserById(id) {
-	const [[user]] = await Db.query('SELECT * FROM users WHERE id = :id', {
-		id,
-	});
+// Funcion para setear una nueva contraseña a un usuario
 
-	const [specialities] = await Db.query(
-		`SELECT s.id 
-         FROM user_specialities us
-         JOIN specialities s ON us.specialityId = s.id
-         WHERE us.userId = :id`,
-		{
-			id,
-		}
-	);
-	user.specialities = specialities.map((row) => row.id);
-
-	return user;
-}
 export async function setNewPassword(password1, id) {
 	const hashedPassword = await hashPassword(password1);
 	await Db.query('UPDATE users SET password = :hashedPassword WHERE id = :id', {
@@ -123,12 +139,16 @@ export async function setNewPassword(password1, id) {
 	});
 }
 
+// Funcion para subir un avatar a un usuario
+
 export const uploadUserAvatar = async (userId, avatarPath) => {
 	await Db.query('UPDATE users SET avatar = ? WHERE id = ?', [
 		avatarPath,
 		userId,
 	]);
 };
+
+// Funcion para verificar que una especialidad este asignada a un usuario
 
 export async function assignSpecialitiesToUser(userId, specialityIds) {
 	const values = specialityIds.map((specialityId) => [userId, specialityId]);

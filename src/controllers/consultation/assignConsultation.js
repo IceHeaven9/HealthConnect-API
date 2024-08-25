@@ -1,5 +1,7 @@
 import { setDoctorId } from '../../database/consultation.js';
 
+// Controlador para asignar una consulta
+
 export const assignConsultationController = async (req, res) => {
 	const doctor = req.currentUser;
 	const doctorid = doctor.id;

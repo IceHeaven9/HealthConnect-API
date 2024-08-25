@@ -2,6 +2,7 @@ import Joi from 'joi';
 import { validate } from './validate.js';
 
 // Validaciones para la creación de una consulta
+
 const consultationSchema = Joi.object({
 	title: Joi.string().required(),
 	description: Joi.string().required(),
@@ -15,5 +16,3 @@ export const parseConsultationPayload = (payload) => {
 	const result = validate(consultationSchema, payload);
 	return result.value;
 };
-
-// Validaciones para la

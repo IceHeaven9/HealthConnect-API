@@ -1,4 +1,6 @@
-import { Db } from "./structure/db.js";
+import { Db } from './structure/db.js';
+
+// Funcion para obtener las respuestas
 
 export const setResponse = async (content, id, userId, rating) => {
 	const newResponse = await Db.query(

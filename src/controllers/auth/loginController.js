@@ -1,9 +1,11 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../../constants.js";
-import { findUserByEmail } from "../../database/users.js";
-import { generateErrors } from "../../utils/generateErrors.js";
-import { parseLoginPayload } from "../../validations/auth.js";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { JWT_SECRET } from '../../../constants.js';
+import { findUserByEmail } from '../../database/users.js';
+import { generateErrors } from '../../utils/generateErrors.js';
+import { parseLoginPayload } from '../../validations/auth.js';
+
+// Controlador para iniciar sesión
 
 export const loginController = async (req, res) => {
 	const { email, password } = parseLoginPayload(req.body);
@@ -12,13 +14,13 @@ export const loginController = async (req, res) => {
 	if (!user || !(await bcrypt.compare(password, user.password))) {
 		throw generateErrors(
 			401,
-			"INVALID_CREDENTIALS",
-			"Invalid mail or password"
+			'INVALID_CREDENTIALS',
+			'Invalid mail or password'
 		);
 	}
 
 	if (user.validationCode) {
-		throw generateErrors(401, "UNVERIFIED_EMAIL", "Email is not verified");
+		throw generateErrors(401, 'UNVERIFIED_EMAIL', 'Email is not verified');
 	}
 
 	const token = jwt.sign(
@@ -32,7 +34,7 @@ export const loginController = async (req, res) => {
 		},
 		JWT_SECRET,
 		{
-			expiresIn: "7d",
+			expiresIn: '7d',
 		}
 	);
 

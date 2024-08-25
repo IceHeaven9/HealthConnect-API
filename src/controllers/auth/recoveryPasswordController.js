@@ -4,6 +4,8 @@ import { sendResetPasswordEmail } from '../../emails/recoveryPasswordEmail.js';
 import jwt from 'jsonwebtoken';
 import { parseRecoveryPasswordPayload } from '../../validations/auth.js';
 
+// Controlador para recuperar la contraseña
+
 export const recoveryPasswordController = async (req, res) => {
 	const { email } = parseRecoveryPasswordPayload(req.body);
 

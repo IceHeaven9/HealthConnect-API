@@ -5,6 +5,8 @@ import {
 import { generateErrors } from '../../utils/generateErrors.js';
 import { parseConsultationPayload } from '../../validations/consultations.js';
 
+// Controlador para crear una consulta
+
 export const createConsultationController = async (req, res) => {
 	const { title, description, severity, specialityid, doctorid, date } =
 		parseConsultationPayload(req.body);

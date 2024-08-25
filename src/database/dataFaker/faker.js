@@ -4,7 +4,6 @@ import { hashPassword } from '../../utils/hashPassword.js';
 import { infoLog, succesLog } from '../../utils/logger.js';
 
 // Insertar datos falsos a la tabla specialities
-
 const specialities = [
 	{ id: 1, name: 'Cardiología' },
 	{ id: 2, name: 'Dermatología' },
@@ -44,7 +43,6 @@ await createSpecialities();
 succesLog('Datos specilities insertados correctamente');
 
 // Insertar datos falsos a la tabla users
-
 const [getSpecialities] = await Db.query('SELECT id FROM specialities');
 const specialityIds = getSpecialities.map((speciality) => speciality.id);
 
@@ -116,7 +114,6 @@ await createDemoUsers();
 succesLog('Datos users insertados correctamente');
 
 // Insertar datos falsos a la tabla consultations
-
 const getDoctors = await Db.query(
 	"SELECT id FROM users WHERE userType = 'doctor'"
 );
@@ -152,14 +149,12 @@ await createConsultations();
 succesLog('Datos consultations insertados correctamente');
 
 // Insertar datos falsos a la tabla responses
-
 const getConsultations = await Db.query('SELECT id FROM consultations');
 const getConsultationsIds = getConsultations[0].map(
 	(consultation) => consultation.id
 );
 
 // Insertar datos falsos a la tabla doctors_consultations
-
 async function createDoctorsConsultations() {
 	const existingPairs = new Set();
 
@@ -192,6 +187,7 @@ await createDoctorsConsultations();
 
 succesLog('Datos doctors_consultations insertados correctamente');
 
+// Insertar datos falsos a la tabla responses
 async function createResponses() {
 	for (let i = 0; i < 100; i++) {
 		const responses = {

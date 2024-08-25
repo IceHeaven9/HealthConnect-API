@@ -1,5 +1,8 @@
-import "dotenv/config";
-import path from "path";
+import 'dotenv/config';
+import path from 'path';
+
+// Variables de entorno
+
 export const {
 	//==========================
 	// API SETTINGS
@@ -7,7 +10,7 @@ export const {
 	PORT,
 	JWT_SECRET,
 	FRONTEND_HOST,
-	API_HOST = "http://localhost:3000",
+	API_HOST = 'http://localhost:3000',
 	CODIGO_MEDICO,
 
 	//==========================
@@ -28,4 +31,4 @@ export const {
 	EMAIL_PASS,
 } = process.env;
 
-export const PUBLIC_DIR = path.join(process.cwd(), "public");
+export const PUBLIC_DIR = path.join(process.cwd(), 'public');

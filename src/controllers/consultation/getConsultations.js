@@ -5,6 +5,8 @@ import {
 import { findUserById } from '../../database/users.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
+// Controlador para obtener las consultas
+
 export const getConsultationController = async (req, res) => {
 	const userId = req.currentUser.id;
 

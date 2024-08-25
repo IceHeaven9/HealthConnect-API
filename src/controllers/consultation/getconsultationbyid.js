@@ -4,7 +4,8 @@ import {
 } from '../../database/consultation.js';
 import { findUserById } from '../../database/users.js';
 
-// Función para obtener los datos de una consulta
+// Controlador para obtener los detalles de una consulta
+
 export const getConsultationDetailsController = async (req, res) => {
 	const { id } = req.params;
 	const userId = req.currentUser.id;

@@ -1,11 +1,13 @@
-import { transport } from "./email.js";
-import { FRONTEND_HOST } from "../../constants.js";
+import { transport } from './email.js';
+import { FRONTEND_HOST } from '../../constants.js';
+
+// Enviamos un correo electrónico con el enlace para validar el correo electrónico
 
 export function sendValidationEmail({ firstName, email, validationCode }) {
 	transport.sendMail({
-		from: "SaludConnect <cristhians7x@gmail.com>",
+		from: 'SaludConnect <cristhians7x@gmail.com>',
 		to: `${firstName} <${email}>`,
-		subject: "Bienvenido a SaludConnect - Valida tu email",
+		subject: 'Bienvenido a SaludConnect - Valida tu email',
 		html: `
         <html>
           <head>

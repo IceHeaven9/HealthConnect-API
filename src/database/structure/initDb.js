@@ -6,6 +6,10 @@ import {
 } from '../../utils/logger.js';
 import { Db } from './db.js';
 
+// Inicializacion de la base de datos
+// Eliminación de la base de datos y las tablas si existe
+// Creación de la base de datos y las tablas
+
 async function initDB() {
 	try {
 		warningLog('Eliminando base de datos si existe');

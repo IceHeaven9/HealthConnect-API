@@ -2,6 +2,7 @@ import { generateErrors } from '../utils/generateErrors.js';
 import { Db } from './structure/db.js';
 
 // Funcion para crear una consulta
+
 export const createConsultation = async ({
 	title,
 	description,
@@ -18,6 +19,7 @@ export const createConsultation = async ({
 };
 
 // Función para obtener los datos de una consulta por id de consulta y solo si coincide con el id del paciente
+
 export const getConsultationById_ByPatientID = async (req, res) => {
 	const userId = req.currentUser.id;
 	const consultationId = req.params.id;
@@ -91,6 +93,7 @@ export const getConsultationById_ByPatientID = async (req, res) => {
 };
 
 // Función para obtener una consulta por el id de la consulta y solo si coincide con la especialidad del doctor
+
 export const getConsultationsById_ByDoctorId = async (
 	consultationId,
 	doctorId
@@ -164,6 +167,7 @@ export const getConsultationsById_ByDoctorId = async (
 };
 // Funcion para obtener una consulta por id
 // Se utiliza para obtener una consulta sin condiciones
+
 export const getConsultationById = async (id) => {
 	const [consultation] = await Db.query(
 		`
@@ -195,6 +199,7 @@ export const getConsultationById = async (id) => {
 	return consultation;
 };
 // Funcion para obtener todas las consultas por la id de su especialidad
+
 export const getConsultationsBySpecialityId = async (req, specialityIds) => {
 	const { title, severity, patientName, specialityName } = req.query;
 	const placeholders = specialityIds.map(() => '?').join(',');
@@ -256,6 +261,9 @@ export const getConsultationsBySpecialityId = async (req, specialityIds) => {
 	}
 	return uniqueConsultations;
 };
+
+// Funcion para obtener todas las consultas con filtros
+
 export const getConsultations = async (req, res) => {
 	const { title, severity, patientName, specialityName } = req.query;
 
@@ -341,6 +349,8 @@ export const getConsultations = async (req, res) => {
 	res.status(200).json(uniqueConsultations);
 };
 
+// Funcion para obtener todas las consultas que no estan asignadas
+
 export const getUnassignedConsultations = async (specialities) => {
 	const placeholders = specialities.map(() => '?').join(',');
 
@@ -376,6 +386,8 @@ export const getUnassignedConsultations = async (specialities) => {
 
 	return detailedUnassignedConsultations;
 };
+
+// Funcion para obtener el id del doctor
 
 export const setDoctorId = async (doctorId, consultationId) => {
 	const setDoctor = await Db.query(

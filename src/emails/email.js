@@ -1,10 +1,12 @@
-import nodemailer from "nodemailer";
+import nodemailer from 'nodemailer';
 import {
 	EMAIL_HOST,
 	EMAIL_PASS,
 	EMAIL_PORT,
 	EMAIL_USER,
-} from "../../constants.js";
+} from '../../constants.js';
+
+// Configuración del transporte de nodemailer
 
 export const transport = nodemailer.createTransport({
 	host: EMAIL_HOST,

@@ -1,11 +1,13 @@
-import { transport } from "./email.js";
-import { FRONTEND_HOST } from "../../constants.js";
+import { transport } from './email.js';
+import { FRONTEND_HOST } from '../../constants.js';
+
+// Enviamos un correo electrónico con el enlace para restablecer la contraseña
 
 export async function sendResetPasswordEmail(email, token) {
 	transport.sendMail({
-		from: "SaludConnect <cristhians7x@gmail.com>",
+		from: 'SaludConnect <cristhians7x@gmail.com>',
 		to: `<${email}>`,
-		subject: "Recuperación de contraseña",
+		subject: 'Recuperación de contraseña',
 		html: `
         <html>
           <head>
