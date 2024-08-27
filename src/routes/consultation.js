@@ -6,7 +6,8 @@ import { getConsultationController } from '../controllers/consultation/getConsul
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { unassignedConsultationController } from '../controllers/consultation/unassignedConsultation.js';
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
-
+import {getFinishedConsultationsController} from '../controllers/consultation/finishedConsultations.js'
+import { getUpcomingConsultationsController } from '../controllers/upcomingConsultations.js';
 export const consultationRoutes = Router();
 
 // Ruta para crear una consulta
@@ -47,4 +48,20 @@ consultationRoutes.get(
 	'/consultations/:id/details',
 	authMiddleware,
 	asyncHandler(getConsultationDetailsController)
+);
+
+//Ruta para obtener Consultas Finalizadas 
+
+consultationRoutes.get(
+	'/finished-Consultations',
+	authMiddleware,
+	asyncHandler(getFinishedConsultationsController)
+);
+
+// Ruta para obtener proxima ruta 
+
+consultationRoutes.get(
+	'/',
+	authMiddleware,
+	asyncHandler(getUpcomingConsultationsController)
 );
