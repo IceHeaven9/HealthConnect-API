@@ -6,7 +6,7 @@
 
 Imagina tener acceso a un equipo completo de especialistas médicos a un solo clic de distancia, desde la comodidad de tu hogar. Esta plataforma no es solo una herramienta digital; es un puente entre pacientes y médicos, diseñado para transformar la manera en que interactuamos con la atención médica.
 
-SaludConnect nace con el propósito de brindar respuestas rápidas y profesionales a tus inquietudes de salud. Ya no es necesario esperar días o semanas para consultar con un especialista. Aquí, los pacientes pueden exponer sus síntomas, adjuntar imágenes o documentos, y recibir la orientación médica necesaria de forma ágil y segura.
+HealthConnect nace con el propósito de brindar respuestas rápidas y profesionales a tus inquietudes de salud. Ya no es necesario esperar días o semanas para consultar con un especialista. Aquí, los pacientes pueden exponer sus síntomas, adjuntar imágenes o documentos, y recibir la orientación médica necesaria de forma ágil y segura.
 
 Para los profesionales de la salud, esta plataforma ofrece una oportunidad única de extender su alcance, permitiéndoles ofrecer su experiencia y conocimientos a quienes más lo necesitan, sin importar la distancia.
 
