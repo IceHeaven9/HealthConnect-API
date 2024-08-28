@@ -128,6 +128,7 @@ async function createConsultations() {
 	for (let i = 0; i < 200; i++) {
 		const consultations = {
 			title: faker.lorem.words(),
+			date: faker.date.future(),
 			description: faker.lorem.paragraph(),
 			severity: faker.helpers.arrayElement(['high', 'medium', 'low']),
 			patientId: faker.helpers.arrayElement(getPatientsIds),
@@ -136,7 +137,7 @@ async function createConsultations() {
 		};
 
 		await Db.query(
-			'INSERT INTO consultations (title, description, severity, patientId, specialityId, status) VALUES (:title, :description, :severity, :patientId, :specialityId, :status)',
+			'INSERT INTO consultations (title, date, description, severity, patientId, specialityId, status) VALUES (:title, :date, :description, :severity, :patientId, :specialityId, :status)',
 			consultations
 		);
 	}

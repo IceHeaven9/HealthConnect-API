@@ -5,6 +5,7 @@ import { validate } from './validate.js';
 
 const consultationSchema = Joi.object({
 	title: Joi.string().required(),
+	date: Joi.date().required(),
 	description: Joi.string().required(),
 	specialityid: Joi.number().required(),
 	doctorid: Joi.number(),

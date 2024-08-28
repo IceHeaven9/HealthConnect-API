@@ -73,7 +73,7 @@ async function initDB() {
 		await Db.query(`
             CREATE TABLE consultations (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                date DATE DEFAULT NULL,
+                date DATETIME NOT NULL,
                 title VARCHAR(255) NOT NULL,
                 description VARCHAR(500) DEFAULT NULL,
                 severity ENUM('high', 'medium', 'low') DEFAULT 'low',

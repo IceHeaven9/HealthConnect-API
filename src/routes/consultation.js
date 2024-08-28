@@ -6,6 +6,8 @@ import { getConsultationController } from '../controllers/consultation/getConsul
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { unassignedConsultationController } from '../controllers/consultation/unassignedConsultation.js';
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
+import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
+import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
 
 export const consultationRoutes = Router();
 
@@ -47,4 +49,20 @@ consultationRoutes.get(
 	'/consultations/:id/details',
 	authMiddleware,
 	asyncHandler(getConsultationDetailsController)
+);
+
+// Ruta para poder modificar una consulta antes de 48 horas antes de la fecha de la consulta
+
+consultationRoutes.patch(
+	'/consultations/:id',
+	authMiddleware,
+	asyncHandler(modifyConsultationController)
+);
+
+// Ruta para poder cancelar una consulta
+
+consultationRoutes.patch(
+	'/consultations/:id/cancel',
+	authMiddleware,
+	asyncHandler(cancelConsultationController)
 );

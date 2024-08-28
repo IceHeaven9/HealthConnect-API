@@ -28,6 +28,7 @@ export const getConsultationById_ByPatientID = async (req, res) => {
 		`
             SELECT DISTINCT
                 c.id,
+                c.date,
                 c.title,
                 c.severity,
                 c.description,
@@ -89,7 +90,7 @@ export const getConsultationById_ByPatientID = async (req, res) => {
 		throw generateErrors(404, 'SERVER_ERROR', 'Consulta no encontrada');
 	}
 
-	res.status(200).json(rows[0]);
+	return rows[0];
 };
 
 // Función para obtener una consulta por el id de la consulta y solo si coincide con la especialidad del doctor
@@ -165,6 +166,7 @@ export const getConsultationsById_ByDoctorId = async (
 
 	return rows[0];
 };
+
 // Funcion para obtener una consulta por id
 // Se utiliza para obtener una consulta sin condiciones
 
@@ -179,7 +181,6 @@ export const getConsultationById = async (id) => {
             c.severity,
             c.date,
             c.status,
-            c.severity,
             c.description
         FROM 
             consultations c
@@ -395,4 +396,54 @@ export const setDoctorId = async (doctorId, consultationId) => {
 		[doctorId, consultationId]
 	);
 	return setDoctor;
+};
+
+// Funcion para modificar el title de una consulta
+
+export const modifyTitleConsultation = async (id, title) => {
+	const modify = await Db.query(
+		'UPDATE consultations SET title = ? WHERE id = ?',
+		[title, id]
+	);
+	return modify;
+};
+
+// Funcion para modificar la descripcion de una consulta
+
+export const modifyDescriptionConsultation = async (id, description) => {
+	const modify = await Db.query(
+		'UPDATE consultations SET description = ? WHERE id = ?',
+		[description, id]
+	);
+	return modify;
+};
+
+// Funcion para modificar la severidad de una consulta
+
+export const modifySeverityConsultation = async (id, severity) => {
+	const modify = await Db.query(
+		'UPDATE consultations SET severity = ? WHERE id = ?',
+		[severity, id]
+	);
+	return modify;
+};
+
+// Funcion para obtener el status de una consulta
+export const getStatusConsultation = async (id) => {
+	console.log(id);
+	const getStatus = await Db.query(
+		'SELECT status FROM consultations WHERE id = ?',
+		[id]
+	);
+	return getStatus;
+};
+
+// Funcion para cancelar una consulta
+export const cancelConsultation = async (id) => {
+	console.log(id);
+	const result = await Db.query(
+		'UPDATE consultations SET status = "cancelled" WHERE id = ?',
+		[id]
+	);
+	return result;
 };
