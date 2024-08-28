@@ -34,16 +34,13 @@ export const editResponse = async (id, content) => {
 	return editedResponse;
 };
 
-
-//función para insertar un rating en una respuesta
+// Función para insertar un rating en una respuesta
 
 export const setRating = async (id, rating) => {
 	const newRating = await Db.query(
-		'UPDATE responses SET rating = ? WHERE id = ?'
+		'UPDATE responses SET rating = ? WHERE id = ?',
 		[rating, id]
-	); 
+	);
 
 	return newRating;
-	
-
 };
