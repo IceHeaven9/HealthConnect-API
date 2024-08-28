@@ -1,6 +1,18 @@
 import { Db } from './structure/db.js';
 
-// Funcion para obtener las respuestas
+// Función para obtener una respuesta por id
+
+export const getResponseById = async (id) => {
+	const [rows] = await Db.query(
+		`SELECT responses.*, files_responses.fileName, files_responses.filePath 
+        FROM responses 
+        LEFT JOIN files_responses ON responses.id = files_responses.responseId 
+        WHERE responses.id = ?`,
+		[id]
+	);
+	return rows[0];
+};
+// Funcion para crear una respuesta
 
 export const setResponse = async (content, id, userId, rating) => {
 	const newResponse = await Db.query(
@@ -11,39 +23,13 @@ export const setResponse = async (content, id, userId, rating) => {
 	return newResponse;
 };
 
-// Funcion para modificar una respuesta (sólo el doctor puede hacerlo, y solo si está sin valorar)
+// Funcion para editar una respuesta
 
-export const updateResponse = async (content, id, userId, rating) => {
-	const [rows] = await Db.query(`SELECT rating FROM responses WHERE id = :id`, {
-		id,
-	});
-
-	if (rows.length === 0 || rows[0].rating !== null) {
-		throw generateErrors(
-			403,
-			'SERVER_ERROR',
-			'No puedes modificar una respuesta ya valorada'
-		);
-	}
-if (rows[0].doctorId!== userId) {
-	    throw generateErrors(
-            403,
-            'SERVER_ERROR',
-            'No puedes modificar una respuesta que no es tuya'
-        );
-
-		if (
-	const updatedResponse = await Db.query(
-		`UPDATE responses SET content = :content, rating = :rating WHERE id = :id AND doctorId = :userId`,
-		{ content, rating, id, userId }
+export const editResponse = async (id, content) => {
+	const editedResponse = await Db.query(
+		'UPDATE responses SET content = ? WHERE id = ?',
+		[content, id]
 	);
 
-	if (updatedResponse.changedRows === 0) {
-		throw generateErrors(
-			404,
-			'SERVER_ERROR',
-			'Respuesta no encontrada o no es tuya'
-		);
-	}
-	return updatedResponse;
+	return editedResponse;
 };

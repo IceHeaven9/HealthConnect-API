@@ -1,31 +1,28 @@
 // Controlador para editar una respuesta a una consulta (sólo el doctor puede hacerlo, y solo si está sin valorar)
+// Recuperamos la respuesta por su id, comprobamos que el doctor es el que la ha creado, y que la consulta no ha sido valorada
+
+import { getResponseById, editResponse } from '../../database/responses.js';
 
 export const editResponseController = async (req, res) => {
-	const user = req.currentUser;
-	const { consultationId, response } = req.body;
+	const { id } = req.params;
+	const doctor = req.currentUser;
+	const responseData = await getResponseById(id);
+	const content = req.body.content;
 
-	if (user.userType !== 'doctor') {
-		return res.status(403).json({
-			error: 'UNAUTHORIZED',
-			message: 'Acceso no autorizado',
-		});
+	if (!responseData) {
+		return res.status(404).json({ message: 'Response not found' });
 	}
 
-	const updateResponse = await updateResponse(consultationId, response);
-
-	if (!updateResponse) {
-		return res.status(404).json({
-			error: 'RESPONSE_NOT_FOUND',
-			message: 'Respuesta no encontrada',
-		});
+	if (responseData.doctorId !== doctor.id) {
+		return res.status(403).json({ message: 'Unauthorized' });
 	}
 
-	if (updateResponse.rating) {
-		return res.status(403).json({
-			error: 'RESPONSE_ALREADY_RATED',
-			message: 'Esta respuesta ya ha sido valorada',
-		});
+	if (responseData.rating !== null) {
+		return res.status(400).json({ message: 'Response already evaluated' });
 	}
 
-	res.status(200).json({ message: 'Respuesta editada' });
+	if (content) {
+		await editResponse(id, content);
+		res.status(200).json({ message: 'Response updated successfully' });
+	}
 };

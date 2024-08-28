@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { createResponsesController } from '../controllers/responses/createResponses.js';
-import { editResponseController } from '../controllers/responses/editResponse.js';
+import { editResponseController } from '../controllers/responses/editResponses.js';
 
 export const responsesRoutes = Router();
 
