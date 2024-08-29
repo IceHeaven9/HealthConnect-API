@@ -430,7 +430,6 @@ export const modifySeverityConsultation = async (id, severity) => {
 
 // Funcion para obtener el status de una consulta
 export const getStatusConsultation = async (id) => {
-	console.log(id);
 	const getStatus = await Db.query(
 		'SELECT status FROM consultations WHERE id = ?',
 		[id]
@@ -440,7 +439,6 @@ export const getStatusConsultation = async (id) => {
 
 // Funcion para cancelar una consulta
 export const cancelConsultation = async (id) => {
-	console.log(id);
 	const result = await Db.query(
 		'UPDATE consultations SET status = "cancelled" WHERE id = ?',
 		[id]

@@ -18,8 +18,6 @@ export const modifyConsultationController = async (req, res) => {
 
 	const currentDate = new Date();
 	const consultationDate = consultation.date;
-	console.log(currentDate);
-	console.log(consultationDate);
 	const diffTime = Math.abs(consultationDate - currentDate);
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
@@ -29,14 +27,29 @@ export const modifyConsultationController = async (req, res) => {
 				'You can not modify a consultation less than 48 hours before the consultation',
 		});
 	}
-	if (title) {
+
+	if (title && title !== consultation.title) {
 		await modifyTitleConsultation(id, title);
+	} else if (title === consultation.title) {
+		return res.status(400).json({ message: 'Title is the same' });
 	}
-	if (description) {
+
+	if (description && description !== consultation.description) {
 		await modifyDescriptionConsultation(id, description);
+	} else if (description === consultation.description) {
+		return res.status(400).json({ message: 'Description is the same' });
 	}
-	if (severity) {
+
+	if (severity && severity !== consultation.severity) {
 		await modifySeverityConsultation(id, severity);
+	} else if (severity === consultation.severity) {
+		return res.status(400).json({ message: 'Severity is the same' });
+	}
+
+	if (req.body && Object.keys(req.body).length === 0) {
+		return res
+			.status(400)
+			.json({ message: 'No data provided for modification' });
 	}
 
 	res.status(200).json({ message: 'Consultation modified successfully' });
