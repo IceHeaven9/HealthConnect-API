@@ -158,10 +158,45 @@ export async function assignSpecialitiesToUser(userId, specialityIds) {
 	);
 }
 
-// Funcion para actualizar la información de un usuario
-export const updateUserById = async (id, firstName, lastName, userName, biography, experience) => {
-	await Db.query(		
-		    `UPDATE users SET firstName =?, lastName =?, userName =?, biography =?, experience =? WHERE id =?`,
-        [firstName, lastName, userName, biography, experience, id],
-    );
+// Funcion para actualizar la información completa de un usuario
+export const updateUserById = async (
+	id,
+	firstName,
+	lastName,
+	userName,
+	biography,
+	experience
+) => {
+	await Db.query(
+		`UPDATE users SET firstName =?, lastName =?, userName =?, biography =?, experience =? WHERE id =?`,
+		[firstName, lastName, userName, biography, experience, id]
+	);
+};
+
+// Funcion para actualizar el nombre de un usuario
+export const updateFirstName = async (id, firstName) => {
+	await Db.query(`UPDATE users SET firstName =? WHERE id =?`, [firstName, id]);
+};
+
+// Funcion para actualizar el apellido de un usuario
+export const updateLastName = async (id, lastName) => {
+	await Db.query(`UPDATE users SET lastName =? WHERE id =?`, [lastName, id]);
+};
+
+// Funcion para actualizar el username de un usuario
+export const updateUserName = async (id, userName) => {
+	await Db.query(`UPDATE users SET userName =? WHERE id =?`, [userName, id]);
+};
+
+// Funcion para actualizar la biografia de un usuario
+export const updateBiography = async (id, biography) => {
+	await Db.query(`UPDATE users SET biography =? WHERE id =?`, [biography, id]);
+};
+
+// Funcion para actualizar la experiencia de un usuario
+export const updateExperience = async (id, experience) => {
+	await Db.query(`UPDATE users SET experience =? WHERE id =?`, [
+		experience,
+		id,
+	]);
 };
