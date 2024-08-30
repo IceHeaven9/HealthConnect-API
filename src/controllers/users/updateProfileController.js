@@ -5,13 +5,11 @@ import {
 	updateExperience,
 	updateFirstName,
 	updateLastName,
-	updateUserById,
 	updateUserName,
 } from '../../database/users.js';
 
 export const updateProfileController = async (req, res) => {
 	const { firstName, lastName, userName, biography, experience } = req.body;
-
 	const userId = req.currentUser.id;
 	const { id } = req.params;
 
@@ -23,35 +21,21 @@ export const updateProfileController = async (req, res) => {
 		return res.status(403).json({ error: 'Unauthorized' });
 	}
 
-	if (firstName && lastName && userName && biography && experience)
-		await updateUserById(
-			id,
-			firstName,
-			lastName,
-			userName,
-			biography,
-			experience
-		);
-
-	if (firstName) {
-		await updateFirstName(userId, firstName);
+	if (firstName !== undefined) {
+		await updateFirstName(id, firstName);
+	}
+	if (lastName !== undefined) {
+		await updateLastName(id, lastName);
+	}
+	if (userName !== undefined) {
+		await updateUserName(id, userName);
+	}
+	if (biography !== undefined) {
+		await updateBiography(id, biography);
+	}
+	if (experience !== undefined) {
+		await updateExperience(id, experience);
 	}
 
-	if (lastName) {
-		await updateLastName(userId, lastName);
-	}
-
-	if (userName) {
-		await updateUserName(userId, userName);
-	}
-
-	if (biography) {
-		await updateBiography(userId, biography);
-	}
-
-	if (experience) {
-		await updateExperience(userId, experience);
-	}
-
-	res.status(200).json(updateProfileController);
+	res.status(200).json({ message: 'Profile updated successfully' });
 };
