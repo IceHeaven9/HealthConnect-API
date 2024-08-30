@@ -13,10 +13,16 @@ export const usersRoutes = Router();
 usersRoutes.get('/doctors', asyncHandler(doctorsController));
 
 // Endpoint para obtener un doctor por su id
-usersRoutes.get('/doctors/:id', asyncHandler(getDoctorById))
+
+usersRoutes.get('/doctors/:id', asyncHandler(getDoctorById));
 
 // Endpoint para actualizar el perfil del usuario
-usersRoutes.patch('/profile/:id',authMiddleware, asyncHandler(updateProfileController));
+
+usersRoutes.patch(
+	'/profile/:id',
+	authMiddleware,
+	asyncHandler(updateProfileController)
+);
 
 // Endpoint para subir un avatar
 
