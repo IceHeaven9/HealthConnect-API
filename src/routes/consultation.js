@@ -67,6 +67,7 @@ consultationRoutes.patch(
 	authMiddleware,
 	asyncHandler(cancelConsultationController)
 );
+
 //Ruta para obtener Consultas Finalizadas
 
 consultationRoutes.get(
