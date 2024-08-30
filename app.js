@@ -14,6 +14,8 @@ import { authRoutes } from './src/routes/auth.js';
 import { specilitiesRoutes } from './src/routes/specialities.js';
 import { usersRoutes } from './src/routes/users.js';
 import { responsesRoutes } from './src/routes/responses.js';
+import {finishedConsultationsRoutes} from './src/routes/consultation.js';
+import {upcomingConsultationsRoutes} from './routes/upcomingConsultations.js';
 
 const app = express();
 
@@ -54,6 +56,10 @@ app.use(responsesRoutes);
 app.use(specilitiesRoutes);
 
 app.use(usersRoutes);
+
+app.use(finishedConsultationsRoutes);
+
+app.use(upcomingConsultationsRoutes);
 
 // Middleware de Ruta no encontrada
 

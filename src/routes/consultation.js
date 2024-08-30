@@ -8,7 +8,8 @@ import { unassignedConsultationController } from '../controllers/consultation/un
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
 import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
 import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
-
+import { getFinishedConsultationsController } from '../controllers/consultation/finishedConsultations.js';
+import { getUpcomingConsultationsController } from '../controllers/upcomingConsultations.js';
 export const consultationRoutes = Router();
 
 // Ruta para crear una consulta
@@ -65,4 +66,19 @@ consultationRoutes.patch(
 	'/consultations/:id/cancel',
 	authMiddleware,
 	asyncHandler(cancelConsultationController)
+);
+//Ruta para obtener Consultas Finalizadas
+
+consultationRoutes.get(
+	'/finished-Consultations',
+	authMiddleware,
+	asyncHandler(getFinishedConsultationsController)
+);
+
+// Ruta para obtener proxima ruta
+
+consultationRoutes.get(
+	'/',
+	authMiddleware,
+	asyncHandler(getUpcomingConsultationsController)
 );
