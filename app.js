@@ -14,12 +14,6 @@ import { authRoutes } from './src/routes/auth.js';
 import { specilitiesRoutes } from './src/routes/specialities.js';
 import { usersRoutes } from './src/routes/users.js';
 import { responsesRoutes } from './src/routes/responses.js';
-<<<<<<< HEAD
-=======
-import {finishedConsultationsRoutes} from './src/routes/consultation.js';
-import {upcomingConsultationsRoutes} from './routes/upcomingConsultations.js';
-
->>>>>>> ce7edb1 (Endpoint finished and upcoming Consultations)
 const app = express();
 
 // Middlewares
