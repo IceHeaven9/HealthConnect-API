@@ -171,9 +171,10 @@ export const getConsultationsById_ByDoctorId = async (
 // Se utiliza para obtener una consulta sin condiciones
 
 export const getConsultationById = async (id) => {
-	const [consultation] = await Db.query(
-		`
+    const [consultation] = await Db.query(
+        `
         SELECT 
+            c.id,
             c.title,
             CONCAT(d.firstName, ' ', d.lastName) AS doctor,
             CONCAT(p.firstName, ' ', p.lastName) AS patient,
@@ -181,7 +182,8 @@ export const getConsultationById = async (id) => {
             c.severity,
             c.date,
             c.status,
-            c.description
+            c.description,
+            c.patientId
         FROM 
             consultations c
         JOIN 
@@ -195,9 +197,9 @@ export const getConsultationById = async (id) => {
         WHERE 
             c.id = ?
         `,
-		[id]
-	);
-	return consultation;
+        [id]
+    );
+    return consultation;
 };
 // Funcion para obtener todas las consultas por la id de su especialidad
 
@@ -593,3 +595,16 @@ export const getFutureConsultations = async (req, res) => {
 
 	res.json(uniqueConsultations);
 };
+
+
+export const uploadConsultationFiles = async (id, files) => {
+    const insertPromises = files.map(async ({ fileName, filePath }) => {
+      await Db.query(
+        'INSERT INTO files_consultations (consultationId, fileName, filePath) VALUES (?, ?, ?)',
+        [id, fileName, filePath]
+      );
+      return { fileName, filePath };
+    });
+  
+    return await Promise.all(insertPromises);
+  };

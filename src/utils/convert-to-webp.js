@@ -10,3 +10,12 @@ export async function convertAvatarToWebp(buffer) {
 		.webp({ quality: 80 })
 		.toBuffer();
 }
+
+export async function convertImageToWebp(buffer) {
+	return await sharp(buffer)
+			.resize({
+					width: 1024,
+			})
+			.webp({ quality: 80 })
+			.toBuffer();
+}

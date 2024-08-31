@@ -6,11 +6,11 @@ import { getConsultationController } from '../controllers/consultation/getConsul
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { unassignedConsultationController } from '../controllers/consultation/unassignedConsultation.js';
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
-
 import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
 import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
 import { getFinishedConsultationsController } from '../controllers/consultation/finishedConsultations.js';
-import { getUpcomingConsultationsController } from '../controllers/consultation/upComingConsultations.js';
+import { uploadConsultationFilesController } from '../controllers/consultation/uploadConsultationFilesController.js';
+import { getUpcomingConsultationsController } from '../controllers/consultation/UpComingConsultations.js';
 
 export const consultationRoutes = Router();
 
@@ -84,4 +84,11 @@ consultationRoutes.get(
 	'/consultations/:userId/upcoming',
 	authMiddleware,
 	asyncHandler(getUpcomingConsultationsController)
+);
+
+
+consultationRoutes.post(
+    '/consultations/:id/files', 
+    authMiddleware, 
+    asyncHandler(uploadConsultationFilesController)
 );
