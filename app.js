@@ -54,10 +54,6 @@ app.use(specilitiesRoutes);
 
 app.use(usersRoutes);
 
-app.use(finishedConsultationsRoutes);
-
-app.use(upcomingConsultationsRoutes);
-
 // Middleware de Ruta no encontrada
 
 app.use(notFoundController);
