@@ -6,10 +6,15 @@ import { getConsultationController } from '../controllers/consultation/getConsul
 import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { unassignedConsultationController } from '../controllers/consultation/unassignedConsultation.js';
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
+<<<<<<< HEAD
 import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
 import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
 import { getFinishedConsultationsController } from '../controllers/consultation/finishedConsultations.js';
 import { getUpcomingConsultationsController } from '../controllers/consultation/upComingConsultations.js';
+=======
+import {getFinishedConsultationsController} from '../controllers/consultation/finishedConsultations.js'
+import { getUpcomingConsultationsController } from '../controllers/upcomingConsultations.js';
+>>>>>>> ce7edb1 (Endpoint finished and upcoming Consultations)
 export const consultationRoutes = Router();
 
 // Ruta para crear una consulta
@@ -52,6 +57,7 @@ consultationRoutes.get(
 	asyncHandler(getConsultationDetailsController)
 );
 
+<<<<<<< HEAD
 // Ruta para poder modificar una consulta antes de 48 horas antes de la fecha de la consulta
 
 consultationRoutes.patch(
@@ -72,14 +78,27 @@ consultationRoutes.patch(
 
 consultationRoutes.get(
 	'/consultations/completed',
+=======
+//Ruta para obtener Consultas Finalizadas 
+
+consultationRoutes.get(
+	'/finished-Consultations',
+>>>>>>> ce7edb1 (Endpoint finished and upcoming Consultations)
 	authMiddleware,
 	asyncHandler(getFinishedConsultationsController)
 );
 
+<<<<<<< HEAD
 // Ruta para obtener proximas consultas de un usuario
 
 consultationRoutes.get(
 	'/consultations/:userId/upcoming',
+=======
+// Ruta para obtener proxima ruta 
+
+consultationRoutes.get(
+	'/',
+>>>>>>> ce7edb1 (Endpoint finished and upcoming Consultations)
 	authMiddleware,
 	asyncHandler(getUpcomingConsultationsController)
 );
