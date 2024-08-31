@@ -1,14 +1,15 @@
 import { setDoctorId } from '../../database/consultation.js';
+import { parseAssignDoctorPayload } from '../../validations/consultations.js';
 
 // Controlador para asignar una consulta
 
 export const assignConsultationController = async (req, res) => {
 	const doctor = req.currentUser;
-	const doctorid = doctor.id;
-	const { consultationId } = req.body;
+	const doctorId = doctor.id;
+	const { consultationId } = parseAssignDoctorPayload(req.body);
 
 	if (doctor.userType === 'doctor') {
-		const setDoctor = await setDoctorId(doctorid, consultationId);
+		const setDoctor = await setDoctorId(doctorId, consultationId);
 
 		if (doctor.userType != 'doctor') {
 			throw generateErrors(403, 'UNAUTHORIZED', 'Acceso no autorizado');

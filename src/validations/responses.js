@@ -23,3 +23,16 @@ export const parseRatingPayload = (payload) => {
 	const result = validate(ratingSchema, payload);
 	return result.value;
 };
+
+// Validaciones para la edición de una respuesta
+
+const editResponseSchema = Joi.object({
+	content: Joi.string().required(),
+});
+
+export const parseEditResponsePayload = (payload) => {
+	const result = validate(editResponseSchema, payload);
+	return result.value;
+};
+
+// Validaciones para la creación de una pregunta

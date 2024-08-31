@@ -7,9 +7,11 @@ import {
 	updateLastName,
 	updateUserName,
 } from '../../database/users.js';
+import { parseUpdateProfilePayload } from '../../validations/users.js';
 
 export const updateProfileController = async (req, res) => {
-	const { firstName, lastName, userName, biography, experience } = req.body;
+	const { firstName, lastName, userName, biography, experience } =
+		parseUpdateProfilePayload(req.body);
 	const userId = req.currentUser.id;
 	const { id } = req.params;
 

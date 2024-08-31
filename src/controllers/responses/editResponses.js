@@ -2,12 +2,13 @@
 // Recuperamos la respuesta por su id, comprobamos que el doctor es el que la ha creado, y que la consulta no ha sido valorada
 
 import { getResponseById, editResponse } from '../../database/responses.js';
+import { parseEditResponsePayload } from '../../validations/responses.js';
 
 export const editResponseController = async (req, res) => {
 	const { id } = req.params;
 	const doctor = req.currentUser;
 	const responseData = await getResponseById(id);
-	const content = req.body.content;
+	const { content } = parseEditResponsePayload(req.body);
 
 	if (!responseData) {
 		return res.status(404).json({ message: 'Response not found' });

@@ -6,10 +6,13 @@ import {
 	modifySeverityConsultation,
 	modifyTitleConsultation,
 } from '../../database/consultation.js';
+import { parseModifyConsultationPayload } from '../../validations/consultations.js';
 
 export const modifyConsultationController = async (req, res) => {
 	const { id } = req.params;
-	const { title, description, severity } = req.body;
+	const { title, description, severity } = parseModifyConsultationPayload(
+		req.body
+	);
 	const consultation = await getConsultationById_ByPatientID(req, res);
 
 	if (!consultation) {
