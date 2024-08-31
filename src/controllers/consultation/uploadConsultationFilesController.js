@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs/promises';
 import { generateErrors } from "../../utils/generateErrors.js";
-import {convertImageToWebp} from '../../utils/convert-to-webp.js';
+import { convertImageToWebp } from '../../utils/convert-to-webp.js';
 import { getConsultationById, uploadConsultationFiles } from '../../database/consultation.js';
 import { PUBLIC_DIR } from '../../../constants.js';
 
@@ -18,11 +18,10 @@ const allowedMimeTypes = [
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-
 export const uploadConsultationFilesController = async (req, res) => {
   const id = req.params.id;
   const user = req.currentUser;
-  const files = req.files; // No desestructuramos aquí
+  const files = req.files.files; 
 
   if (user.userType !== 'paciente') {
     throw generateErrors(403, 'SERVER_ERROR', 'No tienes permisos para acceder');
@@ -41,11 +40,13 @@ export const uploadConsultationFilesController = async (req, res) => {
     throw generateErrors(400, 'SERVER_ERROR', 'No hay archivos adjuntos');
   }
 
-  const fileEntries = Object.values(files); // Aquí obtenemos los archivos
-
+  const fileEntries = Array.isArray(files) ? files : [files];  
 
   const uploadPromises = fileEntries.map(async (file) => {
     const mimeType = file.mimetype;
+    if (!mimeType) {
+      throw generateErrors(400, 'SERVER_ERROR', 'no ahi mimetype');
+    }
     if (!allowedMimeTypes.includes(mimeType)) {
       throw generateErrors(400, 'SERVER_ERROR', `Tipo de archivo no permitido: ${mimeType}`);
     }
@@ -53,24 +54,21 @@ export const uploadConsultationFilesController = async (req, res) => {
       throw generateErrors(400, 'SERVER_ERROR', 'El archivo excede el tamaño máximo permitido de 5MB');
     }
 
-    const userDir = path.join(PUBLIC_DIR, 'files', user.id.toString());
+    const userDir = path.join(PUBLIC_DIR, 'consultationFiles', user.id.toString());
     await fs.mkdir(userDir, { recursive: true });
 
     const fileExtension = mimeType.startsWith('image/') ? '.webp' : path.extname(file.name);
-    const fileName = `${id}-${crypto.randomUUID()}${fileExtension}`;
+    const fileName = `${id}-${user.id}${crypto.randomUUID()}${fileExtension}`;
     const filePath = path.join(userDir, fileName);
 
     try {
       if (mimeType.startsWith('image/')) {
-        // Convertir la imagen a formato webp
         const imageBuffer = await convertImageToWebp(file.data);
         await fs.writeFile(filePath, imageBuffer);
       } else {
-        // Guardar otros tipos de archivos sin cambios
         await fs.writeFile(filePath, file.data);
       }
     } catch (error) {
-      // Limpiar recursos temporales en caso de error
       await fs.unlink(filePath);
       throw error;
     }

@@ -42,3 +42,15 @@ export const parseModifyConsultationPayload = (payload) => {
 	const result = validate(modifyConsultationSchema, payload);
 	return result.value;
 };
+
+
+export const allowedMimeTypes = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+  'application/pdf',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'text/plain'
+];
