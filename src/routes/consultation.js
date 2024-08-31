@@ -11,6 +11,7 @@ import { cancelConsultationController } from '../controllers/consultation/cancel
 import { getFinishedConsultationsController } from '../controllers/consultation/finishedConsultations.js';
 import { uploadConsultationFilesController } from '../controllers/consultation/uploadConsultationFilesController.js';
 import { getUpcomingConsultationsController } from '../controllers/consultation/UpComingConsultations.js';
+import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFileController.js';
 
 export const consultationRoutes = Router();
 
@@ -89,6 +90,11 @@ consultationRoutes.get(
 
 consultationRoutes.post(
     '/consultations/:id/files', 
-    authMiddleware, 
-    asyncHandler(uploadConsultationFilesController)
+	authMiddleware, 
+  asyncHandler(uploadConsultationFilesController)
 );
+
+consultationRoutes.delete(
+	"/consultations/:id/:fileName",
+	authMiddleware, 
+	asyncHandler(deleteConsultationFileController));
