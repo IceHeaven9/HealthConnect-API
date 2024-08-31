@@ -445,3 +445,151 @@ export const cancelConsultation = async (id) => {
 	);
 	return result;
 };
+
+// Función para obtener las consultas finalizadas con filtros, búsqueda y ordenación
+
+export const getFinishedConsultations = async (req, res) => {
+	const userId = req.currentUser.id;
+	const { title, severity, doctorName, specialityName, sortBy, sortOrder } =
+		req.query;
+
+	const [rows] = await Db.query(
+		`
+            SELECT DISTINCT
+                c.id,
+                c.date,
+                c.title,
+                c.severity,
+                c.description,
+                c.status,
+                fc.fileName AS consultationFileName,
+                fc.filePath AS consultationFilePath,
+                fr.fileName AS responseFileName,
+                fr.filePath AS responseFilePath,
+                u.avatar AS patientAvatar,
+                u.firstName AS patientName,
+                u.email AS patientEmail,
+                d.avatar AS doctorAvatar,
+                CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+                s.name AS specialityName
+            FROM 
+                consultations c
+            LEFT JOIN 
+                files_consultations fc ON c.id = fc.consultationId
+            LEFT JOIN 
+                files_responses fr ON c.id = fr.responseId
+            LEFT JOIN 
+                users u ON c.patientId = u.id
+            LEFT JOIN 
+                responses r ON c.id = r.consultationId
+            LEFT JOIN 
+                doctors_consultations dc ON c.id = dc.consultationId
+            LEFT JOIN 
+                users d ON dc.doctorId = d.id
+            JOIN 
+                specialities s ON c.specialityId = s.id
+            WHERE 
+                c.patientId = ? AND
+                c.status = 'completed' AND
+                c.title LIKE ? AND
+                c.severity LIKE ? AND
+                CONCAT(d.firstName, ' ', d.lastName) LIKE ? AND
+                s.name LIKE ?
+            ORDER BY ${sortBy || 'c.id'} ${sortOrder || 'DESC'};
+        `,
+		[
+			userId,
+			`%${title || ''}%`,
+			`%${severity || ''}%`,
+			`%${doctorName || ''}%`,
+			`%${specialityName || ''}%`,
+		]
+	);
+
+	// Eliminar duplicados
+	const uniqueConsultations = Array.from(new Set(rows.map((c) => c.id))).map(
+		(id) => rows.find((c) => c.id === id)
+	);
+
+	if (uniqueConsultations.length === 0) {
+		throw generateErrors(
+			404,
+			'SERVER_ERROR',
+			'No se encontraron consultas finalizadas'
+		);
+	}
+
+	res.json(uniqueConsultations);
+};
+
+// Función para obtener las consultas futuras de un paciente con filtros, búsqueda y ordenación
+
+export const getFutureConsultations = async (req, res) => {
+	const userId = req.currentUser.id;
+	const { title, severity, doctorName, specialityName, sortBy, sortOrder } =
+		req.query;
+
+	const [rows] = await Db.query(
+		`
+            SELECT DISTINCT
+                c.id,
+                c.date,
+                c.title,
+                c.severity,
+                c.description,
+                c.status,
+                fc.fileName AS consultationFileName,
+                fc.filePath AS consultationFilePath,
+                fr.fileName AS responseFileName,
+                fr.filePath AS responseFilePath,
+                u.avatar AS patientAvatar,
+                u.firstName AS patientName,
+                u.email AS patientEmail,
+                d.avatar AS doctorAvatar,
+                CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+                s.name AS specialityName
+            FROM 
+                consultations c
+            LEFT JOIN 
+                files_consultations fc ON c.id = fc.consultationId
+            LEFT JOIN 
+                files_responses fr ON c.id = fr.responseId
+            LEFT JOIN 
+                users u ON c.patientId = u.id
+            LEFT JOIN 
+                responses r ON c.id = r.consultationId
+            LEFT JOIN 
+                doctors_consultations dc ON c.id = dc.consultationId
+            LEFT JOIN 
+                users d ON dc.doctorId = d.id
+            JOIN 
+                specialities s ON c.specialityId = s.id
+            WHERE 
+                c.patientId = ? AND
+                c.date > NOW() AND
+                (c.title LIKE ? OR ? IS NULL) AND
+                (c.severity LIKE ? OR ? IS NULL) AND
+                (CONCAT(d.firstName, ' ', d.lastName) LIKE ? OR ? IS NULL) AND
+                (s.name LIKE ? OR ? IS NULL)
+            ORDER BY ${sortBy || 'c.date'} ${sortOrder || 'ASC'};
+        `,
+		[
+			userId,
+			`%${title || ''}%`,
+			title,
+			`%${severity || ''}%`,
+			severity,
+			`%${doctorName || ''}%`,
+			doctorName,
+			`%${specialityName || ''}%`,
+			specialityName,
+		]
+	);
+
+	// Eliminar duplicados
+	const uniqueConsultations = Array.from(new Set(rows.map((c) => c.id))).map(
+		(id) => rows.find((c) => c.id === id)
+	);
+
+	res.json(uniqueConsultations);
+};

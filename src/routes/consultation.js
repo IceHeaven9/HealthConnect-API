@@ -9,7 +9,7 @@ import { assignConsultationController } from '../controllers/consultation/assign
 import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
 import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
 import { getFinishedConsultationsController } from '../controllers/consultation/finishedConsultations.js';
-import { getUpcomingConsultationsController } from '../controllers/upcomingConsultations.js';
+import { getUpcomingConsultationsController } from '../controllers/consultation/upComingConsultations.js';
 export const consultationRoutes = Router();
 
 // Ruta para crear una consulta
@@ -71,15 +71,15 @@ consultationRoutes.patch(
 //Ruta para obtener Consultas Finalizadas
 
 consultationRoutes.get(
-	'/finished-Consultations',
+	'/consultations/completed',
 	authMiddleware,
 	asyncHandler(getFinishedConsultationsController)
 );
 
-// Ruta para obtener proxima ruta
+// Ruta para obtener proximas consultas de un usuario
 
 consultationRoutes.get(
-	'/',
+	'/consultations/:userId/upcoming',
 	authMiddleware,
 	asyncHandler(getUpcomingConsultationsController)
 );
