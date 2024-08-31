@@ -4,17 +4,7 @@ import { generateErrors } from "../../utils/generateErrors.js";
 import { convertImageToWebp } from '../../utils/convert-to-webp.js';
 import { getConsultationById, uploadConsultationFiles } from '../../database/consultation.js';
 import { PUBLIC_DIR } from '../../../constants.js';
-
-const allowedMimeTypes = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'text/plain'
-];
+import { allowedMimeTypes } from '../../validations/consultations.js';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
