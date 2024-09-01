@@ -5,6 +5,7 @@ import { createResponsesController } from '../controllers/responses/createRespon
 import { editResponseController } from '../controllers/responses/editResponses.js';
 import { setRatingController } from '../controllers/responses/setRating.js';
 import {uploadResponseFilesController} from '../controllers/responses/uploadResponseFiles.js';
+import { deleteResponseFileController } from '../controllers/responses/deleteResponseFile.js';
 
 export const responsesRoutes = Router();
 
@@ -36,4 +37,10 @@ responsesRoutes.post(
 	"/response/:id/files",
 	authMiddleware,
 	asyncHandler(uploadResponseFilesController)
+);
+
+responsesRoutes.delete(
+  "/response/:id/:fileName",
+  authMiddleware, 
+  asyncHandler(deleteResponseFileController)
 );

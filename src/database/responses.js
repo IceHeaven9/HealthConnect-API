@@ -57,3 +57,9 @@ export const findResponseById = async (responseId) => {
   const [rows] = await Db.query(query, [responseId]);
   return rows[0];
 };
+
+export const deleteResponseFile = async (responseId, fileName) => {
+  const query = 'DELETE FROM files_responses WHERE responseId = ? AND fileName = ?';
+  const [result] = await Db.query(query, [responseId, fileName]);
+  return result;
+};
