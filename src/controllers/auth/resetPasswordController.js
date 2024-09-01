@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import { findUserById, setNewPassword } from '../../database/users.js';
 import { JWT_SECRET } from '../../../constants.js';
 import { parseResetPasswordPayload } from '../../validations/auth.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para restablecer la contraseña
 
@@ -13,13 +14,12 @@ export const resetPasswordController = async (req, res) => {
 
 	// Busca al usuario por el token
 	const user = await findUserById(decode.id);
-	const id = user.id;
 	if (!user) {
-		return res.status(400).json({ message: 'Token inválido o expirado' });
+		throw generateErrors(400, 'BAD_REQUEST', 'Token inválido o expirado');
 	}
 
 	// Establece la nueva contraseña
-	await setNewPassword(password1, id);
+	await setNewPassword(password1, user.id);
 
 	res.status(200).json({ message: 'Contraseña restablecida exitosamente' });
 };

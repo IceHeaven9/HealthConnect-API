@@ -5,6 +5,7 @@ import { findUserById, uploadUserAvatar } from '../../database/users.js';
 import { convertAvatarToWebp } from '../../utils/convertToWebp.js';
 import { API_HOST, PUBLIC_DIR } from '../../../constants.js';
 import { parseImage } from '../../validations/images.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para subir un avatar
 
@@ -13,9 +14,11 @@ export const uploadAvatarController = async (req, res) => {
 	parseImage(files);
 
 	if (!files) {
-		return res
-			.status(400)
-			.json({ message: 'No se ha proporcionado una imagen' });
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'No se ha proporcionado una imagen'
+		);
 	}
 
 	const userProfile = await findUserById(req.currentUser.id);

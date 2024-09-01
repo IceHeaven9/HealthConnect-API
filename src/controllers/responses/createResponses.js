@@ -2,6 +2,7 @@ import { getConsultationById } from '../../database/consultation.js';
 import { setResponse } from '../../database/responses.js';
 import { findUserById } from '../../database/users.js';
 import { parseResponsePayload } from '../../validations/responses.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para crear respuestas
 
@@ -14,17 +15,19 @@ export const createResponsesController = async (req, res) => {
 
 	const consultation = await getConsultationById(id);
 	if (!consultation) {
-		return res.status(404).json({ message: 'Consulta no encontrada' });
+		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
 	}
 
 	if (userType === 'paciente' && consultation.patientId !== userId) {
-		return res
-			.status(403)
-			.json({ message: 'Los pacientes no pueden responder a consultas' });
+		throw generateErrors(
+			403,
+			'FORBIDDEN',
+			'Los pacientes no pueden responder a consultas'
+		);
 	}
 
 	if (userType === 'doctor' && consultation.doctorId !== user.doctor) {
-		return res.status(403).json({ message: 'No autorizado' });
+		throw generateErrors(403, 'FORBIDDEN', 'No autorizado');
 	}
 
 	await setResponse(content, id, userId, rating);

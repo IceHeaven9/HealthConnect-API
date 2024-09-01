@@ -8,6 +8,7 @@ import {
 	updateUserName,
 } from '../../database/users.js';
 import { parseUpdateProfilePayload } from '../../validations/users.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 export const updateProfileController = async (req, res) => {
 	const { firstName, lastName, userName, biography, experience } =
@@ -16,11 +17,11 @@ export const updateProfileController = async (req, res) => {
 	const { id } = req.params;
 
 	if (!id || !userId) {
-		return res.status(404).json({ error: 'Id not found' });
+		throw generateErrors(404, 'NOT_FOUND', 'Id not found');
 	}
 
 	if (id != userId) {
-		return res.status(403).json({ error: 'Unauthorized' });
+		throw generateErrors(403, 'FORBIDDEN', 'Unauthorized');
 	}
 
 	if (firstName !== undefined) {

@@ -1,5 +1,6 @@
 import { getUnassignedConsultations } from '../../database/consultation.js';
 import { findUserById } from '../../database/users.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para obtener las consultas no asignadas
 
@@ -15,6 +16,6 @@ export const unassignedConsultationController = async (req, res) => {
 	}
 
 	if (user.userType === 'paciente') {
-		res.status(403).json({ message: 'Unauthorized access' });
+		throw generateErrors(403, 'FORBIDDEN', 'Unauthorized access');
 	}
 };

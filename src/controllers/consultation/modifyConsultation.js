@@ -7,6 +7,7 @@ import {
 	modifyTitleConsultation,
 } from '../../database/consultation.js';
 import { parseModifyConsultationPayload } from '../../validations/consultations.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 export const modifyConsultationController = async (req, res) => {
 	const { id } = req.params;
@@ -16,7 +17,7 @@ export const modifyConsultationController = async (req, res) => {
 	const consultation = await getConsultationById_ByPatientID(req, res);
 
 	if (!consultation) {
-		return res.status(404).json({ message: 'Consultation not found' });
+		throw generateErrors(404, 'NOT_FOUND', 'Consultation not found');
 	}
 
 	const currentDate = new Date();
@@ -25,34 +26,37 @@ export const modifyConsultationController = async (req, res) => {
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
 	if (diffDays < 2) {
-		return res.status(400).json({
-			message:
-				'You can not modify a consultation less than 48 hours before the consultation',
-		});
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'You can not modify a consultation less than 48 hours before the consultation'
+		);
 	}
 
 	if (title && title !== consultation.title) {
 		await modifyTitleConsultation(id, title);
 	} else if (title === consultation.title) {
-		return res.status(400).json({ message: 'Title is the same' });
+		throw generateErrors(400, 'BAD_REQUEST', 'Title is the same');
 	}
 
 	if (description && description !== consultation.description) {
 		await modifyDescriptionConsultation(id, description);
 	} else if (description === consultation.description) {
-		return res.status(400).json({ message: 'Description is the same' });
+		throw generateErrors(400, 'BAD_REQUEST', 'Description is the same');
 	}
 
 	if (severity && severity !== consultation.severity) {
 		await modifySeverityConsultation(id, severity);
 	} else if (severity === consultation.severity) {
-		return res.status(400).json({ message: 'Severity is the same' });
+		throw generateErrors(400, 'BAD_REQUEST', 'Severity is the same');
 	}
 
 	if (req.body && Object.keys(req.body).length === 0) {
-		return res
-			.status(400)
-			.json({ message: 'No data provided for modification' });
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'No data provided for modification'
+		);
 	}
 
 	res.status(200).json({ message: 'Consultation modified successfully' });

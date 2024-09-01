@@ -3,6 +3,7 @@ import { findUserByEmail } from '../../database/users.js';
 import { sendResetPasswordEmail } from '../../emails/recoveryPasswordEmail.js';
 import jwt from 'jsonwebtoken';
 import { parseRecoveryPasswordPayload } from '../../validations/auth.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para recuperar la contraseña
 
@@ -12,7 +13,7 @@ export const recoveryPasswordController = async (req, res) => {
 	// Busca el usuario por correo electrónico
 	const user = await findUserByEmail(email);
 	if (!user) {
-		return res.status(404).json({ message: 'Usuario no encontrado' });
+		throw generateErrors(404, 'NOT_FOUND', 'Usuario no encontrado');
 	}
 
 	// Genera un token único

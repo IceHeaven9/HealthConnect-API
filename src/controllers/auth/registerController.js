@@ -10,6 +10,7 @@ import { sendValidationEmail } from '../../emails/validationEmail.js';
 import { hashPassword } from '../../utils/hashPassword.js';
 import { parseRegisterPayload } from '../../validations/auth.js';
 import { findSpecialitiesByIds } from '../../database/specialities.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para registrar un usuario
 
@@ -28,20 +29,24 @@ export const registerController = async (req, res) => {
 	} = parseRegisterPayload(req.body);
 
 	if (userType === 'doctor' && !codigoMedico) {
-		return res
-			.status(400)
-			.json({ message: 'El código médico es obligatorio para los doctores' });
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'El código médico es obligatorio para los doctores'
+		);
 	}
 
 	if (codigoMedico != CODIGO_MEDICO) {
-		return res.status(400).json({ message: 'El código médico no es correcto' });
+		throw generateErrors(400, 'BAD_REQUEST', 'El código médico no es correcto');
 	}
 
 	const specialities = await findSpecialitiesByIds(specialityId);
 	if (specialities.length !== specialityId.length) {
-		return res
-			.status(400)
-			.json({ message: 'Una o más especialidades no son válidas' });
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'Una o más especialidades no son válidas'
+		);
 	}
 
 	await assertEmailNotInUse(email);

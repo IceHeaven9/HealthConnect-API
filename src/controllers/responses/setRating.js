@@ -2,6 +2,7 @@
 
 import { getResponseById, setRating } from '../../database/responses.js';
 import { parseRatingPayload } from '../../validations/responses.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 export const setRatingController = async (req, res) => {
 	const { id } = req.params;
@@ -10,19 +11,23 @@ export const setRatingController = async (req, res) => {
 	const response = await getResponseById(id);
 
 	if (!response) {
-		return res.status(404).json({ message: 'respuesta no encontrada' });
+		throw generateErrors(404, 'NOT_FOUND', 'respuesta no encontrada');
 	}
 
 	if (response.rating) {
-		return res
-			.status(400)
-			.json({ message: 'la respuesta ya ha sido valorada' });
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'la respuesta ya ha sido valorada'
+		);
 	}
 
 	if (user.userType === 'doctor') {
-		return res
-			.status(400)
-			.json({ message: 'Los doctores no pueden valorar las consultas' });
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'Los doctores no pueden valorar las consultas'
+		);
 	}
 
 	await setRating(id, rating);

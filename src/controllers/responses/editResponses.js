@@ -3,6 +3,7 @@
 
 import { getResponseById, editResponse } from '../../database/responses.js';
 import { parseEditResponsePayload } from '../../validations/responses.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 
 export const editResponseController = async (req, res) => {
 	const { id } = req.params;
@@ -11,15 +12,15 @@ export const editResponseController = async (req, res) => {
 	const { content } = parseEditResponsePayload(req.body);
 
 	if (!responseData) {
-		return res.status(404).json({ message: 'Response not found' });
+		throw generateErrors(404, 'NOT_FOUND', 'Response not found');
 	}
 
 	if (responseData.doctorId !== doctor.id) {
-		return res.status(403).json({ message: 'Unauthorized' });
+		throw generateErrors(403, 'FORBIDDEN', 'Unauthorized');
 	}
 
 	if (responseData.rating !== null) {
-		return res.status(400).json({ message: 'Response already evaluated' });
+		throw generateErrors(400, 'BAD_REQUEST', 'Response already evaluated');
 	}
 
 	if (content) {
