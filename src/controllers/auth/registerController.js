@@ -80,6 +80,13 @@ export const registerController = async (req, res) => {
 	}
 
 	if (userType === 'patient') {
+		if (req.body.experience) {
+			throw generateErrors(
+				400,
+				'BAD_REQUEST',
+				'Los pacientes no pueden tener experiencia médica'
+			);
+		}
 		const id = await createUserPatient({
 			firstName,
 			lastName,
