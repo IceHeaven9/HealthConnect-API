@@ -58,7 +58,7 @@ async function createDemoUsers() {
 			lastName: faker.person.lastName(),
 			email: faker.internet.email(),
 			password: await hashPassword(globalPassword),
-			userType: 'paciente',
+			userType: 'patient',
 			userName: username,
 			biography: null,
 			avatar: `https://i.pravatar.cc/150?u=${username}`,
@@ -120,7 +120,7 @@ const getDoctors = await Db.query(
 const getDoctorsIds = getDoctors[0].map((doctor) => doctor.id);
 
 const getPatients = await Db.query(
-	"SELECT id FROM users WHERE userType = 'paciente'"
+	"SELECT id FROM users WHERE userType = 'patient'"
 );
 const getPatientsIds = getPatients[0].map((patient) => patient.id);
 

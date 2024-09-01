@@ -45,7 +45,7 @@ async function initDB() {
                 lastName VARCHAR(100) DEFAULT NULL,
                 email VARCHAR(255) UNIQUE NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                userType ENUM('paciente', 'doctor') NOT NULL,
+                userType ENUM('patient', 'doctor') NOT NULL,
                 userName VARCHAR(255) NOT NULL,
                 biography VARCHAR(500) DEFAULT NULL,
                 avatar VARCHAR(255) DEFAULT NULL,

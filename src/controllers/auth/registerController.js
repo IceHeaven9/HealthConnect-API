@@ -4,7 +4,8 @@ import {
 	assertEmailNotInUse,
 	assertUsernameNotInUse,
 	assignSpecialitiesToUser,
-	createUser,
+	createUserDoctor,
+	createUserPatient,
 } from '../../database/users.js';
 import { sendValidationEmail } from '../../emails/validationEmail.js';
 import { hashPassword } from '../../utils/hashPassword.js';
@@ -36,43 +37,61 @@ export const registerController = async (req, res) => {
 		);
 	}
 
-	if (codigoMedico != CODIGO_MEDICO) {
-		throw generateErrors(400, 'BAD_REQUEST', 'El código médico no es correcto');
-	}
-
-	const specialities = await findSpecialitiesByIds(specialityId);
-	if (specialities.length !== specialityId.length) {
-		throw generateErrors(
-			400,
-			'BAD_REQUEST',
-			'Una o más especialidades no son válidas'
-		);
-	}
-
 	await assertEmailNotInUse(email);
 	await assertUsernameNotInUse(userName);
 
 	const hashedPassword = await hashPassword(password);
 	const validationCode = crypto.randomInt(100000, 999999);
 
-	const id = await createUser({
-		firstName,
-		lastName,
-		userType,
-		biography,
-		codigoMedico,
-		experience,
-		email,
-		hashedPassword,
-		userName,
-		validationCode,
-	});
+	if (userType === 'doctor') {
+		if (codigoMedico != CODIGO_MEDICO) {
+			throw generateErrors(
+				400,
+				'BAD_REQUEST',
+				'El código médico no es correcto'
+			);
+		}
 
-	await assignSpecialitiesToUser(id, specialityId);
+		const specialities = await findSpecialitiesByIds(specialityId);
+		if (specialities.length !== specialityId.length) {
+			throw generateErrors(
+				400,
+				'BAD_REQUEST',
+				'Una o más especialidades no son válidas'
+			);
+		}
+		const id = await createUserDoctor({
+			firstName,
+			lastName,
+			userType,
+			biography,
+			codigoMedico,
+			experience,
+			email,
+			hashedPassword,
+			userName,
+			validationCode,
+		});
 
-	sendValidationEmail({ firstName, email, validationCode });
+		await assignSpecialitiesToUser(id, specialityId);
 
-	res.status(201).json({
-		id,
-	});
+		sendValidationEmail({ firstName, email, validationCode });
+		res.status(201).json({ id });
+	}
+
+	if (userType === 'patient') {
+		const id = await createUserPatient({
+			firstName,
+			lastName,
+			userType,
+			email,
+			hashedPassword,
+			userName,
+			validationCode,
+		});
+		sendValidationEmail({ firstName, email, validationCode });
+		res.status(201).json({
+			id,
+		});
+	}
 };
