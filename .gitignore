@@ -3,3 +3,4 @@ node_modules
 public/consultationFiles/
 public/responseFiles/
 public/avatars/
+!public/responseFiles/.gitkeep
