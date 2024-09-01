@@ -2,28 +2,28 @@ import path from 'path';
 import fs from 'fs/promises';
 import { generateErrors } from "../../utils/generateErrors.js";
 import { convertImageToWebp } from '../../utils/convert-to-webp.js';
-import { getConsultationById, uploadConsultationFiles } from '../../database/consultation.js';
 import { PUBLIC_DIR } from '../../../constants.js';
 import { allowedMimeTypes } from '../../validations/consultations.js';
+import { findResponseById, uploadResponseFiles } from './../../database/responses.js';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export const uploadResponseFilesController = async (req, res) => {
-  const id = req.params.id;
+  const { id} = req.params;
   const user = req.currentUser;
   const files = req.files.files; 
-
-  if (user.userType !== 'paciente') {
+  const response = await findResponseById(id);
+  
+  if (user.userType !== 'doctor') {
     throw generateErrors(403, 'SERVER_ERROR', 'No tienes permisos para acceder');
   }
 
-  const [consultation] = await getConsultationById(id);
-  if (!consultation) {
-    throw generateErrors(404, 'SERVER_ERROR', 'Consulta no encontrada');
+  if (!response) {
+    throw generateErrors(404, 'SERVER_ERROR', 'Respuesta no encontrada');
   }
 
-  if (consultation.patientId !== user.id) {
-    throw generateErrors(403, 'SERVER_ERROR', 'No tienes permisos para acceder a esta consulta');
+  if (response.doctorId !== user.id) {
+    throw generateErrors(403, 'SERVER_ERROR', 'No tienes permisos para acceder a esta respuesta');
   }
 
   if (!files || Object.keys(files).length === 0) {
@@ -34,17 +34,21 @@ export const uploadResponseFilesController = async (req, res) => {
 
   const uploadPromises = fileEntries.map(async (file) => {
     const mimeType = file.mimetype;
+
     if (!mimeType) {
       throw generateErrors(400, 'SERVER_ERROR', 'El archivo no tiene mimeType');
     }
+
     if (!allowedMimeTypes.includes(mimeType)) {
       throw generateErrors(400, 'SERVER_ERROR', `Tipo de archivo no permitido: ${mimeType}`);
     }
+
     if (file.size > MAX_FILE_SIZE) {
       throw generateErrors(400, 'SERVER_ERROR', 'El archivo excede el tamaño máximo permitido de 5MB');
     }
 
-    const userDir = path.join(PUBLIC_DIR, 'consultationFiles', user.id.toString());
+    const userDir = path.join(PUBLIC_DIR, 'responseFiles', user.id.toString());
+
     await fs.mkdir(userDir, { recursive: true });
 
     const fileExtension = mimeType.startsWith('image/') ? '.webp' : path.extname(file.name);
@@ -68,7 +72,7 @@ export const uploadResponseFilesController = async (req, res) => {
 
   const uploadFiles = await Promise.all(uploadPromises);
 
-  const uploadedFiles = await uploadConsultationFiles(id, uploadFiles);
+  const uploadedFiles = await uploadResponseFiles(id, uploadFiles);
 
   res.status(200).json({
     message: 'Archivos subidos exitosamente',

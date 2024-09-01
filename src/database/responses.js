@@ -44,3 +44,16 @@ export const setRating = async (id, rating) => {
 
 	return newRating;
 };
+
+export const uploadResponseFiles = async (responseId, files) => {
+  const query = 'INSERT INTO files_responses (responseId, fileName, filePath) VALUES ?';
+  const values = files.map(file => [responseId, file.fileName, file.filePath]);
+  await Db.query(query, [values]);
+  return files.map(file => ({ fileName: file.fileName, filePath: file.filePath }));
+};
+
+export const findResponseById = async (responseId) => {
+  const query = 'SELECT * FROM responses WHERE id = ?';
+  const [rows] = await Db.query(query, [responseId]);
+  return rows[0];
+};

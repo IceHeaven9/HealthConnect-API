@@ -33,7 +33,7 @@ responsesRoutes.patch(
 );
 
 responsesRoutes.post(
-	"/consultations/:id/response/:id/files",
+	"/response/:id/files",
 	authMiddleware,
 	asyncHandler(uploadResponseFilesController)
 );
