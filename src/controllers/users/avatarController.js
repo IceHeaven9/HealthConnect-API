@@ -2,7 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
 import { findUserById, uploadUserAvatar } from '../../database/users.js';
-import { convertAvatarToWebp } from '../../utils/convert-to-webp.js';
+import { convertAvatarToWebp } from '../../utils/convertToWebp.js';
 import { API_HOST, PUBLIC_DIR } from '../../../constants.js';
 import { parseImage } from '../../validations/images.js';
 
