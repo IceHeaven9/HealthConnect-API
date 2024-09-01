@@ -1,6 +1,5 @@
 node_modules
 .env
 public/consultationFiles/
-
+public/responseFiles/
 public/avatars/
-!public/responseFiles/.gitkeep
