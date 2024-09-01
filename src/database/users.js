@@ -73,6 +73,18 @@ export async function findUserByEmail(email) {
 	return user;
 }
 
+// Funcion para obtener los datos de los usuarios por validation code
+export async function findUserByValidationCode(validationCode) {
+	const [[user]] = await Db.query(
+		`SELECT * FROM users WHERE validationCode = :validationCode`,
+		{
+			validationCode: validationCode,
+		}
+	);
+
+	return user;
+}
+
 // Funcion para obtener los datos de un usuario por id
 
 export async function findUserById(id) {

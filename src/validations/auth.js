@@ -91,7 +91,6 @@ export function parseResetPasswordPayload(payload) {
 // Validaciones para el controlador de verificación de código de validación
 
 const validationCodeSchema = Joi.object({
-	email: Joi.string().email().required(),
 	code: Joi.number().required(),
 });
 
