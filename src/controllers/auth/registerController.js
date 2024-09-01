@@ -9,6 +9,7 @@ import {
 import { sendValidationEmail } from '../../emails/validationEmail.js';
 import { hashPassword } from '../../utils/hashPassword.js';
 import { parseRegisterPayload } from '../../validations/auth.js';
+import { findSpecialitiesByIds } from '../../database/specialities.js';
 
 // Controlador para registrar un usuario
 
@@ -34,6 +35,13 @@ export const registerController = async (req, res) => {
 
 	if (codigoMedico != CODIGO_MEDICO) {
 		return res.status(400).json({ message: 'El código médico no es correcto' });
+	}
+
+	const specialities = await findSpecialitiesByIds(specialityId);
+	if (specialities.length !== specialityId.length) {
+		return res
+			.status(400)
+			.json({ message: 'Una o más especialidades no son válidas' });
 	}
 
 	await assertEmailNotInUse(email);
