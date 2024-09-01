@@ -38,10 +38,6 @@ app.use(fileUpload());
 
 app.use('/public', express.static('./public'));
 
-// Establecemos el directorio de los archivos cargados
-
-app.use('/uploads', express.static('./uploads'));
-
 // Rutas
 
 app.use(authRoutes);
