@@ -35,7 +35,7 @@ export const uploadConsultationFilesController = async (req, res) => {
   const uploadPromises = fileEntries.map(async (file) => {
     const mimeType = file.mimetype;
     if (!mimeType) {
-      throw generateErrors(400, 'SERVER_ERROR', 'no ahi mimetype');
+      throw generateErrors(400, 'SERVER_ERROR', 'El archivo no tiene mimeType');
     }
     if (!allowedMimeTypes.includes(mimeType)) {
       throw generateErrors(400, 'SERVER_ERROR', `Tipo de archivo no permitido: ${mimeType}`);

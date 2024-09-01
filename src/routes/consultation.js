@@ -9,9 +9,9 @@ import { assignConsultationController } from '../controllers/consultation/assign
 import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
 import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
 import { getFinishedConsultationsController } from '../controllers/consultation/finishedConsultations.js';
-import { uploadConsultationFilesController } from '../controllers/consultation/uploadConsultationFilesController.js';
+import { uploadConsultationFilesController } from '../controllers/consultation/uploadConsultationFiles.js';
 import { getUpcomingConsultationsController } from '../controllers/consultation/UpComingConsultations.js';
-import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFileController.js';
+import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFile.js';
 
 export const consultationRoutes = Router();
 

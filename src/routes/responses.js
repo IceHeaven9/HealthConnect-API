@@ -4,6 +4,7 @@ import { authMiddleware } from '../middlewares/authMiddleware.js';
 import { createResponsesController } from '../controllers/responses/createResponses.js';
 import { editResponseController } from '../controllers/responses/editResponses.js';
 import { setRatingController } from '../controllers/responses/setRating.js';
+import {uploadResponseFilesController} from '../controllers/responses/uploadResponseFiles.js';
 
 export const responsesRoutes = Router();
 
@@ -29,4 +30,10 @@ responsesRoutes.patch(
 	'/consultations/:id/response/rate',
 	authMiddleware,
 	asyncHandler(setRatingController)
+);
+
+responsesRoutes.post(
+	"/consultations/:id/response/:id/files",
+	authMiddleware,
+	asyncHandler(uploadResponseFilesController)
 );

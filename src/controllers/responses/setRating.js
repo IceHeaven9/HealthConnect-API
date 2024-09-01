@@ -6,7 +6,7 @@ import { parseRatingPayload } from '../../validations/responses.js';
 export const setRatingController = async (req, res) => {
 	const { id } = req.params;
 	const { rating } = parseRatingPayload(req.body);
-	const userId = req.currentUser.id;
+	const user = req.currentUser;
 	const response = await getResponseById(id);
 
 	if (!response) {
@@ -19,10 +19,10 @@ export const setRatingController = async (req, res) => {
 			.json({ message: 'la respuesta ya ha sido valorada' });
 	}
 
-	if (userId === response.doctorId) {
+	if (user.userType === 'doctor') {
 		return res
 			.status(400)
-			.json({ message: 'Los dostores no pueden valorar las consultas' });
+			.json({ message: 'Los doctores no pueden valorar las consultas' });
 	}
 
 	await setRating(id, rating);

@@ -608,3 +608,9 @@ export const uploadConsultationFiles = async (id, files) => {
   
     return await Promise.all(insertPromises);
   };
+    
+export const deleteConsultationFile = async (consultationId, fileName) => {
+  const query = 'DELETE FROM files_consultations WHERE consultationId = ? AND fileName = ?';
+  const [result] = await Db.query(query, [consultationId, fileName]);
+  return result;
+};
