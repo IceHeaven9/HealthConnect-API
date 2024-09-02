@@ -267,8 +267,8 @@ export const getUserByRecoveryPasswordCode = async (recoveryPasswordCode) => {
 
 // Funcion para setear el validation code en null de un usuario en la base de datos
 
-export const setValidationCodeToNull = async (userId) => {
-	const query = 'UPDATE users SET validationCode = NULL WHERE id = ?';
+export const setRecoveryPasswordCodeToNull = async (userId) => {
+	const query = 'UPDATE users SET recoveryPasswordCode = NULL WHERE id = ?';
 	const [result] = await Db.query(query, [userId]);
 	return result;
 };
