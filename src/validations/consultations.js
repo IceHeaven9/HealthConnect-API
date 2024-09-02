@@ -5,11 +5,24 @@ import { validate } from './validate.js';
 
 const consultationSchema = Joi.object({
 	title: Joi.string().min(3).max(100).required(),
-	date: Joi.date().required(),
+	date: Joi.date()
+		.required()
+		.custom((value, helpers) => {
+			const now = new Date();
+			const tomorrow = new Date(now);
+			tomorrow.setDate(now.getDate() + 1);
+
+			if (value < tomorrow) {
+				return helpers.message(
+					'La fecha debe ser al menos un día después de la fecha actual'
+				);
+			}
+			return value;
+		}),
 	description: Joi.string().min(10).max(1000).required(),
 	specialityid: Joi.number().required(),
-	doctorid: Joi.number(),
-	severity: Joi.string().required(),
+	doctorId: Joi.number(),
+	severity: Joi.string().valid('low', 'medium', 'high').required(),
 });
 
 export const parseConsultationPayload = (payload) => {

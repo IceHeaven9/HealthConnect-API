@@ -8,12 +8,12 @@ export const createConsultation = async ({
 	description,
 	severity,
 	specialityid,
-	id,
+	patientId,
 	date,
 }) => {
 	const [result] = await Db.query(
-		`INSERT INTO consultations (title, description, severity, specialityid, patientId, date) VALUES (?, ?, ?, ?, ?, ?)`,
-		[title, description, severity, specialityid, id, date]
+		`INSERT INTO consultations (date, title, description, severity, specialityid, patientId) VALUES (?, ?, ?, ?, ?, ?)`,
+		[date, title, description, severity, specialityid, patientId]
 	);
 	return result.insertId;
 };
@@ -26,63 +26,61 @@ export const getConsultationById_ByPatientID = async (req, res) => {
 
 	const [rows] = await Db.query(
 		`
-            SELECT DISTINCT
-                c.id,
-                c.date,
-                c.title,
-                c.severity,
-                c.description,
-                c.status,
-                fc.fileName AS consultationFileName,
-                fc.filePath AS consultationFilePath,
-                fr.fileName AS responseFileName,
-                fr.filePath AS responseFilePath,
-                u.avatar AS patientAvatar,
-                u.firstName AS patientName,
-                u.email AS patientEmail,
-                r.rating,
-                d.avatar AS doctorAvatar,
-                CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
-                s.name AS specialityName
-            FROM 
-                consultations c
-            LEFT JOIN 
-                files_consultations fc ON c.id = fc.consultationId
-            LEFT JOIN 
-                files_responses fr ON c.id = fr.responseId
-            LEFT JOIN 
-                users u ON c.patientId = u.id
-            LEFT JOIN 
-                responses r ON c.id = r.consultationId
-            LEFT JOIN 
-                doctors_consultations dc ON c.id = dc.consultationId
-            LEFT JOIN 
-                users d ON dc.doctorId = d.id
-            JOIN 
-                specialities s ON c.specialityId = s.id
-            WHERE 
-                c.id = ? AND
-                c.patientId = ?
-            GROUP BY 
-                c.id,
-                c.title,
-                c.severity,
-                c.description,
-                c.status,
-                fc.fileName,
-                fc.filePath,
-                fr.fileName,
-                fr.filePath,
-                u.avatar,
-                u.firstName,
-                u.email,
-                r.rating,
-                d.avatar,
-                d.firstName,
-                d.lastName,
-                s.name
-            ORDER BY c.id DESC;
-        `,
+        SELECT DISTINCT
+            c.id,
+            c.date,
+            c.title,
+            c.severity,
+            c.description,
+            c.status,
+            fc.fileName AS consultationFileName,
+            fc.filePath AS consultationFilePath,
+            fr.fileName AS responseFileName,
+            fr.filePath AS responseFilePath,
+            u.avatar AS patientAvatar,
+            u.firstName AS patientName,
+            u.email AS patientEmail,
+            r.rating,
+            d.avatar AS doctorAvatar,
+            CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+            s.name AS specialityName
+        FROM 
+            consultations c
+        LEFT JOIN 
+            files_consultations fc ON c.id = fc.consultationId
+        LEFT JOIN 
+            files_responses fr ON c.id = fr.responseId
+        LEFT JOIN 
+            users u ON c.patientId = u.id
+        LEFT JOIN 
+            responses r ON c.id = r.consultationId
+        LEFT JOIN 
+            users d ON c.doctorId = d.id
+        JOIN 
+            specialities s ON c.specialityId = s.id
+        WHERE 
+            c.id = ? AND
+            c.patientId = ?
+        GROUP BY 
+            c.id,
+            c.title,
+            c.severity,
+            c.description,
+            c.status,
+            fc.fileName,
+            fc.filePath,
+            fr.fileName,
+            fr.filePath,
+            u.avatar,
+            u.firstName,
+            u.email,
+            r.rating,
+            d.avatar,
+            d.firstName,
+            d.lastName,
+            s.name
+        ORDER BY c.id DESC;
+    `,
 		[consultationId, userId]
 	);
 
@@ -129,14 +127,12 @@ export const getConsultationsById_ByDoctorId = async (
       LEFT JOIN 
         responses r ON c.id = r.consultationId
       LEFT JOIN 
-        doctors_consultations dc ON c.id = dc.consultationId
-      LEFT JOIN 
-        users d ON dc.doctorId = d.id
+        users d ON c.doctorId = d.id
       JOIN 
         specialities s ON c.specialityId = s.id
       WHERE 
         c.id = ? AND
-        dc.doctorId = ?
+        c.doctorId = ?
       GROUP BY 
         c.id,
         c.title,
@@ -171,8 +167,8 @@ export const getConsultationsById_ByDoctorId = async (
 // Se utiliza para obtener una consulta sin condiciones
 
 export const getConsultationById = async (id) => {
-    const [consultation] = await Db.query(
-        `
+	const [consultation] = await Db.query(
+		`
         SELECT 
             c.id,
             c.title,
@@ -187,9 +183,7 @@ export const getConsultationById = async (id) => {
         FROM 
             consultations c
         JOIN 
-            doctors_consultations dc ON c.id = dc.consultationId
-        JOIN 
-            users d ON dc.doctorId = d.id
+            users d ON c.doctorId = d.id
         JOIN 
             users p ON c.patientId = p.id
         JOIN 
@@ -197,9 +191,9 @@ export const getConsultationById = async (id) => {
         WHERE 
             c.id = ?
         `,
-        [id]
-    );
-    return consultation;
+		[id]
+	);
+	return consultation;
 };
 // Funcion para obtener todas las consultas por la id de su especialidad
 
@@ -235,9 +229,7 @@ export const getConsultationsBySpecialityId = async (req, specialityIds) => {
     LEFT JOIN 
         responses r ON c.id = r.consultationId
     LEFT JOIN 
-        doctors_consultations dc ON c.id = dc.consultationId
-    LEFT JOIN 
-        users d ON dc.doctorId = d.id
+        users d ON c.doctorId = d.id
     JOIN 
         specialities s ON c.specialityId = s.id
     WHERE 
@@ -302,9 +294,7 @@ export const getConsultations = async (req, res) => {
             LEFT JOIN 
                 responses r ON c.id = r.consultationId
             LEFT JOIN 
-                doctors_consultations dc ON c.id = dc.consultationId
-            LEFT JOIN 
-                users d ON dc.doctorId = d.id
+                users d ON c.doctorId = d.id
             JOIN 
                 specialities s ON c.specialityId = s.id
             WHERE 
@@ -392,14 +382,13 @@ export const getUnassignedConsultations = async (specialities) => {
 
 // Funcion para obtener el id del doctor
 
-export const setDoctorId = async (doctorId, consultationId) => {
+export const setDoctorId = async (doctorId, idConsultation) => {
 	const setDoctor = await Db.query(
-		'INSERT INTO doctors_consultations (doctorId, consultationId) VALUES (?, ?)',
-		[doctorId, consultationId]
+		'UPDATE consultations SET doctorId = ? WHERE id = ?',
+		[doctorId, idConsultation]
 	);
-	return setDoctor;
+	return setDoctor.affectedRows;
 };
-
 // Funcion para modificar el title de una consulta
 
 export const modifyTitleConsultation = async (id, title) => {
@@ -485,9 +474,7 @@ export const getFinishedConsultations = async (req, res) => {
             LEFT JOIN 
                 responses r ON c.id = r.consultationId
             LEFT JOIN 
-                doctors_consultations dc ON c.id = dc.consultationId
-            LEFT JOIN 
-                users d ON dc.doctorId = d.id
+                users d ON c.doctorId = d.id
             JOIN 
                 specialities s ON c.specialityId = s.id
             WHERE 
@@ -561,9 +548,7 @@ export const getFutureConsultations = async (req, res) => {
             LEFT JOIN 
                 responses r ON c.id = r.consultationId
             LEFT JOIN 
-                doctors_consultations dc ON c.id = dc.consultationId
-            LEFT JOIN 
-                users d ON dc.doctorId = d.id
+                users d ON c.doctorId = d.id
             JOIN 
                 specialities s ON c.specialityId = s.id
             WHERE 
@@ -596,21 +581,41 @@ export const getFutureConsultations = async (req, res) => {
 	res.json(uniqueConsultations);
 };
 
+// Función para insertar archivos a una consulta
 
 export const uploadConsultationFiles = async (id, files) => {
-    const insertPromises = files.map(async ({ fileName, filePath }) => {
-      await Db.query(
-        'INSERT INTO files_consultations (consultationId, fileName, filePath) VALUES (?, ?, ?)',
-        [id, fileName, filePath]
-      );
-      return { fileName, filePath };
-    });
-  
-    return await Promise.all(insertPromises);
-  };
-    
+	const insertPromises = files.map(async ({ fileName, filePath }) => {
+		await Db.query(
+			'INSERT INTO files_consultations (consultationId, fileName, filePath) VALUES (?, ?, ?)',
+			[id, fileName, filePath]
+		);
+		return { fileName, filePath };
+	});
+
+	return await Promise.all(insertPromises);
+};
+
+//   Funcion para borrar archivos de una consulta
+
 export const deleteConsultationFile = async (consultationId, fileName) => {
-  const query = 'DELETE FROM files_consultations WHERE consultationId = ? AND fileName = ?';
-  const [result] = await Db.query(query, [consultationId, fileName]);
-  return result;
+	const query =
+		'DELETE FROM files_consultations WHERE consultationId = ? AND fileName = ?';
+	const [result] = await Db.query(query, [consultationId, fileName]);
+	return result;
+};
+
+// Función para obtener las consultas de un paciente por su fecha
+
+export const getConsultationByDateAndPatientId = async (date, patientId) => {
+	const query = 'SELECT * FROM consultations WHERE date = ? AND patientId = ?';
+	const [rows] = await Db.query(query, [date, patientId]);
+	return rows[0] || null;
+};
+
+// Funcion para obtener las consultas de un doctor por su fecha
+
+export const getConsultationsByDateAndDoctorId = async (date, doctorId) => {
+	const query = 'SELECT * FROM consultations WHERE date = ? AND doctorId = ?';
+	const [rows] = await Db.query(query, [date, doctorId]);
+	return rows[0] || null;
 };

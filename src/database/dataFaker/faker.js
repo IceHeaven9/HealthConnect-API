@@ -132,12 +132,13 @@ async function createConsultations() {
 			description: faker.lorem.paragraph(),
 			severity: faker.helpers.arrayElement(['high', 'medium', 'low']),
 			patientId: faker.helpers.arrayElement(getPatientsIds),
+			doctorId: faker.helpers.arrayElement(getDoctorsIds),
 			specialityId: faker.helpers.arrayElement(specialityIds),
 			status: faker.helpers.arrayElement(['pending', 'completed']),
 		};
 
 		await Db.query(
-			'INSERT INTO consultations (title, date, description, severity, patientId, specialityId, status) VALUES (:title, :date, :description, :severity, :patientId, :specialityId, :status)',
+			'INSERT INTO consultations (title, date, description, severity, patientId, doctorId, specialityId, status) VALUES (:title, :date, :description, :severity, :patientId, :doctorId, :specialityId, :status)',
 			consultations
 		);
 	}
@@ -155,40 +156,6 @@ const getConsultationsIds = getConsultations[0].map(
 	(consultation) => consultation.id
 );
 
-// Insertar datos falsos a la tabla doctors_consultations
-async function createDoctorsConsultations() {
-	const existingPairs = new Set();
-
-	for (let i = 0; i < 200; i++) {
-		let doctorId, consultationId, pairKey;
-
-		do {
-			doctorId = faker.helpers.arrayElement(getDoctorsIds);
-			consultationId = faker.helpers.arrayElement(getConsultationsIds);
-			pairKey = `${doctorId}-${consultationId}`;
-		} while (existingPairs.has(pairKey));
-
-		existingPairs.add(pairKey);
-
-		const doctorsConsultations = {
-			doctorId,
-			consultationId,
-		};
-
-		await Db.query(
-			'INSERT INTO doctors_consultations (doctorId, consultationId) VALUES (:doctorId, :consultationId)',
-			doctorsConsultations
-		);
-	}
-}
-
-infoLog('Insertando datos de doctors_consultations...');
-
-await createDoctorsConsultations();
-
-succesLog('Datos doctors_consultations insertados correctamente');
-
-// Insertar datos falsos a la tabla responses
 async function createResponses() {
 	for (let i = 0; i < 100; i++) {
 		const responses = {

@@ -80,26 +80,15 @@ async function initDB() {
                 severity ENUM('high', 'medium', 'low') DEFAULT 'low',
                 patientId INT NOT NULL,
                 specialityId INT NOT NULL,
+                doctorId INT DEFAULT NULL,
                 status ENUM('pending', 'completed', 'cancelled') DEFAULT 'pending',
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (specialityId) REFERENCES specialities(id),
-                FOREIGN KEY (patientId) REFERENCES users(id)
+                FOREIGN KEY (patientId) REFERENCES users(id),
+                FOREIGN KEY (doctorId) REFERENCES users(id)
             )
         `);
-
 		succesLog('Tabla consultations creada.');
-
-		await Db.query(`
-            CREATE TABLE doctors_consultations (
-                doctorId INT NOT NULL,
-                consultationId INT NOT NULL,
-                PRIMARY KEY (doctorId, consultationId),
-                FOREIGN KEY (doctorId) REFERENCES users(id),
-                FOREIGN KEY (consultationId) REFERENCES consultations(id)
-            )
-        `);
-
-		succesLog('Tabla intermedia Doctors_Consultations creada.');
 
 		await Db.query(`
             CREATE TABLE responses (
