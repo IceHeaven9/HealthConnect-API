@@ -4,13 +4,12 @@ import { validate } from './validate.js';
 // Validaciones para la creación de una consulta
 
 const consultationSchema = Joi.object({
-	title: Joi.string().required(),
+	title: Joi.string().min(3).max(100).required(),
 	date: Joi.date().required(),
-	description: Joi.string().required(),
+	description: Joi.string().min(10).max(1000).required(),
 	specialityid: Joi.number().required(),
 	doctorid: Joi.number(),
 	severity: Joi.string().required(),
-	date: Joi.date(),
 });
 
 export const parseConsultationPayload = (payload) => {
@@ -33,9 +32,9 @@ export const parseAssignDoctorPayload = (payload) => {
 // Validaciones para la modificación de una consulta
 
 const modifyConsultationSchema = Joi.object({
-	title: Joi.string(),
-	description: Joi.string(),
-	severity: Joi.string(),
+	title: Joi.string().min(3).max(100),
+	description: Joi.string().min(10).max(1000),
+	severity: Joi.string().min(3).max(50),
 });
 
 export const parseModifyConsultationPayload = (payload) => {
@@ -43,14 +42,13 @@ export const parseModifyConsultationPayload = (payload) => {
 	return result.value;
 };
 
-
 export const allowedMimeTypes = [
-  'image/jpeg',
-  'image/jpg',
-  'image/png',
-  'image/webp',
-  'application/pdf',
-  'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'text/plain'
+	'image/jpeg',
+	'image/jpg',
+	'image/png',
+	'image/webp',
+	'application/pdf',
+	'application/msword',
+	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+	'text/plain',
 ];

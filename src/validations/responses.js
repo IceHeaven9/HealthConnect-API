@@ -4,8 +4,7 @@ import { validate } from './validate.js';
 // Validaciones para la creación de una respuesta
 
 const responseSchema = Joi.object({
-	content: Joi.string().required(),
-	rating: Joi.number(),
+	content: Joi.string().max(1000).required(),
 });
 
 export const parseResponsePayload = (payload) => {
@@ -16,7 +15,7 @@ export const parseResponsePayload = (payload) => {
 // Validaciones para insertar el rating de una respuesta
 
 const ratingSchema = Joi.object({
-	rating: Joi.number().required(),
+	rating: Joi.number().min(0).max(5).required(),
 });
 
 export const parseRatingPayload = (payload) => {
@@ -27,7 +26,7 @@ export const parseRatingPayload = (payload) => {
 // Validaciones para la edición de una respuesta
 
 const editResponseSchema = Joi.object({
-	content: Joi.string().required(),
+	content: Joi.string().max(1000).required(),
 });
 
 export const parseEditResponsePayload = (payload) => {

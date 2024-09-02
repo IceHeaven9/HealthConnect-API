@@ -195,7 +195,7 @@ async function createResponses() {
 			content: faker.lorem.paragraph(),
 			consultationId: faker.helpers.arrayElement(getConsultationsIds),
 			doctorId: faker.helpers.arrayElement(getDoctorsIds),
-			rating: faker.helpers.arrayElement([1, 2, 3, 4, 5]),
+			rating: faker.helpers.arrayElement([0, 1, 2, 3, 4, 5]),
 		};
 
 		await Db.query(

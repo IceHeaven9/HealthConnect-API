@@ -45,21 +45,36 @@ export const setRating = async (id, rating) => {
 	return newRating;
 };
 
+// Función para subir archivos de respuesta
+
 export const uploadResponseFiles = async (responseId, files) => {
-  const query = 'INSERT INTO files_responses (responseId, fileName, filePath) VALUES ?';
-  const values = files.map(file => [responseId, file.fileName, file.filePath]);
-  await Db.query(query, [values]);
-  return files.map(file => ({ fileName: file.fileName, filePath: file.filePath }));
+	const query =
+		'INSERT INTO files_responses (responseId, fileName, filePath) VALUES ?';
+	const values = files.map((file) => [
+		responseId,
+		file.fileName,
+		file.filePath,
+	]);
+	await Db.query(query, [values]);
+	return files.map((file) => ({
+		fileName: file.fileName,
+		filePath: file.filePath,
+	}));
 };
+
+// Función para obtener una respuesta por id
 
 export const findResponseById = async (responseId) => {
-  const query = 'SELECT * FROM responses WHERE id = ?';
-  const [rows] = await Db.query(query, [responseId]);
-  return rows[0];
+	const query = 'SELECT * FROM responses WHERE id = ?';
+	const [rows] = await Db.query(query, [responseId]);
+	return rows[0];
 };
 
+// Función para borrar un archivo de respuesta
+
 export const deleteResponseFile = async (responseId, fileName) => {
-  const query = 'DELETE FROM files_responses WHERE responseId = ? AND fileName = ?';
-  const [result] = await Db.query(query, [responseId, fileName]);
-  return result;
+	const query =
+		'DELETE FROM files_responses WHERE responseId = ? AND fileName = ?';
+	const [result] = await Db.query(query, [responseId, fileName]);
+	return result;
 };
