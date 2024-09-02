@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { authMiddleware } from '../middlewares/authMiddleware.js';
+import { parseCurrentUser, authGuard } from '../middlewares/authMiddleware.js';
 import { createResponsesController } from '../controllers/responses/createResponses.js';
 import { editResponseController } from '../controllers/responses/editResponses.js';
 import { setRatingController } from '../controllers/responses/setRating.js';
-import {uploadResponseFilesController} from '../controllers/responses/uploadResponseFiles.js';
+import { uploadResponseFilesController } from '../controllers/responses/uploadResponseFiles.js';
 import { deleteResponseFileController } from '../controllers/responses/deleteResponseFile.js';
 
 export const responsesRoutes = Router();
@@ -13,7 +13,8 @@ export const responsesRoutes = Router();
 
 responsesRoutes.post(
 	'/consultations/:id/response',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(createResponsesController)
 );
 
@@ -21,26 +22,30 @@ responsesRoutes.post(
 
 responsesRoutes.patch(
 	'/consultations/:id/response/edit',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(editResponseController)
 );
 
-// ruta para valorar una respuesta 
+// ruta para valorar una respuesta
 
 responsesRoutes.patch(
 	'/consultations/:id/response/rate',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(setRatingController)
 );
 
 responsesRoutes.post(
-	"/response/:id/files",
-	authMiddleware,
+	'/response/:id/files',
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(uploadResponseFilesController)
 );
 
 responsesRoutes.delete(
-  "/response/:id/:fileName",
-  authMiddleware, 
-  asyncHandler(deleteResponseFileController)
+	'/response/:id/:fileName',
+	parseCurrentUser,
+	authGuard,
+	asyncHandler(deleteResponseFileController)
 );

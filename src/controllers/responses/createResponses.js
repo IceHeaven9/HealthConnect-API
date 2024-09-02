@@ -18,7 +18,7 @@ export const createResponsesController = async (req, res) => {
 		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
 	}
 
-	if (userType === 'paciente' && consultation.patientId !== userId) {
+	if (userType === 'patient' && consultation.patientId !== userId) {
 		throw generateErrors(
 			403,
 			'FORBIDDEN',

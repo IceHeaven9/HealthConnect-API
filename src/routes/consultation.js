@@ -3,7 +3,7 @@ import { createConsultationController } from '../controllers/consultation/create
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { getConsultationDetailsController } from '../controllers/consultation/getconsultationbyid.js';
 import { getConsultationController } from '../controllers/consultation/getConsultations.js';
-import { authMiddleware } from '../middlewares/authMiddleware.js';
+import { parseCurrentUser, authGuard } from '../middlewares/authMiddleware.js';
 import { unassignedConsultationController } from '../controllers/consultation/unassignedConsultation.js';
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
 import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
@@ -19,7 +19,8 @@ export const consultationRoutes = Router();
 
 consultationRoutes.post(
 	'/consultations',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(createConsultationController)
 );
 
@@ -27,7 +28,8 @@ consultationRoutes.post(
 
 consultationRoutes.get(
 	'/unassigned-consultation',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(unassignedConsultationController)
 );
 
@@ -35,7 +37,8 @@ consultationRoutes.get(
 
 consultationRoutes.post(
 	'/assign-consultation',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(assignConsultationController)
 );
 
@@ -43,7 +46,8 @@ consultationRoutes.post(
 
 consultationRoutes.get(
 	'/consultations',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(getConsultationController)
 );
 
@@ -51,7 +55,8 @@ consultationRoutes.get(
 
 consultationRoutes.get(
 	'/consultations/:id/details',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(getConsultationDetailsController)
 );
 
@@ -59,7 +64,8 @@ consultationRoutes.get(
 
 consultationRoutes.patch(
 	'/consultations/:id',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(modifyConsultationController)
 );
 
@@ -67,7 +73,8 @@ consultationRoutes.patch(
 
 consultationRoutes.patch(
 	'/consultations/:id/cancel',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(cancelConsultationController)
 );
 
@@ -75,7 +82,8 @@ consultationRoutes.patch(
 
 consultationRoutes.get(
 	'/finished-Consultations',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(getFinishedConsultationsController)
 );
 
@@ -83,18 +91,21 @@ consultationRoutes.get(
 
 consultationRoutes.get(
 	'/consultations/:userId/upcoming',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(getUpcomingConsultationsController)
 );
 
-
 consultationRoutes.post(
-    '/consultations/:id/files', 
-	authMiddleware, 
-  asyncHandler(uploadConsultationFilesController)
+	'/consultations/:id/files',
+	parseCurrentUser,
+	authGuard,
+	asyncHandler(uploadConsultationFilesController)
 );
 
 consultationRoutes.delete(
-	"/consultations/:id/:fileName",
-	authMiddleware, 
-	asyncHandler(deleteConsultationFileController));
+	'/consultations/:id/:fileName',
+	parseCurrentUser,
+	authGuard,
+	asyncHandler(deleteConsultationFileController)
+);

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { doctorsController } from '../controllers/users/doctorsController.js';
-import { authMiddleware } from './../middlewares/authMiddleware.js';
+import { parseCurrentUser, authGuard } from '../middlewares/authMiddleware.js';
 import { uploadAvatarController } from '../controllers/users/avatarController.js';
 import { getDoctorById } from '../controllers/users/getDoctorsInfo.js';
 import { updateProfileController } from '../controllers/users/updateProfileController.js';
@@ -20,7 +20,8 @@ usersRoutes.get('/doctors/:id', asyncHandler(getDoctorById));
 
 usersRoutes.patch(
 	'/profile/:id',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(updateProfileController)
 );
 
@@ -28,6 +29,7 @@ usersRoutes.patch(
 
 usersRoutes.post(
 	'/avatar',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(uploadAvatarController)
 );

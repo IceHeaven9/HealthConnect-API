@@ -5,7 +5,10 @@ import { registerController } from '../controllers/auth/registerController.js';
 import { validateEmailController } from '../controllers/auth/validateEmailController.js';
 import { resetPasswordController } from '../controllers/auth/resetPasswordController.js';
 import { recoveryPasswordController } from '../controllers/auth/recoveryPasswordController.js';
-import { authMiddleware } from './../middlewares/authMiddleware.js';
+import {
+	authGuard,
+	parseCurrentUser,
+} from './../middlewares/authMiddleware.js';
 import { changePasswordController } from '../controllers/auth/changePasswordController.js';
 
 export const authRoutes = Router();
@@ -28,6 +31,7 @@ authRoutes.post('/reset', asyncHandler(resetPasswordController));
 
 authRoutes.post(
 	'/change-password',
-	authMiddleware,
+	parseCurrentUser,
+	authGuard,
 	asyncHandler(changePasswordController)
 );

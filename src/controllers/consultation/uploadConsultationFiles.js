@@ -16,7 +16,7 @@ export const uploadConsultationFilesController = async (req, res) => {
 	const user = req.currentUser;
 	const files = req.files.files;
 
-	if (user.userType !== 'paciente') {
+	if (user.userType !== 'patient') {
 		throw generateErrors(
 			403,
 			'SERVER_ERROR',

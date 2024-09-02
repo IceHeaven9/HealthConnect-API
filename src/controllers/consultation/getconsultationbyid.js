@@ -15,7 +15,7 @@ export const getConsultationDetailsController = async (req, res) => {
 		throw generateErrors(400, 'INVALID_REQUEST', 'Missing consultation ID');
 	}
 
-	if (user.userType === 'paciente') {
+	if (user.userType === 'patient') {
 		const consultation = await getConsultationById_ByPatientID(req, res);
 		res.status(200).json(consultation);
 	}

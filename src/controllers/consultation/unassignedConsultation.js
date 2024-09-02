@@ -15,7 +15,7 @@ export const unassignedConsultationController = async (req, res) => {
 		res.status(200).json(unassignedConsultations);
 	}
 
-	if (user.userType === 'paciente') {
+	if (user.userType === 'patient') {
 		throw generateErrors(403, 'FORBIDDEN', 'Unauthorized access');
 	}
 };

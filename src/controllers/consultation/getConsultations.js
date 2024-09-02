@@ -15,7 +15,7 @@ export const getConsultationController = async (req, res) => {
 	if (!userId) {
 		throw generateErrors(401, 'UNAUTHORIZED', 'User not authenticated');
 	}
-	if (user.userType === 'paciente') {
+	if (user.userType === 'patient') {
 		const consultations = await getConsultations(req, res);
 		res.status(200).json(consultations);
 	}

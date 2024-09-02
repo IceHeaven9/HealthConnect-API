@@ -13,7 +13,7 @@ export const createConsultationController = async (req, res) => {
 	const user = req.currentUser;
 	const id = user.id;
 
-	if (user.userType !== 'paciente') {
+	if (user.userType !== 'patient') {
 		throw generateErrors(
 			403,
 			'UNAUTHORIZED',
