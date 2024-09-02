@@ -1,6 +1,7 @@
 import {
 	getUserByRecoveryPasswordCode,
 	setNewPassword,
+	setValidationCodeToNull,
 } from '../../database/users.js';
 import { parseResetPasswordPayload } from '../../validations/auth.js';
 import { generateErrors } from '../../utils/generateErrors.js';
@@ -19,6 +20,9 @@ export const resetPasswordController = async (req, res) => {
 
 	// Establece la nueva contraseña
 	await setNewPassword(password1, user.id);
+
+	// Setear el recoveryPasswordCode a null para que no se pueda volver a usar
+	await setValidationCodeToNull(user.id);
 
 	res.status(200).json({ message: 'Contraseña restablecida exitosamente' });
 };
