@@ -240,3 +240,27 @@ export const updateExperience = async (id, experience) => {
 		id,
 	]);
 };
+
+// Funcion para insertar el validation code de un usuario en la base de datos
+
+export const setRecoveryPasswordCode = async (userId, recoveryPasswordCode) => {
+	const query = 'UPDATE users SET recoveryPasswordCode = ? WHERE id = ?';
+	const [result] = await Db.query(query, [recoveryPasswordCode, userId]);
+	return result;
+};
+
+// Funcion para borrar el validation code de un usuario en la base de datos
+
+export const deleteRecoveryPasswordCode = async (userId) => {
+	const query = 'UPDATE users SET recoveryPasswordCode = NULL WHERE id = ?';
+	const [result] = await Db.query(query, [userId]);
+	return result;
+};
+
+// Funcion para obtener los datos de un usuario por su recovery password code
+
+export const getUserByRecoveryPasswordCode = async (recoveryPasswordCode) => {
+	const query = 'SELECT * FROM users WHERE recoveryPasswordCode = ? LIMIT 1';
+	const [result] = await Db.query(query, [recoveryPasswordCode]);
+	return result;
+};

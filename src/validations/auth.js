@@ -81,6 +81,7 @@ const resetPasswordSchema = Joi.object({
 		.valid(Joi.ref('password1'))
 		.required()
 		.messages({ 'any.only': 'Passwords do not match' }),
+	recoveryPasswordCode: Joi.number().required(),
 });
 
 export function parseResetPasswordPayload(payload) {

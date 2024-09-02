@@ -3,7 +3,7 @@ import { FRONTEND_HOST } from '../../constants.js';
 
 // Enviamos un correo electrónico con el enlace para restablecer la contraseña
 
-export async function sendResetPasswordEmail(email, token) {
+export async function sendResetPasswordEmail(email, recoveryPasswordCode) {
 	transport.sendMail({
 		from: 'SaludConnect <cristhians7x@gmail.com>',
 		to: `<${email}>`,
@@ -26,16 +26,17 @@ export async function sendResetPasswordEmail(email, token) {
               Has solicitado la recuperación de tu contraseña. Haz clic en el siguiente enlace para restablecerla:
             </p>
             <p>
-              <a href=${FRONTEND_HOST}/reset/${token}>
+            Código de recuperación: <strong>${recoveryPasswordCode}</strong
+            </p>
+            <p>
+              <a href=${FRONTEND_HOST}/reset}>
                 Click aqui para restablecer tu contraseña
               </a>
             </p>
             <p>
               Si el enlace no funciona, copia y pega la siguiente URL en tu navegador:
             </p>
-            <p>
-              ${FRONTEND_HOST}/reset/${token}
-            </p>
+            
           </body>
         </html>
       `,

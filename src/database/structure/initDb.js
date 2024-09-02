@@ -52,6 +52,7 @@ async function initDB() {
                 experience INT DEFAULT NULL,
                 codigoMedico INT DEFAULT NULL,
                 validationCode INT DEFAULT NULL,
+                recoveryPasswordCode INT DEFAULT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);

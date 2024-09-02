@@ -1,9 +1,11 @@
-import { JWT_SECRET } from '../../../constants.js';
-import { findUserByEmail } from '../../database/users.js';
+import {
+	findUserByEmail,
+	setRecoveryPasswordCode,
+} from '../../database/users.js';
 import { sendResetPasswordEmail } from '../../emails/recoveryPasswordEmail.js';
-import jwt from 'jsonwebtoken';
 import { parseRecoveryPasswordPayload } from '../../validations/auth.js';
 import { generateErrors } from '../../utils/generateErrors.js';
+import crypto from 'crypto';
 
 // Controlador para recuperar la contraseña
 
@@ -16,23 +18,11 @@ export const recoveryPasswordController = async (req, res) => {
 		throw generateErrors(404, 'NOT_FOUND', 'Usuario no encontrado');
 	}
 
-	// Genera un token único
-	const token = jwt.sign(
-		{
-			id: user.id,
-			userName: user.userName,
-			firstName: user.firtName,
-			email: user.email,
-			avatar: user.avatar,
-			userType: user.userType,
-		},
-		JWT_SECRET,
-		{
-			expiresIn: '7d',
-		}
-	);
+	const recoveryPasswordCode = crypto.randomInt(100000, 999999);
 
-	await sendResetPasswordEmail(email, token);
+	await setRecoveryPasswordCode(user.id, recoveryPasswordCode);
+
+	await sendResetPasswordEmail(email, recoveryPasswordCode);
 
 	res.status(200).json({
 		message:

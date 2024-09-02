@@ -1,21 +1,20 @@
-import jwt from 'jsonwebtoken';
-import { findUserById, setNewPassword } from '../../database/users.js';
-import { JWT_SECRET } from '../../../constants.js';
+import {
+	getUserByRecoveryPasswordCode,
+	setNewPassword,
+} from '../../database/users.js';
 import { parseResetPasswordPayload } from '../../validations/auth.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para restablecer la contraseña
 
 export const resetPasswordController = async (req, res) => {
-	const { password1, password2 } = parseResetPasswordPayload(req.body);
-	const { token } = req.params;
-
-	const decode = jwt.verify(token, JWT_SECRET);
+	const { password1, password2, recoveryPasswordCode } =
+		parseResetPasswordPayload(req.body);
 
 	// Busca al usuario por el token
-	const user = await findUserById(decode.id);
-	if (!user) {
-		throw generateErrors(400, 'BAD_REQUEST', 'Token inválido o expirado');
+	const [user] = await getUserByRecoveryPasswordCode(recoveryPasswordCode);
+	if (!user || user.length === 0) {
+		throw generateErrors(400, 'BAD_REQUEST', 'Código inválido o expirado');
 	}
 
 	// Establece la nueva contraseña
