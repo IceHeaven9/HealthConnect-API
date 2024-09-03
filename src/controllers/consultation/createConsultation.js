@@ -35,7 +35,6 @@ export const createConsultationController = async (req, res) => {
 	}
 
 	// Verificar si el paciente ya tiene una consulta en esa fecha
-
 	const existingPatientConsultation = await getConsultationByDateAndPatientId(
 		utcDate,
 		id
@@ -76,7 +75,6 @@ export const createConsultationController = async (req, res) => {
 	});
 
 	// Asignar el doctor a la consulta si se proporciona su ID
-
 	if (doctorId) await setDoctorId(doctorId, consultationId);
 
 	succesLog('Consulta creada con éxito!');

@@ -124,11 +124,30 @@ const getPatients = await Db.query(
 );
 const getPatientsIds = getPatients[0].map((patient) => patient.id);
 
+function getRandomFutureDate() {
+	const now = new Date();
+	const futureDate = faker.date.future({ refDate: now });
+
+	// Establecer la hora entre 9 AM y 2 PM
+	const hour = faker.number.int({ min: 11, max: 14 });
+	futureDate.setHours(hour);
+
+	// Establecer los minutos en intervalos de 30 minutos
+	const minutes = faker.helpers.arrayElement([0, 30]);
+	futureDate.setMinutes(minutes);
+
+	// Establecer los segundos y milisegundos a 0
+	futureDate.setSeconds(0);
+	futureDate.setMilliseconds(0);
+
+	return futureDate;
+}
+
 async function createConsultations() {
 	for (let i = 0; i < 200; i++) {
 		const consultations = {
 			title: faker.lorem.words(),
-			date: faker.date.future(),
+			date: getRandomFutureDate(),
 			description: faker.lorem.paragraph(),
 			severity: faker.helpers.arrayElement(['high', 'medium', 'low']),
 			patientId: faker.helpers.arrayElement(getPatientsIds),
@@ -143,7 +162,6 @@ async function createConsultations() {
 		);
 	}
 }
-
 infoLog('Insertando datos de consultations...');
 
 await createConsultations();
