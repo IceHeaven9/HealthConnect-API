@@ -17,7 +17,7 @@ export const modifyConsultationController = async (req, res) => {
 	const consultation = await getConsultationById_ByPatientID(req, res);
 
 	if (!consultation) {
-		throw generateErrors(404, 'NOT_FOUND', 'Consultation not found');
+		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
 	}
 
 	const currentDate = new Date();
@@ -29,35 +29,35 @@ export const modifyConsultationController = async (req, res) => {
 		throw generateErrors(
 			400,
 			'BAD_REQUEST',
-			'You can not modify a consultation less than 48 hours before the consultation'
+			'No se puede modificar una consulta con menos de 48 horas de antelación'
 		);
 	}
 
 	if (title && title !== consultation.title) {
 		await modifyTitleConsultation(id, title);
 	} else if (title === consultation.title) {
-		throw generateErrors(400, 'BAD_REQUEST', 'Title is the same');
+		throw generateErrors(400, 'BAD_REQUEST', 'El título es el mismo');
 	}
 
 	if (description && description !== consultation.description) {
 		await modifyDescriptionConsultation(id, description);
 	} else if (description === consultation.description) {
-		throw generateErrors(400, 'BAD_REQUEST', 'Description is the same');
+		throw generateErrors(400, 'BAD_REQUEST', 'La descripción es la misma');
 	}
 
 	if (severity && severity !== consultation.severity) {
 		await modifySeverityConsultation(id, severity);
 	} else if (severity === consultation.severity) {
-		throw generateErrors(400, 'BAD_REQUEST', 'Severity is the same');
+		throw generateErrors(400, 'BAD_REQUEST', 'La severidad es la misma');
 	}
 
 	if (req.body && Object.keys(req.body).length === 0) {
 		throw generateErrors(
 			400,
 			'BAD_REQUEST',
-			'No data provided for modification'
+			'No se proporcionaron datos para la modificación'
 		);
 	}
 
-	res.status(200).json({ message: 'Consultation modified successfully' });
+	res.status(200).json({ message: 'Consulta modificada correctamente' });
 };

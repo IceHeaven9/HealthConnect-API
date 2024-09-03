@@ -1,19 +1,19 @@
 // CONTROLADOR PARA OBTENER LA INFORMACION DE UN MÉDICO
 
-import { findUserById } from '../../database/users.js';
+import { findDoctorById } from '../../database/users.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 export const getDoctorById = async (req, res) => {
 	const { id } = req.params;
 
 	if (!id) {
-		throw generateErrors(404, 'NOT_FOUND', 'Doctor not found');
+		throw generateErrors(404, 'NOT_FOUND', 'Doctor no encontrado');
 	}
 
-	const doctor = await findUserById(id);
+	const doctor = await findDoctorById(id);
 
-	if (!doctor) {
-		throw generateErrors(404, 'NOT_FOUND', 'Doctor not found');
+	if (!doctor || doctor.userType !== 'doctor') {
+		throw generateErrors(404, 'NOT_FOUND', 'Doctor no encontrado');
 	}
 	res.status(200).json(doctor);
 };

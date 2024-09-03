@@ -198,55 +198,53 @@ export const getConsultationById = async (id) => {
 };
 // Funcion para obtener todas las consultas por la id de su especialidad
 
-export const getConsultationsBySpecialityId = async (req, specialityIds) => {
+export const getDoctorsConsultationsBySpecialityId = async (
+	req,
+	specialityIds
+) => {
 	const { title, severity, patientName, specialityName } = req.query;
 	const placeholders = specialityIds.map(() => '?').join(',');
 	const [consultations] = await Db.query(
 		`SELECT DISTINCT
         c.id,
+        c.date,
         c.title,
         c.severity,
         c.description,
-        c.status,
-        fc.fileName AS consultationFileName,
-        fc.filePath AS consultationFilePath,
-        fr.fileName AS responseFileName,
-        fr.filePath AS responseFilePath,
+        CONCAT(u.firstName, ' ', u.lastName) AS patientName,
         u.avatar AS patientAvatar,
-        u.firstName AS patientName,
-        u.email AS patientEmail,
-        r.rating,
-        d.avatar AS doctorAvatar,
         CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
-        s.name AS specialityName
+        d.avatar AS doctorAvatar,
+        s.name AS specialityName,
+        c.status
     FROM 
         consultations c
     LEFT JOIN 
-        files_consultations fc ON c.id = fc.consultationId
-    LEFT JOIN 
-        files_responses fr ON c.id = fr.responseId
-    LEFT JOIN 
         users u ON c.patientId = u.id
-    LEFT JOIN 
-        responses r ON c.id = r.consultationId
     LEFT JOIN 
         users d ON c.doctorId = d.id
     JOIN 
         specialities s ON c.specialityId = s.id
     WHERE 
         c.specialityId IN (${placeholders}) AND
-        c.title LIKE ? AND
-        c.severity LIKE ? AND
-        u.firstName LIKE ? AND
-        s.name LIKE ?`,
+        (? IS NULL OR c.title LIKE ?) AND
+        (? IS NULL OR c.severity LIKE ?) AND
+        (? IS NULL OR u.firstName LIKE ?) AND
+        (? IS NULL OR s.name LIKE ?)
+    ORDER BY c.id ASC`,
 		[
 			...specialityIds,
-			`%${title || ''}%`,
-			`%${severity || ''}%`,
-			`%${patientName || ''}%`,
-			`%${specialityName || ''}%`,
+			title ? `%${title}%` : null,
+			title ? `%${title}%` : null,
+			severity ? `%${severity}%` : null,
+			severity ? `%${severity}%` : null,
+			patientName ? `%${patientName}%` : null,
+			patientName ? `%${patientName}%` : null,
+			specialityName ? `%${specialityName}%` : null,
+			specialityName ? `%${specialityName}%` : null,
 		]
 	);
+
 	// Eliminar duplicados
 	const uniqueConsultations = Array.from(
 		new Set(consultations.map((c) => c.id))
@@ -258,10 +256,10 @@ export const getConsultationsBySpecialityId = async (req, specialityIds) => {
 	return uniqueConsultations;
 };
 
-// Funcion para obtener todas las consultas con filtros
+// Funcion para obtener todas las consultas con filtros de un paciente
 
-export const getConsultations = async (req, res) => {
-	const { title, severity, patientName, specialityName } = req.query;
+export const getPatientsConsultations = async (req, res) => {
+	const { title, severity, specialityName, startDate, endDate } = req.query;
 
 	const patientId = req.currentUser.id;
 
@@ -269,31 +267,20 @@ export const getConsultations = async (req, res) => {
 		`
             SELECT DISTINCT
                 c.id,
+                c.date,
                 c.title,
                 c.severity,
                 c.description,
-                c.status,
-                fc.fileName AS consultationFileName,
-                fc.filePath AS consultationFilePath,
-                fr.fileName AS responseFileName,
-                fr.filePath AS responseFilePath,
+                CONCAT(u.firstName, ' ', u.lastName) AS patientName,
                 u.avatar AS patientAvatar,
-                u.firstName AS patientName,
-                u.email AS patientEmail,
-                r.rating,
-                d.avatar AS doctorAvatar,
                 CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
-                s.name AS specialityName
+                d.avatar AS doctorAvatar,
+                s.name AS specialityName,
+                c.status
             FROM 
                 consultations c
             LEFT JOIN 
-                files_consultations fc ON c.id = fc.consultationId
-            LEFT JOIN 
-                files_responses fr ON c.id = fr.responseId
-            LEFT JOIN 
                 users u ON c.patientId = u.id
-            LEFT JOIN 
-                responses r ON c.id = r.consultationId
             LEFT JOIN 
                 users d ON c.doctorId = d.id
             JOIN 
@@ -301,35 +288,35 @@ export const getConsultations = async (req, res) => {
             WHERE 
                 c.title LIKE ? AND
                 c.severity LIKE ? AND
-                u.firstName LIKE ? AND
                 s.name LIKE ? AND
-                c.patientId = ?
+                c.patientId = ? AND
+                (? IS NULL OR c.date >= ?) AND
+                (? IS NULL OR c.date <= ?)
             GROUP BY 
                 c.id,
+                c.date,
                 c.title,
                 c.severity,
                 c.description,
-                c.status,
-                fc.fileName,
-                fc.filePath,
-                fr.fileName,
-                fr.filePath,
-                u.avatar,
                 u.firstName,
-                u.email,
-                r.rating,
-                d.avatar,
+                u.lastName,
+                u.avatar,
                 d.firstName,
                 d.lastName,
-                s.name
-            ORDER BY c.id DESC;
+                d.avatar,
+                s.name,
+                c.status
+            ORDER BY c.id ASC;
         `,
 		[
 			`%${title || ''}%`,
 			`%${severity || ''}%`,
-			`%${patientName || ''}%`,
 			`%${specialityName || ''}%`,
 			patientId,
+			startDate || null,
+			startDate || null,
+			endDate || null,
+			endDate || null,
 		]
 	);
 
@@ -340,9 +327,8 @@ export const getConsultations = async (req, res) => {
 	if (uniqueConsultations.length === 0) {
 		throw generateErrors(404, 'SERVER_ERROR', 'Consultas no encontradas');
 	}
-	res.status(200).json(uniqueConsultations);
+	return uniqueConsultations;
 };
-
 // Funcion para obtener todas las consultas que no estan asignadas
 
 export const getUnassignedConsultations = async (specialities) => {

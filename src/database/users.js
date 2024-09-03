@@ -106,6 +106,39 @@ export async function findUserById(id) {
 	return user;
 }
 
+// Funcion para obtener los datos de un medico por id
+
+export const findDoctorById = async (id) => {
+	const [[doctor]] = await Db.query(
+		`SELECT 
+            u.id, 
+            CONCAT(u.firstName, ' ', u.lastName) AS fullName, 
+            u.email, 
+            u.avatar, 
+            u.biography, 
+            u.codigoMedico,
+            u.userType,
+            GROUP_CONCAT(s.name SEPARATOR ', ') AS specialities,
+            (SELECT AVG(r.rating) FROM responses r WHERE r.doctorId = u.id) AS averageRating
+        FROM 
+            users u
+        LEFT JOIN 
+            user_specialities us ON u.id = us.userId
+        LEFT JOIN 
+            specialities s ON us.specialityId = s.id
+        WHERE 
+            u.id = ? AND u.userType = "doctor"
+        GROUP BY 
+            u.id`,
+		[id]
+	);
+
+	if (!doctor) {
+		throw generateErrors(404, 'NOT_FOUND', 'Doctor no encontrado');
+	}
+
+	return doctor;
+};
 // Funcion para verificar que el email no este en uso
 
 export async function assertEmailNotInUse(email) {
@@ -168,6 +201,35 @@ export async function getDoctors() {
     `);
 	return doctors;
 }
+
+// Funcion para obtener los datos de un medico por id
+
+export async function getDoctorById(id) {
+	const [[doctor]] = await Db.query(
+		`SELECT 
+            u.id, 
+            u.firstName, 
+            u.lastName, 
+            u.avatar,
+            u.biography, 
+            GROUP_CONCAT(s.name SEPARATOR ', ') AS specialities,
+            (SELECT AVG(r.rating) FROM responses r WHERE r.doctorId = u.id) AS averageRating
+        FROM 
+            users u
+        JOIN 
+            user_specialities us ON u.id = us.userId
+        JOIN 
+            specialities s ON us.specialityId = s.id
+        WHERE 
+            u.id = :id AND u.userType = 'doctor'
+        GROUP BY 
+            u.id`,
+		{ id }
+	);
+	return doctor;
+}
+
+// Funcion para obtener los datos de los medicos por especialidad
 
 // Funcion para setear una nueva contraseña a un usuario
 

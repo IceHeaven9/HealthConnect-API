@@ -4,6 +4,8 @@ import {
 	getConsultationsByDateAndDoctorId,
 	setDoctorId,
 } from '../../database/consultation.js';
+import { getSpecialitiesById } from '../../database/specialities.js';
+import { getDoctorById } from '../../database/users.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import { infoLog, succesLog } from '../../utils/logger.js';
 import { parseConsultationPayload } from '../../validations/consultations.js';
@@ -13,8 +15,6 @@ import { parseConsultationPayload } from '../../validations/consultations.js';
 export const createConsultationController = async (req, res) => {
 	const { title, description, severity, specialityid, doctorId, date } =
 		parseConsultationPayload(req.body);
-
-	infoLog('Creando consulta...');
 
 	// Convertir la fecha a UTC y sumar una hora
 	const utcDate = new Date(new Date(date).getTime() + 60 * 60 * 1000)
@@ -64,6 +64,30 @@ export const createConsultationController = async (req, res) => {
 		}
 	}
 
+	// Verificar si el doctor existe y si su especialidad coincide con la especialidad de la consulta
+	if (doctorId) {
+		const doctor = await getDoctorById(doctorId);
+		if (!doctor) {
+			throw generateErrors(404, 'NOT_FOUND', 'Doctor no encontrado');
+		}
+
+		const speciality = await getSpecialitiesById(specialityid);
+		if (!speciality) {
+			throw generateErrors(404, 'NOT_FOUND', 'Especialidad no encontrada');
+		}
+
+		const nameSpeciality = speciality.name;
+		const doctorSpecialities = doctor.specialities.split(', ');
+
+		if (!doctorSpecialities.includes(nameSpeciality)) {
+			throw generateErrors(
+				400,
+				'BAD_REQUEST',
+				'La especialidad del doctor no coincide con la especialidad de la consulta'
+			);
+		}
+	}
+
 	// Crear la consulta
 	const consultationId = await createConsultation({
 		title,
@@ -77,6 +101,5 @@ export const createConsultationController = async (req, res) => {
 	// Asignar el doctor a la consulta si se proporciona su ID
 	if (doctorId) await setDoctorId(doctorId, consultationId);
 
-	succesLog('Consulta creada con éxito!');
 	res.status(201).json({ mensaje: 'Cita creada', id: consultationId });
 };
