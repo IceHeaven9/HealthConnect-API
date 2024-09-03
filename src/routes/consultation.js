@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { createConsultationController } from '../controllers/consultation/createConsultation.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
 import { getConsultationDetailsController } from '../controllers/consultation/getconsultationbyid.js';
-import { getConsultationController } from '../controllers/consultation/getConsultations.js';
+import { getMyConsultationController } from '../controllers/consultation/getConsultationsPatientOrDoctor.js';
 import { parseCurrentUser, authGuard } from '../middlewares/authMiddleware.js';
 import { unassignedConsultationController } from '../controllers/consultation/unassignedConsultation.js';
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
@@ -42,14 +42,16 @@ consultationRoutes.post(
 	asyncHandler(assignConsultationController)
 );
 
-// Ruta para obtener todas las consultas
+// Ruta para obtener todas las consultas de un paciente o de una especialidad de un medico
 
 consultationRoutes.get(
-	'/consultations',
+	'/my-consultations',
 	parseCurrentUser,
 	authGuard,
-	asyncHandler(getConsultationController)
+	asyncHandler(getMyConsultationController)
 );
+
+// Ruta para obtener todas las consultas
 
 // Ruta para obtener los datos de una consulta
 

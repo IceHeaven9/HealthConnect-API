@@ -6,7 +6,7 @@ import { findUserById } from '../../database/users.js';
 
 // Controlador para obtener las consultas
 
-export const getConsultationController = async (req, res) => {
+export const getMyConsultationController = async (req, res) => {
 	const userId = req.currentUser.id;
 
 	const user = await findUserById(userId);

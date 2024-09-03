@@ -1,6 +1,5 @@
 import { generateErrors } from '../utils/generateErrors.js';
 import { Db } from './structure/db.js';
-import moment from 'moment-timezone';
 
 // Funcion para crear una consulta
 
@@ -19,6 +18,12 @@ export const createConsultation = async ({
 	return result.insertId;
 };
 
+// Funcion para obtener todas las consultas
+
+export const getAllConsultations = async () => {
+	const [rows] = await Db.query(`SELECT * FROM consultations`);
+	return rows;
+};
 // Función para obtener los datos de una consulta por id de consulta y solo si coincide con el id del paciente
 
 export const getConsultationById_ByPatientID = async (req, res) => {
