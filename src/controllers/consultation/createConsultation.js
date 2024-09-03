@@ -5,6 +5,7 @@ import {
 	setDoctorId,
 } from '../../database/consultation.js';
 import { generateErrors } from '../../utils/generateErrors.js';
+import { infoLog, succesLog } from '../../utils/logger.js';
 import { parseConsultationPayload } from '../../validations/consultations.js';
 
 // Controlador para crear una consulta
@@ -12,6 +13,15 @@ import { parseConsultationPayload } from '../../validations/consultations.js';
 export const createConsultationController = async (req, res) => {
 	const { title, description, severity, specialityid, doctorId, date } =
 		parseConsultationPayload(req.body);
+
+	infoLog('Creando consulta...');
+
+	// Convertir la fecha a UTC y sumar una hora
+	const utcDate = new Date(new Date(date).getTime() + 60 * 60 * 1000)
+		.toISOString()
+		.slice(0, 19)
+		.replace('T', ' ');
+
 	const user = req.currentUser;
 	const id = user.id;
 
@@ -27,9 +37,10 @@ export const createConsultationController = async (req, res) => {
 	// Verificar si el paciente ya tiene una consulta en esa fecha
 
 	const existingPatientConsultation = await getConsultationByDateAndPatientId(
-		date,
+		utcDate,
 		id
 	);
+
 	if (existingPatientConsultation) {
 		throw generateErrors(
 			400,
@@ -41,9 +52,10 @@ export const createConsultationController = async (req, res) => {
 	// Verificar si el doctor ya tiene una consulta en esa fecha
 	if (doctorId) {
 		const existingDoctorConsultation = await getConsultationsByDateAndDoctorId(
-			date,
+			utcDate,
 			doctorId
 		);
+
 		if (existingDoctorConsultation) {
 			throw generateErrors(
 				400,
@@ -54,19 +66,19 @@ export const createConsultationController = async (req, res) => {
 	}
 
 	// Crear la consulta
-	const idConsultation = await createConsultation({
+	const consultationId = await createConsultation({
 		title,
 		description,
 		severity,
 		specialityid,
 		patientId: id,
-		doctorId,
-		date,
+		date: utcDate,
 	});
-	const affectedRows = await setDoctorId(doctorId, idConsultation);
-	if (affectedRows === 0) {
-		throw generateErrors(400, 'DOCTOR_NOT_FOUND', 'Médico no encontrado');
-	}
 
-	res.status(201).json({ mensaje: 'Cita creada', id: idConsultation });
+	// Asignar el doctor a la consulta si se proporciona su ID
+
+	if (doctorId) await setDoctorId(doctorId, consultationId);
+
+	succesLog('Consulta creada con éxito!');
+	res.status(201).json({ mensaje: 'Cita creada', id: consultationId });
 };

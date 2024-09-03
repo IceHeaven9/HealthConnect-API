@@ -10,7 +10,7 @@ const consultationSchema = Joi.object({
 		.custom((value, helpers) => {
 			const now = new Date();
 			const tomorrow = new Date(now);
-			tomorrow.setDate(now.getDate() + 1);
+			tomorrow.setDate(now.getUTCDate() + 1);
 
 			if (value < tomorrow) {
 				return helpers.message(
