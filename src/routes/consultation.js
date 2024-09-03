@@ -12,6 +12,7 @@ import { getFinishedConsultationsController } from '../controllers/consultation/
 import { uploadConsultationFilesController } from '../controllers/consultation/uploadConsultationFiles.js';
 import { getUpcomingConsultationsController } from '../controllers/consultation/UpComingConsultations.js';
 import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFile.js';
+import { getAllConsultationsController } from '../controllers/consultation/getAllConsultationsController.js';
 
 export const consultationRoutes = Router();
 
@@ -52,6 +53,13 @@ consultationRoutes.get(
 );
 
 // Ruta para obtener todas las consultas
+
+consultationRoutes.get(
+	'/consultations',
+	parseCurrentUser,
+	authGuard,
+	asyncHandler(getAllConsultationsController)
+);
 
 // Ruta para obtener los datos de una consulta
 
