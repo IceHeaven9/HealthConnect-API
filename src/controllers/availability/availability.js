@@ -30,7 +30,11 @@ export const getDoctorAvailability = async (req, res) => {
     const bookedHours = doctorConsultations.map(c => new Date(c.date).getHours());
     const freeHours = Array.from({ length: 7 }, (_, i) => i + 9) // Horas de 9 AM a 3 PM
       .filter(hour => !bookedHours.includes(hour))
-      .map(hour => `${hour.toString().padStart(2, '0')}:00`); // Formato 00:00
+      .map(hour => {
+        const period = hour >= 12 ? 'PM' : 'AM';
+        const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
+        return `${formattedHour.toString().padStart(2, '0')}:00 ${period}`;
+      }); // Formato 00:00 AM/PM
     return {
       doctorId: doctor.id,
       doctorName: `${doctor.firstName} ${doctor.lastName}`,
