@@ -49,6 +49,4 @@ export const deleteConsultationFileController = async (req, res) => {
 			'Error al eliminar el archivo de la base de datos'
 		);
 	}
-
-	res.status(200).json({ message: 'Archivo eliminado exitosamente' });
 };
