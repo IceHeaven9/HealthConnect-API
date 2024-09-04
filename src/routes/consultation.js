@@ -1,18 +1,18 @@
 import { Router } from 'express';
-import { createConsultationController } from '../controllers/consultation/createConsultation.js';
-import { asyncHandler } from '../utils/asyncHandler.js';
-import { getConsultationDetailsController } from '../controllers/consultation/getconsultationbyid.js';
-import { getMyConsultationController } from '../controllers/consultation/getConsultationsPatientOrDoctor.js';
-import { parseCurrentUser, authGuard } from '../middlewares/authMiddleware.js';
-import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
-import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
-import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
-import { getFinishedConsultationsController } from '../controllers/consultation/finishedConsultations.js';
-import { uploadConsultationFilesController } from '../controllers/consultation/uploadConsultationFiles.js';
-import { getUpcomingConsultationsController } from '../controllers/consultation/UpComingConsultations.js';
-import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFile.js';
-import { getAllConsultationsController } from '../controllers/consultation/getAllConsultationsController.js';
 import { checkUserType } from '../middlewares/checkUserType.js';
+import { createConsultationController } from '../controllers/consultation/createConsultationController.js';
+import { assignConsultationController } from '../controllers/consultation/assignConsultationController.js';
+import { getMyConsultationsController } from '../controllers/consultation/getMyConsultationsController.js';
+import { getAllConsultationsController } from '../controllers/consultation/getAllConsultationsController.js';
+import { getConsultationDetailsController } from '../controllers/consultation/getConsultationDetailsController.js';
+import { modifyConsultationController } from '../controllers/consultation/modifyConsultationController.js';
+import { cancelConsultationController } from '../controllers/consultation/cancelConsultationController.js';
+import { getFinishedConsultationsController } from '../controllers/consultation/getFinishedConsultationsController.js';
+import { getUpcomingConsultationsController } from '../controllers/consultation/getUpcomingConsultationsController.js';
+import { uploadConsultationFilesController } from '../controllers/consultation/uploadConsultationFilesController.js';
+import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFileController.js';
+import { authGuard, parseCurrentUser } from '../middlewares/authMiddleware.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const consultationRoutes = Router();
 
@@ -40,7 +40,7 @@ consultationRoutes.get(
 	'/my-consultations',
 	parseCurrentUser,
 	authGuard,
-	asyncHandler(getMyConsultationController)
+	asyncHandler(getMyConsultationsController)
 );
 
 // Ruta para obtener todas las consultas

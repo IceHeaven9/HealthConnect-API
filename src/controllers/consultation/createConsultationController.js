@@ -7,7 +7,6 @@ import {
 import { getSpecialitiesById } from '../../database/specialities.js';
 import { getDoctorById } from '../../database/users.js';
 import { generateErrors } from '../../utils/generateErrors.js';
-import { infoLog, succesLog } from '../../utils/logger.js';
 import { parseConsultationPayload } from '../../validations/consultations.js';
 
 // Controlador para crear una consulta
