@@ -4,7 +4,6 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 import { getConsultationDetailsController } from '../controllers/consultation/getconsultationbyid.js';
 import { getMyConsultationController } from '../controllers/consultation/getConsultationsPatientOrDoctor.js';
 import { parseCurrentUser, authGuard } from '../middlewares/authMiddleware.js';
-import { unassignedConsultationController } from '../controllers/consultation/unassignedConsultation.js';
 import { assignConsultationController } from '../controllers/consultation/assignConsultation.js';
 import { modifyConsultationController } from '../controllers/consultation/modifyConsultation.js';
 import { cancelConsultationController } from '../controllers/consultation/cancelConsultation.js';
@@ -23,15 +22,6 @@ consultationRoutes.post(
 	parseCurrentUser,
 	authGuard,
 	asyncHandler(createConsultationController)
-);
-
-// Ruta para obtener consultas sin asignar
-
-consultationRoutes.get(
-	'/unassigned-consultation',
-	parseCurrentUser,
-	authGuard,
-	asyncHandler(unassignedConsultationController)
 );
 
 // Ruta para asignar un medico a una consulta

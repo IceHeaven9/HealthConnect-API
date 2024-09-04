@@ -391,43 +391,6 @@ export const getPatientsConsultations = async (req, res) => {
 	}
 	return uniqueConsultations;
 };
-// Funcion para obtener todas las consultas que no estan asignadas
-
-export const getUnassignedConsultations = async (specialities) => {
-	const placeholders = specialities.map(() => '?').join(',');
-
-	const [detailedUnassignedConsultations] = await Db.query(
-		`SELECT 
-            c.id,
-            c.title,
-            c.description,
-            c.severity,
-            c.specialityId,
-            c.patientId,
-            c.date,
-            CONCAT(p.firstName, ' ', p.lastName) AS patient,
-            p.avatar AS patientAvatar,
-            s.name AS speciality,
-            GROUP_CONCAT(fc.fileName) AS consultationFileNames,
-            GROUP_CONCAT(fc.filePath) AS consultationFilePaths
-        FROM 
-            consultations c
-        LEFT JOIN 
-            users p ON c.patientId = p.id
-        LEFT JOIN 
-            specialities s ON c.specialityId = s.id
-        LEFT JOIN 
-            files_consultations fc ON c.id = fc.consultationId
-        WHERE 
-            c.id NOT IN (SELECT consultationId FROM doctors_consultations) AND
-            c.specialityId IN (${placeholders})
-        GROUP BY 
-            c.id, c.title, c.description, c.severity, c.specialityId, c.patientId, c.date, p.firstName, p.lastName, p.avatar, s.name`,
-		specialities
-	);
-
-	return detailedUnassignedConsultations;
-};
 
 // Funcion para obtener el id del doctor
 
