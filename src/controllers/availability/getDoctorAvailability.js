@@ -1,7 +1,7 @@
 import { generateErrors } from '../../utils/generateErrors.js';
 import {
 	availabilityDoctors,
-	availabilityconsultations,
+	availabilityConsultations as availabilityConsultations,
 } from '../../database/availability.js';
 
 export const getDoctorAvailability = async (req, res) => {
@@ -33,7 +33,7 @@ export const getDoctorAvailability = async (req, res) => {
 	}
 
 	// Obtener todas las consultas de los doctores para la fecha dada
-	const consultations = await availabilityconsultations(specialityId, date);
+	const consultations = await availabilityConsultations(specialityId, date);
 
 	// Lógica para determinar las horas libres
 	const availability = doctors.map((doctor) => {
