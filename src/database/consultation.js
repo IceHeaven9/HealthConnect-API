@@ -158,12 +158,9 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
 
 	return rows[0];
 };
-// Función para obtener una consulta por el id de la consulta y solo si coincide con la especialidad del doctor
+// Función para obtener una consulta por el id de la consulta
 
-export const getConsultationsDetailsByDoctorId = async (
-	consultationId,
-	doctorId
-) => {
+export const getConsultationsDetailsByDoctorId = async (id) => {
 	const [rows] = await Db.query(
 		`
       SELECT DISTINCT
@@ -172,13 +169,11 @@ export const getConsultationsDetailsByDoctorId = async (
         c.severity,
         c.description,
         c.status,
-        fc.fileName AS consultationFileName,
-        fc.filePath AS consultationFilePath,
-        fr.fileName AS responseFileName,
-        fr.filePath AS responseFilePath,
+        c.date,
         u.avatar AS patientAvatar,
-        u.firstName AS patientName,
+        CONCAT(u.firstName, ' ', u.lastName) AS patientName,
         u.email AS patientEmail,
+        r.id AS responseId,
         r.rating,
         r.content AS responseContent,
         d.avatar AS doctorAvatar,
@@ -186,10 +181,6 @@ export const getConsultationsDetailsByDoctorId = async (
         s.name AS specialityName
       FROM 
         consultations c
-      LEFT JOIN 
-        files_consultations fc ON c.id = fc.consultationId
-      LEFT JOIN 
-        files_responses fr ON c.id = fr.responseId
       LEFT JOIN 
         users u ON c.patientId = u.id
       LEFT JOIN 
@@ -199,21 +190,18 @@ export const getConsultationsDetailsByDoctorId = async (
       JOIN 
         specialities s ON c.specialityId = s.id
       WHERE 
-        c.id = ? AND
-        c.doctorId = ?
+        c.id = ?
       GROUP BY 
         c.id,
         c.title,
         c.severity,
         c.description,
         c.status,
-        fc.fileName,
-        fc.filePath,
-        fr.fileName,
-        fr.filePath,
+        c.date,
         u.avatar,
         u.firstName,
         u.email,
+        r.id,
         r.rating,
         r.content,
         d.avatar,
@@ -222,7 +210,7 @@ export const getConsultationsDetailsByDoctorId = async (
         s.name
       ORDER BY c.id DESC;
     `,
-		[consultationId, doctorId]
+		[id]
 	);
 
 	if (rows.length === 0) {
@@ -231,8 +219,7 @@ export const getConsultationsDetailsByDoctorId = async (
 
 	return rows[0];
 };
-// Funcion para obtener una consulta por id
-// Se utiliza para obtener una consulta sin condiciones
+// Funcion para obtener el resumen de una consulta por id
 
 export const getConsultationById = async (id) => {
 	const [consultation] = await Db.query(
@@ -651,4 +638,22 @@ export const getConsultationsByDateAndDoctorId = async (date, doctorId) => {
 	const query = 'SELECT * FROM consultations WHERE date = ? AND doctorId = ?';
 	const [rows] = await Db.query(query, [date, doctorId]);
 	return rows[0] || null;
+};
+
+// Funcion para obtener los archivos de una consulta por su id
+
+export const getConsultationFilesByConsultationId = async (consultationId) => {
+	const query =
+		'SELECT fileName, filePath FROM files_consultations WHERE consultationId = ?';
+	const [rows] = await Db.query(query, [consultationId]);
+	return rows || null;
+};
+
+// Funcion para obtener los archivos de una respuesta por su id
+
+export const getResponseFilesByResponseId = async (responseId) => {
+	const query =
+		'SELECT fileName, filePath FROM files_responses WHERE responseId = ?';
+	const [rows] = await Db.query(query, [responseId]);
+	return rows || null;
 };

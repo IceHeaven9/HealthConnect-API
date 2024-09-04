@@ -119,7 +119,10 @@ export const findDoctorById = async (id) => {
             u.codigoMedico,
             u.userType,
             GROUP_CONCAT(s.name SEPARATOR ', ') AS specialities,
-            (SELECT AVG(r.rating) FROM responses r WHERE r.doctorId = u.id) AS averageRating
+            (SELECT AVG(r.rating) 
+             FROM responses r 
+             JOIN consultations c ON r.consultationId = c.id 
+             WHERE c.doctorId = u.id) AS averageRating
         FROM 
             users u
         LEFT JOIN 
@@ -181,13 +184,16 @@ export async function removeValidationCodeFromUser(userId) {
 export async function getDoctors() {
 	const [doctors] = await Db.query(`
         SELECT 
-				    u.id, 
+            u.id, 
             u.firstName, 
             u.lastName, 
             u.avatar,
             u.biography, 
             GROUP_CONCAT(s.name SEPARATOR ', ') AS specialities,
-            (SELECT AVG(r.rating) FROM responses r WHERE r.doctorId = u.id) AS averageRating
+            (SELECT AVG(r.rating) 
+             FROM responses r 
+             JOIN consultations c ON r.consultationId = c.id 
+             WHERE c.doctorId = u.id) AS averageRating
         FROM 
             users u
         JOIN 
@@ -201,7 +207,6 @@ export async function getDoctors() {
     `);
 	return doctors;
 }
-
 // Funcion para obtener los datos de un medico por id
 
 export async function getDoctorById(id) {
@@ -213,7 +218,10 @@ export async function getDoctorById(id) {
             u.avatar,
             u.biography, 
             GROUP_CONCAT(s.name SEPARATOR ', ') AS specialities,
-            (SELECT AVG(r.rating) FROM responses r WHERE r.doctorId = u.id) AS averageRating
+            (SELECT AVG(r.rating) 
+             FROM responses r 
+             JOIN consultations c ON r.consultationId = c.id 
+             WHERE c.doctorId = u.id) AS averageRating
         FROM 
             users u
         JOIN 
@@ -228,7 +236,6 @@ export async function getDoctorById(id) {
 	);
 	return doctor;
 }
-
 // Funcion para obtener los datos de los medicos por especialidad
 
 export async function getDoctorsBySpecialityId(specialityId) {
@@ -240,7 +247,10 @@ export async function getDoctorsBySpecialityId(specialityId) {
             u.avatar,
             u.biography, 
             GROUP_CONCAT(s.name SEPARATOR ', ') AS specialities,
-            (SELECT AVG(r.rating) FROM responses r WHERE r.doctorId = u.id) AS averageRating
+            (SELECT AVG(r.rating) 
+             FROM responses r 
+             JOIN consultations c ON r.consultationId = c.id 
+             WHERE c.doctorId = u.id) AS averageRating
         FROM 
             users u
         JOIN 
