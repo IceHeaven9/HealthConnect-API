@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { asyncHandler } from '../utils/asyncHandler.js';
-import { getDoctorAvailability } from '../controllers/availability/availability.js';
+import { getDoctorAvailability } from '../controllers/availability/getDoctorAvailability.js';
 
 export const availabilityRoutes = Router();
 
