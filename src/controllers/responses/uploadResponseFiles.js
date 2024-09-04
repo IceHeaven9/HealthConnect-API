@@ -17,14 +17,6 @@ export const uploadResponseFilesController = async (req, res) => {
 	const files = req.files.files;
 	const response = await findResponseById(id);
 
-	if (user.userType !== 'doctor') {
-		throw generateErrors(
-			403,
-			'SERVER_ERROR',
-			'No tienes permisos para acceder'
-		);
-	}
-
 	if (!response) {
 		throw generateErrors(404, 'SERVER_ERROR', 'Respuesta no encontrada');
 	}

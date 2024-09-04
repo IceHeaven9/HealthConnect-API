@@ -12,19 +12,19 @@ export const editResponseController = async (req, res) => {
 	const { content } = parseEditResponsePayload(req.body);
 
 	if (!responseData) {
-		throw generateErrors(404, 'NOT_FOUND', 'Response not found');
+		throw generateErrors(404, 'NO_ENCONTRADO', 'Respuesta no encontrada');
 	}
 
 	if (responseData.doctorId !== doctor.id) {
-		throw generateErrors(403, 'FORBIDDEN', 'Unauthorized');
+		throw generateErrors(403, 'PROHIBIDO', 'No autorizado');
 	}
 
 	if (responseData.rating !== null) {
-		throw generateErrors(400, 'BAD_REQUEST', 'Response already evaluated');
+		throw generateErrors(400, 'SOLICITUD_ERRONEA', 'Respuesta ya evaluada');
 	}
 
 	if (content) {
 		await editResponse(id, content);
-		res.status(200).json({ message: 'Response updated successfully' });
+		res.status(200).json({ message: 'Respuesta actualizada con éxito' });
 	}
 };

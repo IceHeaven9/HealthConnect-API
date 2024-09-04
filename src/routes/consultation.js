@@ -12,6 +12,7 @@ import { uploadConsultationFilesController } from '../controllers/consultation/u
 import { getUpcomingConsultationsController } from '../controllers/consultation/UpComingConsultations.js';
 import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFile.js';
 import { getAllConsultationsController } from '../controllers/consultation/getAllConsultationsController.js';
+import { checkUserType } from '../middlewares/checkUserType.js';
 
 export const consultationRoutes = Router();
 
@@ -48,6 +49,7 @@ consultationRoutes.get(
 	'/consultations',
 	parseCurrentUser,
 	authGuard,
+	checkUserType('doctor'),
 	asyncHandler(getAllConsultationsController)
 );
 
@@ -66,6 +68,7 @@ consultationRoutes.patch(
 	'/consultations/:id',
 	parseCurrentUser,
 	authGuard,
+	checkUserType('patient'),
 	asyncHandler(modifyConsultationController)
 );
 
@@ -75,6 +78,7 @@ consultationRoutes.patch(
 	'/consultations/:id/cancel',
 	parseCurrentUser,
 	authGuard,
+	checkUserType('patient'),
 	asyncHandler(cancelConsultationController)
 );
 
@@ -96,16 +100,22 @@ consultationRoutes.get(
 	asyncHandler(getUpcomingConsultationsController)
 );
 
+// Ruta para subir archivos a una consulta
+
 consultationRoutes.post(
 	'/consultations/:id/files',
 	parseCurrentUser,
 	authGuard,
+	checkUserType('patient'),
 	asyncHandler(uploadConsultationFilesController)
 );
+
+// Ruta para eliminar archivos de una consulta
 
 consultationRoutes.delete(
 	'/consultations/:id/:fileName',
 	parseCurrentUser,
 	authGuard,
+	checkUserType('patient'),
 	asyncHandler(deleteConsultationFileController)
 );

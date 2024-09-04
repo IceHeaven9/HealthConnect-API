@@ -18,14 +18,6 @@ export const createResponsesController = async (req, res) => {
 		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
 	}
 
-	if (userType === 'patient' && consultation.patientId !== userId) {
-		throw generateErrors(
-			403,
-			'FORBIDDEN',
-			'Los pacientes no pueden responder a consultas'
-		);
-	}
-
 	if (userType === 'doctor' && consultation.doctorId !== user.doctor) {
 		throw generateErrors(403, 'FORBIDDEN', 'No autorizado');
 	}

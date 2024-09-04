@@ -6,6 +6,10 @@ import { generateErrors } from '../../utils/generateErrors.js';
 export const getUpcomingConsultationsController = async (req, res) => {
 	const consultations = await getFutureConsultations(req, res);
 	if (!consultations)
-		throw generateErrors(404, 'NOT_FOUND', 'No upcoming consultations found');
+		throw generateErrors(
+			404,
+			'NOT_FOUND',
+			'No se encontraron consultas futuras'
+		);
 	res.status(200).json(consultations);
 };
