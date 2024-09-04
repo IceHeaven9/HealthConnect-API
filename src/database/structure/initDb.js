@@ -95,11 +95,9 @@ async function initDB() {
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 content VARCHAR(5000) NOT NULL,
                 consultationId INT NOT NULL,
-                doctorId INT NOT NULL,
                 rating INT DEFAULT NULL,
                 createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-                FOREIGN KEY (consultationId) REFERENCES consultations(id),
-                FOREIGN KEY (doctorId) REFERENCES users(id)
+                FOREIGN KEY (consultationId) REFERENCES consultations(id)
             )
         `);
 

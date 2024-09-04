@@ -179,12 +179,11 @@ async function createResponses() {
 		const responses = {
 			content: faker.lorem.paragraph(),
 			consultationId: faker.helpers.arrayElement(getConsultationsIds),
-			doctorId: faker.helpers.arrayElement(getDoctorsIds),
 			rating: faker.helpers.arrayElement([0, 1, 2, 3, 4, 5]),
 		};
 
 		await Db.query(
-			'INSERT INTO responses (content, consultationId, doctorId, rating) VALUES (:content, :consultationId, :doctorId, :rating)',
+			'INSERT INTO responses (content, consultationId, rating) VALUES (:content, :consultationId, :rating)',
 			responses
 		);
 	}

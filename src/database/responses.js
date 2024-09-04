@@ -16,8 +16,8 @@ export const getResponseById = async (id) => {
 
 export const setResponse = async (content, id, userId, rating) => {
 	const newResponse = await Db.query(
-		`INSERT INTO responses (content, consultationId, doctorId, rating) VALUES (:content, :id, :userId, :rating)`,
-		{ content, id, userId, rating }
+		`INSERT INTO responses (content, consultationId, rating) VALUES (:content, :id, :rating)`,
+		{ content, id, rating }
 	);
 
 	return newResponse;

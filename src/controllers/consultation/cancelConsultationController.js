@@ -2,7 +2,7 @@
 
 import {
 	cancelConsultation,
-	getConsultationById_ByPatientID,
+	getConsultationDetailsByPatientId,
 	getStatusConsultation,
 } from '../../database/consultation.js';
 import { generateErrors } from '../../utils/generateErrors.js';
@@ -11,7 +11,7 @@ export const cancelConsultationController = async (req, res) => {
 	const { id } = req.params;
 	const userId = req.currentUser;
 	const [[{ status }]] = await getStatusConsultation(id);
-	const consultation = await getConsultationById_ByPatientID(req, res);
+	const consultation = await getConsultationDetailsByPatientId(req, res);
 
 	if (!consultation) {
 		throw generateErrors(404, 'NOT_FOUND', 'Consultation not found');

@@ -42,13 +42,16 @@ export const getAllConsultations = async (req = {}) => {
             c.status,
             CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
             s.name AS specialityName,
-            CONCAT(p.firstName, ' ', p.lastName) AS patientName
+            CONCAT(p.firstName, ' ', p.lastName) AS patientName,
+            r.content AS responseContent
         FROM 
             consultations c
         LEFT JOIN 
             users d ON c.doctorId = d.id
         LEFT JOIN 
             users p ON c.patientId = p.id
+        LEFT JOIN 
+            responses r ON c.id = r.consultationId
         JOIN 
             specialities s ON c.specialityId = s.id
         WHERE 
@@ -83,7 +86,7 @@ export const getAllConsultations = async (req = {}) => {
 };
 // Función para obtener los datos de una consulta por id de consulta y solo si coincide con el id del paciente
 
-export const getConsultationById_ByPatientID = async (req, res) => {
+export const getConsultationDetailsByPatientId = async (req, res) => {
 	const userId = req.currentUser.id;
 	const consultationId = req.params.id;
 
@@ -104,6 +107,7 @@ export const getConsultationById_ByPatientID = async (req, res) => {
             u.firstName AS patientName,
             u.email AS patientEmail,
             r.rating,
+            r.content AS responseContent,
             d.avatar AS doctorAvatar,
             CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
             s.name AS specialityName
@@ -138,6 +142,7 @@ export const getConsultationById_ByPatientID = async (req, res) => {
             u.firstName,
             u.email,
             r.rating,
+            r.content,
             d.avatar,
             d.firstName,
             d.lastName,
@@ -153,10 +158,9 @@ export const getConsultationById_ByPatientID = async (req, res) => {
 
 	return rows[0];
 };
-
 // Función para obtener una consulta por el id de la consulta y solo si coincide con la especialidad del doctor
 
-export const getConsultationsById_ByDoctorId = async (
+export const getConsultationsDetailsByDoctorId = async (
 	consultationId,
 	doctorId
 ) => {
@@ -176,6 +180,7 @@ export const getConsultationsById_ByDoctorId = async (
         u.firstName AS patientName,
         u.email AS patientEmail,
         r.rating,
+        r.content AS responseContent,
         d.avatar AS doctorAvatar,
         CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
         s.name AS specialityName
@@ -210,6 +215,7 @@ export const getConsultationsById_ByDoctorId = async (
         u.firstName,
         u.email,
         r.rating,
+        r.content,
         d.avatar,
         d.firstName,
         d.lastName,
@@ -225,7 +231,6 @@ export const getConsultationsById_ByDoctorId = async (
 
 	return rows[0];
 };
-
 // Funcion para obtener una consulta por id
 // Se utiliza para obtener una consulta sin condiciones
 
@@ -235,6 +240,7 @@ export const getConsultationById = async (id) => {
         SELECT 
             c.id,
             c.title,
+            c.doctorId,
             CONCAT(d.firstName, ' ', d.lastName) AS doctor,
             CONCAT(p.firstName, ' ', p.lastName) AS patient,
             s.name AS speciality,
@@ -242,7 +248,8 @@ export const getConsultationById = async (id) => {
             c.date,
             c.status,
             c.description,
-            c.patientId
+            c.patientId,
+            GROUP_CONCAT(r.content SEPARATOR ', ') AS responseContent
         FROM 
             consultations c
         JOIN 
@@ -251,8 +258,12 @@ export const getConsultationById = async (id) => {
             users p ON c.patientId = p.id
         JOIN 
             specialities s ON c.specialityId = s.id
+        LEFT JOIN 
+            responses r ON c.id = r.consultationId
         WHERE 
             c.id = ?
+        GROUP BY 
+            c.id
         `,
 		[id]
 	);

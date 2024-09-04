@@ -1,7 +1,7 @@
 // Controlador para poder modificar una consulta antes de 48 horas antes de la fecha de la consulta
 
 import {
-	getConsultationById_ByPatientID,
+	getConsultationDetailsByPatientId,
 	modifyDescriptionConsultation,
 	modifySeverityConsultation,
 	modifyTitleConsultation,
@@ -14,7 +14,7 @@ export const modifyConsultationController = async (req, res) => {
 	const { title, description, severity } = parseModifyConsultationPayload(
 		req.body
 	);
-	const consultation = await getConsultationById_ByPatientID(req, res);
+	const consultation = await getConsultationDetailsByPatientId(req, res);
 
 	if (!consultation) {
 		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
