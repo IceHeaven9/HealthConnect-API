@@ -19,7 +19,6 @@ export const getDoctorAvailability = async (req, res) => {
     if (doctorId) {
         // Obtener el doctor específico
         doctors = await availabilityDoctors(specialityId, doctorId);
-        console.log(doctors)
     } else {
         // Obtener todos los doctores de la especialidad
         doctors = await availabilityDoctors(specialityId);
