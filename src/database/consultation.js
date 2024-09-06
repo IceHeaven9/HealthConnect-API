@@ -222,8 +222,8 @@ export const getConsultationsDetailsByDoctorId = async (id) => {
 // Funcion para obtener el resumen de una consulta por id
 
 export const getConsultationById = async (id) => {
-	const [consultation] = await Db.query(
-		`
+    const [consultation] = await Db.query(
+        `
         SELECT 
             c.id,
             c.title,
@@ -235,26 +235,21 @@ export const getConsultationById = async (id) => {
             c.date,
             c.status,
             c.description,
-            c.patientId,
-            GROUP_CONCAT(r.content SEPARATOR ', ') AS responseContent
+            c.patientId
         FROM 
             consultations c
-        JOIN 
+        LEFT JOIN 
             users d ON c.doctorId = d.id
         JOIN 
             users p ON c.patientId = p.id
         JOIN 
             specialities s ON c.specialityId = s.id
-        LEFT JOIN 
-            responses r ON c.id = r.consultationId
         WHERE 
             c.id = ?
-        GROUP BY 
-            c.id
         `,
-		[id]
-	);
-	return consultation;
+        [id]
+    );
+    return consultation;
 };
 // Funcion para obtener todas las consultas por la id de su especialidad
 
