@@ -100,5 +100,5 @@ export const createConsultationController = async (req, res) => {
 	// Asignar el doctor a la consulta si se proporciona su ID
 	if (doctorId) await setDoctorId(doctorId, consultationId);
 
-	res.status(201).json({ mensaje: 'Cita creada', id: consultationId });
+	res.status(201).json({ message: 'Cita creada', id: consultationId });
 };
