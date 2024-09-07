@@ -14,8 +14,8 @@ export const modifyConsultationController = async (req, res) => {
 	const { title, description, severity } = parseModifyConsultationPayload(
 		req.body
 	);
-	const consultation = await getConsultationDetailsByPatientId(req, res);
 
+	const consultation = await getConsultationDetailsByPatientId(req, res);
 	if (!consultation) {
 		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
 	}
@@ -33,19 +33,19 @@ export const modifyConsultationController = async (req, res) => {
 		);
 	}
 
-	if (title && title !== consultation.title) {
+	if (title) {
 		await modifyTitleConsultation(id, title);
 	} else if (title === consultation.title) {
 		throw generateErrors(400, 'BAD_REQUEST', 'El título es el mismo');
 	}
 
-	if (description && description !== consultation.description) {
+	if (description) {
 		await modifyDescriptionConsultation(id, description);
 	} else if (description === consultation.description) {
 		throw generateErrors(400, 'BAD_REQUEST', 'La descripción es la misma');
 	}
 
-	if (severity && severity !== consultation.severity) {
+	if (severity) {
 		await modifySeverityConsultation(id, severity);
 	} else if (severity === consultation.severity) {
 		throw generateErrors(400, 'BAD_REQUEST', 'La severidad es la misma');
