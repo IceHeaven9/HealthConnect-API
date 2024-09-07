@@ -16,7 +16,15 @@ export const getConsultationDetailsController = async (req, res) => {
 
 	if (user.userType === 'patient') {
 		const consultation = await getConsultationDetailsByPatientId(req, res);
-		res.status(200).json({ consultation, consultationFiles });
+		const responseId = consultation.responseId;
+		const responseFiles = await getResponseFilesByResponseId(responseId);
+		const result = {
+			...consultation,
+			consultationFiles,
+			responseFiles
+		};
+
+		res.status(200).json(result);
 	}
 
 	if (user.userType === 'doctor') {
