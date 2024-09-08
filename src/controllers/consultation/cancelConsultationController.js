@@ -14,14 +14,14 @@ export const cancelConsultationController = async (req, res) => {
 	const consultation = await getConsultationDetailsByPatientId(req, res);
 
 	if (!consultation) {
-		throw generateErrors(404, 'NOT_FOUND', 'Consultation not found');
+		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
 	}
 
 	if (consultation.patientEmail !== userId.email) {
 		throw generateErrors(
 			403,
 			'FORBIDDEN',
-			'You are not authorized to cancel this consultation'
+			'No estás autorizado para cancelar esta consulta'
 		);
 	}
 
@@ -34,17 +34,17 @@ export const cancelConsultationController = async (req, res) => {
 		throw generateErrors(
 			400,
 			'BAD_REQUEST',
-			'You can not modify a consultation less than 48 hours before the consultation'
+			'No puedes modificar una consulta con menos de 48 horas de antelación'
 		);
 	}
 	if (status === 'cancelled') {
-		throw generateErrors(400, 'BAD_REQUEST', 'Consultation already cancelled');
+		throw generateErrors(400, 'BAD_REQUEST', 'Consulta ya cancelada');
 	}
 	if (status === 'completed') {
-		throw generateErrors(400, 'BAD_REQUEST', 'Consultation already completed');
+		throw generateErrors(400, 'BAD_REQUEST', 'Consulta ya completada');
 	}
 	if (status === 'pending') {
 		await cancelConsultation(id);
 	}
-	return res.status(200).json({ message: 'Consultation cancelled' });
+	return res.status(200).json({ message: 'Consulta cancelada' });
 };

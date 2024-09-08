@@ -4,14 +4,16 @@ import { PUBLIC_DIR } from '../../../constants.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import {
 	deleteResponseFile,
-	findResponseById,
+	getResponsesByConsultationId,
 } from '../../database/responses.js';
 
 export const deleteResponseFileController = async (req, res) => {
 	const user = req.currentUser;
-	const { id, fileName } = req.params;
+	const { consultationId, fileName } = req.params;
 
-	const response = await findResponseById(id);
+	const [response] = await getResponsesByConsultationId(consultationId);
+
+	console.log(response);
 
 	if (user.id !== response.doctorId) {
 		throw generateErrors(
@@ -30,7 +32,7 @@ export const deleteResponseFileController = async (req, res) => {
 
 	await fs.unlink(filePath);
 
-	const result = await deleteResponseFile(id, fileName);
+	const result = await deleteResponseFile(response.consultationId, fileName);
 
 	if (result.affectedRows > 0) {
 		res.status(200).json({ message: 'Archivo eliminado exitosamente' });

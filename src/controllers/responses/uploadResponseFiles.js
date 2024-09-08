@@ -5,17 +5,17 @@ import { convertImageToWebp } from '../../utils/convertToWebp.js';
 import { PUBLIC_DIR } from '../../../constants.js';
 import { allowedMimeTypes } from '../../validations/consultations.js';
 import {
-	findResponseById,
+	getResponsesByConsultationId,
 	uploadResponseFiles,
 } from './../../database/responses.js';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export const uploadResponseFilesController = async (req, res) => {
-	const { id } = req.params;
+	const { consultationId } = req.params;
 	const user = req.currentUser;
 	const files = req.files.files;
-	const response = await findResponseById(id);
+	const [response] = await getResponsesByConsultationId(consultationId);
 
 	if (!response) {
 		throw generateErrors(404, 'SERVER_ERROR', 'Respuesta no encontrada');
@@ -65,7 +65,7 @@ export const uploadResponseFilesController = async (req, res) => {
 		const fileExtension = mimeType.startsWith('image/')
 			? '.webp'
 			: path.extname(file.name);
-		const fileName = `${id}-${user.id}${crypto.randomUUID()}${fileExtension}`;
+		const fileName = `${response.id}-${user.id}-${crypto.randomUUID()}${fileExtension}`;
 		const filePath = path.join(userDir, fileName);
 
 		try {
@@ -85,7 +85,7 @@ export const uploadResponseFilesController = async (req, res) => {
 
 	const uploadFiles = await Promise.all(uploadPromises);
 
-	const uploadedFiles = await uploadResponseFiles(id, uploadFiles);
+	const uploadedFiles = await uploadResponseFiles(response.id, uploadFiles);
 
 	res.status(200).json({
 		message: 'Archivos subidos exitosamente',

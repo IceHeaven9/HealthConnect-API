@@ -43,7 +43,7 @@ consultationRoutes.get(
 	asyncHandler(getMyConsultationsController)
 );
 
-// Ruta para obtener todas las consultas
+// Ruta para obtener todas las consultas solo doctores
 
 consultationRoutes.get(
 	'/consultations',
@@ -53,7 +53,7 @@ consultationRoutes.get(
 	asyncHandler(getAllConsultationsController)
 );
 
-// Ruta para obtener los datos de una consulta
+// Ruta para obtener los detalles de una consulta
 
 consultationRoutes.get(
 	'/consultations/:id/details',
@@ -85,7 +85,7 @@ consultationRoutes.patch(
 //Ruta para obtener Consultas Finalizadas
 
 consultationRoutes.get(
-	'/finished-Consultations',
+	'/consultations/completed',
 	parseCurrentUser,
 	authGuard,
 	asyncHandler(getFinishedConsultationsController)

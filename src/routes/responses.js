@@ -43,7 +43,7 @@ responsesRoutes.patch(
 // Ruta para subir archivos a una respuesta
 
 responsesRoutes.post(
-	'/response/:id/files',
+	'/consultations/:consultationId/response/files',
 	parseCurrentUser,
 	authGuard,
 	checkUserType('doctor'),
@@ -53,7 +53,7 @@ responsesRoutes.post(
 // Ruta para eliminar un archivo de una respuesta
 
 responsesRoutes.delete(
-	'/response/:id/:fileName',
+	'/consultations/:consultationId/response/files/:fileName',
 	parseCurrentUser,
 	authGuard,
 	checkUserType('doctor'),

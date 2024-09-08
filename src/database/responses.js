@@ -14,10 +14,10 @@ export const getResponseById = async (id) => {
 };
 // Funcion para crear una respuesta
 
-export const setResponse = async (content, id, userId, rating) => {
+export const setResponse = async (content, id) => {
 	const newResponse = await Db.query(
-		`INSERT INTO responses (content, consultationId, rating) VALUES (:content, :id, :rating)`,
-		{ content, id, rating }
+		`INSERT INTO responses (content, consultationId) VALUES (:content, :id)`,
+		{ content, id }
 	);
 
 	return newResponse;
@@ -25,10 +25,10 @@ export const setResponse = async (content, id, userId, rating) => {
 
 // Funcion para editar una respuesta
 
-export const editResponse = async (id, content) => {
+export const editResponse = async (consultationId, content) => {
 	const editedResponse = await Db.query(
-		'UPDATE responses SET content = ? WHERE id = ?',
-		[content, id]
+		'UPDATE responses SET content = ? WHERE consultationId = ?',
+		[content, consultationId]
 	);
 
 	return editedResponse;
@@ -36,10 +36,10 @@ export const editResponse = async (id, content) => {
 
 // Función para insertar un rating en una respuesta
 
-export const setRating = async (id, rating) => {
+export const setRating = async (consultationId, rating) => {
 	const newRating = await Db.query(
-		'UPDATE responses SET rating = ? WHERE id = ?',
-		[rating, id]
+		'UPDATE responses SET rating = ? WHERE consultationId = ?',
+		[rating, consultationId]
 	);
 
 	return newRating;
@@ -77,4 +77,21 @@ export const deleteResponseFile = async (responseId, fileName) => {
 		'DELETE FROM files_responses WHERE responseId = ? AND fileName = ?';
 	const [result] = await Db.query(query, [responseId, fileName]);
 	return result;
+};
+
+// Funcion para obtener las respuestas de una consulta
+export const getResponsesByConsultationId = async (id) => {
+	const query = `SELECT responses.*, files_responses.fileName, files_responses.filePath, consultations.doctorId 
+        FROM responses 
+        LEFT JOIN files_responses ON responses.id = files_responses.responseId 
+        LEFT JOIN consultations ON responses.consultationId = consultations.id
+        WHERE responses.consultationId = ?`;
+	const [rows] = await Db.query(query, [id]);
+
+	// Eliminar duplicados
+	const uniqueResponses = Array.from(
+		new Set(rows.map((r) => JSON.stringify(r)))
+	).map((str) => JSON.parse(str));
+
+	return uniqueResponses;
 };
