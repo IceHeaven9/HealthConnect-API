@@ -15,7 +15,7 @@ export async function parseCurrentUser(req, res, next) {
 					generateErrors(
 						401,
 						'TOKEN_EXPIRED',
-						'Your session has expired. Please log in again.'
+						'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.'
 					)
 				);
 			}
@@ -32,7 +32,7 @@ export function authGuard(req, res, next) {
 		throw generateErrors(
 			401,
 			'UNAUTHORIZED',
-			'You must be logged in to access this resource'
+			'Debes iniciar sesión para acceder a este recurso'
 		);
 	}
 
