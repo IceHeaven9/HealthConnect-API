@@ -1,0 +1,1194 @@
+{
+	"info": {
+		"_postman_id": "ba09a1dd-e820-42bf-984d-ca5a2f20293b",
+		"name": "HealthConnect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34742662"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"cristhian_devfs@outlook.com\",\r\n    \"userName\":\"cristhian\",\r\n    \"firstName\":\"cris\",\r\n    \"lastName\":\"medrano\",\r\n    \"userType\":\"doctor\",\r\n    \"codigoMedico\":123456789,\r\n    \"experience\":5,\r\n    \"password\":\"user1234\",\r\n    \"biography\":\" esto es una prueba para comprobar que el dato de la biografia\",\r\n    \"specialityId\":[3,5,19]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "VERIFY EMAIL",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"cristhian_devfs@outlook.com\",\r\n    \"code\":181200\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/validate-email",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"validate-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN DOCTOR",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"email\":\"Tia_Pagac60@hotmail.com\",\r\n\"password\":\"pass1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN PATIENT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"email\":\"Korey.Kris@gmail.com\",\r\n\"password\":\"pass1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CHANGE PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJ1c2VyTmFtZSI6Ik1vdXJhem9zIiwiZW1haWwiOiJtb3VyYXpvczE5OTVAZ21haWwuY29tIiwiYXZhdGFyIjpudWxsLCJ1c2VyVHlwZSI6InBhdGllbnQiLCJpYXQiOjE3MjUyOTg1NDgsImV4cCI6MTcyNTkwMzM0OH0.M0FFiLN3RJrQiSa6CAoUKq2Uc3l_kXHiEqhL782nrOk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\":\"pass12345\",\r\n    \"newPassword1\":\"user1234\",\r\n    \"newPassword2\":\"user1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/change-password",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RECOVERY PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"cristhian_devfs@outlook.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recover-password",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recover-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PASSWORD WITH RECOVERY TOKEN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"recoveryPasswordCode\":\"\",\r\n    \"password1\":\"pass12345\",\r\n    \"password2\":\"pass12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/reset",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"reset"
+							],
+							"query": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsInVzZXJOYW1lIjoiY3Jpc3RoaWFuIiwiZW1haWwiOiJjcmlzdGhpYW5fZGV2ZnNAb3V0bG9vay5jb20iLCJhdmF0YXIiOiJodHRwOi8vbG9jYWxob3N0OjMwMDAvdXBsb2Fkcy8zNTE2NTQ2NTQ2MjY1MTU0NzY4NDEzNDY4ODc2ODc0MzQxNjM1Ny53ZWJwIiwidXNlclR5cGUiOiJkb2N0b3IiLCJpYXQiOjE3MjQyMzQ3MzQsImV4cCI6MTcyNDgzOTUzNH0.aI29P28m4RDG2NetcYsdyo_Rjau4Sa8kgJjdwTKfU6c",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CONSULTATIONS",
+			"item": [
+				{
+					"name": "CREATE CONSULTATION",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlck5hbWUiOiJMZW9uZV9PS2VlZmUiLCJlbWFpbCI6IlRvcnJhbmNlOTlAZ21haWwuY29tIiwiYXZhdGFyIjoiaHR0cHM6Ly9pLnByYXZhdGFyLmNjLzE1MD91PUxlb25lX09LZWVmZSIsInVzZXJUeXBlIjoicGFjaWVudGUiLCJpYXQiOjE3MjQ0MzI2ODUsImV4cCI6MTcyNTAzNzQ4NX0.ev7Yv3VsRrMpUPLRGRNcEIJ5z_3afuVlo8ouNfVPx38",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"ENFERMO2\",\r\n\t\"description\":\"me duele la barriga2\",\r\n\t\"severity\":\"low\",\r\n\t\"specialityid\":\"6\",\r\n    \"date\":\"2028-02-18\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/consultations",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ASSIGN CONSULTATION",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJ1c2VyTmFtZSI6ImNyaXN0aGlhbiIsImVtYWlsIjoiY3Jpc3RoaWFuX2RldmZzQG91dGxvb2suY29tIiwiYXZhdGFyIjpudWxsLCJ1c2VyVHlwZSI6ImRvY3RvciIsImlhdCI6MTcyNDQ1MDY1MCwiZXhwIjoxNzI1MDU1NDUwfQ.RwAeY3JEQ8j20Ry0lqYGf63muFIyAmQmu8f1RSQjvLg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"consultationId\":91\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/assign-consultation",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"assign-consultation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPLOAD CONSULTATIONS FILES",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInVzZXJOYW1lIjoiTGF1cmV0dGE2OCIsImVtYWlsIjoiS29yZXkuS3Jpc0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9TGF1cmV0dGE2OCIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTQ2OTY3MywiZXhwIjoxNzI2MDc0NDczfQ.AyHX9A4qw1ay9m5YpOwo3KNHy7y2iBVhalyHMbPUAxI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"postman-cloud:///1ef6ae07-7247-4030-9381-bbeec7438016",
+										"/C:/Users/Ivan_/Pictures/Saved Pictures/xcfghncxfg.png"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/1/files",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"1",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET UNASSIGNED CONSULTATIONS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJ1c2VyTmFtZSI6ImNyaXN0aGlhbiIsImVtYWlsIjoiY3Jpc3RoaWFuX2RldmZzQG91dGxvb2suY29tIiwiYXZhdGFyIjpudWxsLCJ1c2VyVHlwZSI6ImRvY3RvciIsImlhdCI6MTcyNDQzNDk4NywiZXhwIjoxNzI1MDM5Nzg3fQ.ZNFQGtdCMhWBn-BDVAbuzsURvxL1SSwAR3w8-VSnhak",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/unassigned-consultation",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"unassigned-consultation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PATIENT CONSULTATIONS WITH FILTERS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjYsInVzZXJOYW1lIjoiQ2FybG8uUm9sZnNvbjEiLCJlbWFpbCI6IkthcmxleV9DcmlzdDQxQHlhaG9vLmNvbSIsImF2YXRhciI6Imh0dHBzOi8vaS5wcmF2YXRhci5jYy8xNTA_dT1DYXJsby5Sb2xmc29uMSIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTM5MDgyMCwiZXhwIjoxNzI1OTk1NjIwfQ.Xu-nzhb9tNsu4ijd4gqim4LcB_T9E2jOZpd1_ucvkGs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/my-consultations",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"my-consultations"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "specialityName",
+									"value": "Hematología",
+									"disabled": true
+								},
+								{
+									"key": "severity",
+									"value": "low",
+									"disabled": true
+								},
+								{
+									"key": "patient",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "ASC",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2023-08-13",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "2025-01-13",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET DOCTOR CONSULTATIONS WITH FILTERS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsInVzZXJOYW1lIjoiTWlyZWlsbGUuTHVldHRnZW4iLCJlbWFpbCI6Ik1haXlhLkZlZW5leTcwQHlhaG9vLmNvbSIsImF2YXRhciI6Imh0dHBzOi8vaS5wcmF2YXRhci5jYy8xNTA_dT1NaXJlaWxsZS5MdWV0dGdlbiIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI1MzkwNzUyLCJleHAiOjE3MjU5OTU1NTJ9.Vaf4J-YJgNaQd2gKUXmRUuJtJnpX38oHThwL5bTOmdM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/my-consultations",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"my-consultations"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "specialityName",
+									"value": "Hematología",
+									"disabled": true
+								},
+								{
+									"key": "severity",
+									"value": "low",
+									"disabled": true
+								},
+								{
+									"key": "patient",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "ASC",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2023-08-13",
+									"disabled": true
+								},
+								{
+									"key": "endDate",
+									"value": "2025-01-13",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET CONSULTATION BY ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlck5hbWUiOiJGbGF2aWVfU2ltb25pcyIsImVtYWlsIjoiUGF1bGE4N0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9RmxhdmllX1NpbW9uaXMiLCJ1c2VyVHlwZSI6InBhY2llbnRlIiwiaWF0IjoxNzI0NDU0MTk5LCJleHAiOjE3MjUwNTg5OTl9.KMMDsbMtDZh5_stSGVvILNbBbF9XkDgIuBg5w5_EQ2U",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/consultations/64/details",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"64",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET CONSULTATION DETAILS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDcsInVzZXJOYW1lIjoiRW1pbGlhOSIsImVtYWlsIjoiVGF5bG9yX0RlbmVzaWs5OEB5YWhvby5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9RW1pbGlhOSIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTczNjEwMiwiZXhwIjoxNzI2MzQwOTAyfQ.VGiVS41-inKp_oG2t3IoB71-sgxWJUDfn7sJxqfmC9I",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/consultations/3/details",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"3",
+								"details"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL CONSULTATIONS (ONLY DOCTOR)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTEsInVzZXJOYW1lIjoiR2VuZXNpczE4IiwiZW1haWwiOiJNY2tlbm5hX01jQ2x1cmUxMEBnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9R2VuZXNpczE4IiwidXNlclR5cGUiOiJkb2N0b3IiLCJpYXQiOjE3MjU0NjM2MDAsImV4cCI6MTcyNjA2ODQwMH0.Z_Yo0IOg_dfvbEC4ayj_DIbqj3LezdD9HuRWrL--WuA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/consultations",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations"
+							],
+							"query": [
+								{
+									"key": "doctorName",
+									"value": "Pol",
+									"disabled": true
+								},
+								{
+									"key": "specialityName",
+									"value": "Oncología",
+									"disabled": true
+								},
+								{
+									"key": "severity",
+									"value": "low",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET COMPLETED CONSULTATIONS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInVzZXJOYW1lIjoiTGF1cmV0dGE2OCIsImVtYWlsIjoiS29yZXkuS3Jpc0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9TGF1cmV0dGE2OCIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTgxMjkwMSwiZXhwIjoxNzI2NDE3NzAxfQ.xDYSGm-18wJoor98G-jdkx5NvVglhN1H2UlZzBoJeB8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/completed",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"completed"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "corona",
+									"disabled": true
+								},
+								{
+									"key": "severity",
+									"value": "medium",
+									"disabled": true
+								},
+								{
+									"key": "doctorName",
+									"value": "Godfrey",
+									"disabled": true
+								},
+								{
+									"key": "specialityName",
+									"value": "Oncología",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET UPCOMING CONSULTATIONS",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInVzZXJOYW1lIjoiTGF1cmV0dGE2OCIsImVtYWlsIjoiS29yZXkuS3Jpc0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9TGF1cmV0dGE2OCIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTgxMjkwMSwiZXhwIjoxNzI2NDE3NzAxfQ.xDYSGm-18wJoor98G-jdkx5NvVglhN1H2UlZzBoJeB8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/1/upcoming",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"1",
+								"upcoming"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "c.id",
+									"disabled": true
+								},
+								{
+									"key": "sortOrder",
+									"value": "DESC",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "corona",
+									"disabled": true
+								},
+								{
+									"key": "severity",
+									"value": "medium",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET FREE HOURS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/availability?specialityId=6&date=2024-10-10&doctorId=52",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"availability"
+							],
+							"query": [
+								{
+									"key": "specialityId",
+									"value": "6"
+								},
+								{
+									"key": "date",
+									"value": "2024-10-10"
+								},
+								{
+									"key": "doctorId",
+									"value": "52"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MODIFY CONSULTATION",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInVzZXJOYW1lIjoiTGF1cmV0dGE2OCIsImVtYWlsIjoiS29yZXkuS3Jpc0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9TGF1cmV0dGE2OCIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTgxMjkwMSwiZXhwIjoxNzI2NDE3NzAxfQ.xDYSGm-18wJoor98G-jdkx5NvVglhN1H2UlZzBoJeB8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"quisquam thermae\",\r\n    \"description\":\"prueba de descripcion\",\r\n    \"severity\":\"medium\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CANCEL CONSULTATION",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInVzZXJOYW1lIjoiTGF1cmV0dGE2OCIsImVtYWlsIjoiS29yZXkuS3Jpc0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9TGF1cmV0dGE2OCIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTgxMjkwMSwiZXhwIjoxNzI2NDE3NzAxfQ.xDYSGm-18wJoor98G-jdkx5NvVglhN1H2UlZzBoJeB8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/consultations/1/cancel",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"1",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE CONSULTATION FILE",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInVzZXJOYW1lIjoiTGF1cmV0dGE2OCIsImVtYWlsIjoiS29yZXkuS3Jpc0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9TGF1cmV0dGE2OCIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTQ2OTY3MywiZXhwIjoxNzI2MDc0NDczfQ.AyHX9A4qw1ay9m5YpOwo3KNHy7y2iBVhalyHMbPUAxI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/consultations/1/1-496e7c3a77-e455-4c10-8fef-ccbb480d45ab.webp",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"1",
+								"1-496e7c3a77-e455-4c10-8fef-ccbb480d45ab.webp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "RESPONSES",
+			"item": [
+				{
+					"name": "CREATE RESPONSE FOR CONSULTATION",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODUsInVzZXJOYW1lIjoiQWx0aGVhX1plbWxhayIsImVtYWlsIjoiVGlhX1BhZ2FjNjBAaG90bWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9QWx0aGVhX1plbWxhayIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI1ODI3NzYzLCJleHAiOjE3MjY0MzI1NjN9.4xKNfm21NYsusOrTRLrW7GTOjWjm0x0oylYAJQSmic8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"content\": \"Esta es la respuesta a la consulta.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/2/response",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"2",
+								"response"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MODIFY RESPONSE",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTgsInVzZXJOYW1lIjoiQnJvb2tseW4yMyIsImVtYWlsIjoiUHJlY2lvdXMuU2NoaW5uZXJAaG90bWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9QnJvb2tseW4yMyIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI1ODE0NTQ1LCJleHAiOjE3MjY0MTkzNDV9.IM3F-7Ltw5VCQPruP7QBZltdMAgy8aBGmKJCUeS5rug",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"hola muy buenas. que tal?\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/1/response/edit",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"1",
+								"response",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "INSERTAR RATING",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NDksInVzZXJOYW1lIjoiTGF1cmV0dGE2OCIsImVtYWlsIjoiS29yZXkuS3Jpc0BnbWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9TGF1cmV0dGE2OCIsInVzZXJUeXBlIjoicGF0aWVudCIsImlhdCI6MTcyNTgxNjY5MSwiZXhwIjoxNzI2NDIxNDkxfQ.a10cSRxp7u2JreBsQtwNb7u5jtW7QjKOIiP2YEqcMFY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"rating\":2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/1/response/rate",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"1",
+								"response",
+								"rate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPLOAD RESPONSE FILES",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODUsInVzZXJOYW1lIjoiQWx0aGVhX1plbWxhayIsImVtYWlsIjoiVGlhX1BhZ2FjNjBAaG90bWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9QWx0aGVhX1plbWxhayIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI1ODI3NzYzLCJleHAiOjE3MjY0MzI1NjN9.4xKNfm21NYsusOrTRLrW7GTOjWjm0x0oylYAJQSmic8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "/C:/Users/Ivan_/Pictures/Logos/Perfil healthConnect-Photoroom.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/consultations/2/response/files",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"2",
+								"response",
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE RESPONSE FILES",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODUsInVzZXJOYW1lIjoiQWx0aGVhX1plbWxhayIsImVtYWlsIjoiVGlhX1BhZ2FjNjBAaG90bWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9QWx0aGVhX1plbWxhayIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI1ODI3NzYzLCJleHAiOjE3MjY0MzI1NjN9.4xKNfm21NYsusOrTRLrW7GTOjWjm0x0oylYAJQSmic8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3000/consultations/2/response/files/105-85-a625e60d-7db9-4e9a-9102-350c0d7514c7.webp",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"consultations",
+								"2",
+								"response",
+								"files",
+								"105-85-a625e60d-7db9-4e9a-9102-350c0d7514c7.webp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "GET ALL DOCTORS",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/doctors",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET DOCTORS BY SPECIALITIES",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/specialities/6/doctors",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"specialities",
+								"6",
+								"doctors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "INFO DOCTOR",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/doctors/51",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"doctors",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CHANGE PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAxLCJ1c2VyTmFtZSI6ImNyaXN0aGlhbiIsImVtYWlsIjoiY3Jpc3RoaWFuX2RldmZzQG91dGxvb2suY29tIiwiYXZhdGFyIjpudWxsLCJ1c2VyVHlwZSI6ImRvY3RvciIsImlhdCI6MTcyNDQzMTE5NSwiZXhwIjoxNzI1MDM1OTk1fQ.-2R3paeYtt1xqfuOi0jbL0ttoKGHI7wsrl932TYzLcs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\":\"user1234\",\r\n    \"newPassword1\":\"user12345\",\r\n    \"newPassword2\":\"user12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/change-password",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPLOAD AVATAR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODUsInVzZXJOYW1lIjoiQWx0aGVhX1plbWxhayIsImVtYWlsIjoiVGlhX1BhZ2FjNjBAaG90bWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9QWx0aGVhX1plbWxhayIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI1ODI3NzYzLCJleHAiOjE3MjY0MzI1NjN9.4xKNfm21NYsusOrTRLrW7GTOjWjm0x0oylYAJQSmic8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatarFile",
+									"type": "file",
+									"src": "postman-cloud:///1ef6ae07-7247-4030-9381-bbeec7438016"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:3000/profile/85/avatar",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile",
+								"85",
+								"avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PROFILE",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ODUsInVzZXJOYW1lIjoiQWx0aGVhX1plbWxhayIsImVtYWlsIjoiVGlhX1BhZ2FjNjBAaG90bWFpbC5jb20iLCJhdmF0YXIiOiJodHRwczovL2kucHJhdmF0YXIuY2MvMTUwP3U9QWx0aGVhX1plbWxhayIsInVzZXJUeXBlIjoiZG9jdG9yIiwiaWF0IjoxNzI1ODI3NzYzLCJleHAiOjE3MjY0MzI1NjN9.4xKNfm21NYsusOrTRLrW7GTOjWjm0x0oylYAJQSmic8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \r\n   \"firstName\":\"Pepe\",\r\n    \"biography\":\"sanche rgeg\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/profile/85",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"profile",
+								"85"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SPECIALITIES",
+			"item": [
+				{
+					"name": "GET ALL SPECIALITIES",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/specialities",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"specialities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
