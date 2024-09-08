@@ -148,10 +148,13 @@ export async function assertEmailNotInUse(email) {
 	const user = await findUserByEmail(email);
 
 	if (user) {
-		throw generateErrors(400, 'EMAIL_IN_USE', 'The email is already in use');
+		throw generateErrors(
+			400,
+			'EMAIL_IN_USE',
+			'El correo electrónico ya está en uso'
+		);
 	}
 }
-
 // Funcion para verificar que el username no este en uso
 
 export async function assertUsernameNotInUse(userName) {
@@ -166,11 +169,10 @@ export async function assertUsernameNotInUse(userName) {
 		throw generateErrors(
 			400,
 			'USERNAME_IN_USE',
-			'The username is already in use'
+			'El nombre de usuario ya está en uso'
 		);
 	}
 }
-
 // Funcion para quitar el codigo de validacion de un usuario
 
 export async function removeValidationCodeFromUser(userId) {
