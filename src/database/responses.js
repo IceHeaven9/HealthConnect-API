@@ -87,11 +87,5 @@ export const getResponsesByConsultationId = async (id) => {
         LEFT JOIN consultations ON responses.consultationId = consultations.id
         WHERE responses.consultationId = ?`;
 	const [rows] = await Db.query(query, [id]);
-
-	// Eliminar duplicados
-	const uniqueResponses = Array.from(
-		new Set(rows.map((r) => JSON.stringify(r)))
-	).map((str) => JSON.parse(str));
-
-	return uniqueResponses;
+	return rows;
 };

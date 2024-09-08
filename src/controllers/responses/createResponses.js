@@ -16,7 +16,7 @@ export const createResponsesController = async (req, res) => {
 	const user = await findUserById(userId);
 	const userType = user.userType;
 	const [consultation] = await getConsultationById(id);
-	const response = await getResponsesByConsultationId(id);
+	const [response] = await getResponsesByConsultationId(id);
 
 	if (!consultation) {
 		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');

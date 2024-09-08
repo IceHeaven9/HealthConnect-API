@@ -13,8 +13,12 @@ export const deleteResponseFileController = async (req, res) => {
 
 	const [response] = await getResponsesByConsultationId(consultationId);
 
-	console.log(response);
+	// Verificar si la respuesta existe
+	if (!response) {
+		throw generateErrors(404, 'NOT_FOUND', 'Respuesta no encontrada');
+	}
 
+	// Verificar si el usuario actual es el doctor que creó la respuesta
 	if (user.id !== response.doctorId) {
 		throw generateErrors(
 			403,
@@ -23,6 +27,7 @@ export const deleteResponseFileController = async (req, res) => {
 		);
 	}
 
+	// Eliminar el archivo del sistema de archivos
 	const filePath = path.join(
 		PUBLIC_DIR,
 		'responseFiles',
@@ -30,9 +35,19 @@ export const deleteResponseFileController = async (req, res) => {
 		fileName
 	);
 
-	await fs.unlink(filePath);
+	try {
+		await fs.access(filePath);
+		await fs.unlink(filePath);
+	} catch (error) {
+		if (error.code === 'ENOENT') {
+			throw generateErrors(404, 'NOT_FOUND', 'El archivo no existe');
+		} else {
+			throw error;
+		}
+	}
 
-	const result = await deleteResponseFile(response.consultationId, fileName);
+	// Eliminar el archivo de la base de datos
+	const result = await deleteResponseFile(response.id, fileName);
 
 	if (result.affectedRows > 0) {
 		res.status(200).json({ message: 'Archivo eliminado exitosamente' });
