@@ -28,7 +28,7 @@ usersRoutes.patch(
 // Endpoint para subir un avatar
 
 usersRoutes.post(
-	'/avatar',
+	'/profile/:id/avatar',
 	parseCurrentUser,
 	authGuard,
 	asyncHandler(uploadAvatarController)
