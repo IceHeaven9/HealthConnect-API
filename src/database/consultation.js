@@ -222,8 +222,8 @@ export const getConsultationsDetailsByDoctorId = async (id) => {
 // Funcion para obtener el resumen de una consulta por id
 
 export const getConsultationById = async (id) => {
-    const [consultation] = await Db.query(
-        `
+	const [consultation] = await Db.query(
+		`
         SELECT 
             c.id,
             c.title,
@@ -247,9 +247,9 @@ export const getConsultationById = async (id) => {
         WHERE 
             c.id = ?
         `,
-        [id]
-    );
-    return consultation;
+		[id]
+	);
+	return consultation;
 };
 // Funcion para obtener todas las consultas por la id de su especialidad
 
@@ -387,21 +387,37 @@ export const getPatientsConsultations = async (req, res) => {
 
 // Funcion para obtener el id del doctor
 
-export const setDoctorId = async (doctorId, idConsultation) => {
+export const setDoctorId = async (doctorId, consultationId) => {
 	// Verificar si el doctorId existe en la tabla users
-	const [doctor] = await Db.query(
+	const [[doctor]] = await Db.query(
 		'SELECT id FROM users WHERE id = ? AND userType = "doctor"',
 		[doctorId]
 	);
+
 	if (doctor.length === 0) {
 		throw generateErrors(404, 'NOT_FOUND', 'Doctor no encontrado');
 	}
+	// Funcion para comprobar si la consulta ya tiene un doctor asignado
+
+	const [[consultation]] = await Db.query(
+		'SELECT doctorId FROM consultations WHERE id = ?',
+		[consultationId]
+	);
+
+	if (consultation.doctorId !== null) {
+		throw generateErrors(
+			400,
+			'BAD_REQUEST',
+			'La consulta ya tiene un doctor asignado'
+		);
+	}
 
 	// Si el doctor existe, proceder con la actualización
-	const setDoctor = await Db.query(
+	const [setDoctor] = await Db.query(
 		'UPDATE consultations SET doctorId = ? WHERE id = ?',
-		[doctorId, idConsultation]
+		[doctorId, consultationId]
 	);
+
 	return setDoctor.affectedRows;
 };
 // Funcion para modificar el title de una consulta

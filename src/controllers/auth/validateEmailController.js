@@ -13,22 +13,22 @@ export const validateEmailController = async (req, res) => {
 	const user = await findUserByValidationCode(code);
 
 	if (!user) {
-		throw generateErrors(400, 'INVALID_CODE', 'The code is invalid');
+		throw generateErrors(400, 'INVALID_CODE', 'El código es inválido');
 	}
 
 	if (!user.validationCode) {
 		throw generateErrors(
 			400,
-			'EMAIL_ALREDY_VALIDATED',
-			'Email is already validated'
+			'EMAIL_ALREADY_VALIDATED',
+			'El correo electrónico ya está validado'
 		);
 	}
 
 	if (user.validationCode !== code) {
-		throw generateErrors(400, 'INVALID_CODE', 'The code is invalid');
+		throw generateErrors(400, 'INVALID_CODE', 'El código es inválido');
 	}
 
 	await removeValidationCodeFromUser(user.id);
 
-	res.status(200).send({ message: 'Email validated successfully' });
+	res.status(200).send({ message: 'Correo electrónico validado con éxito' });
 };

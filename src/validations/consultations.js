@@ -33,7 +33,6 @@ export const parseConsultationPayload = (payload) => {
 // Validaciones para la asignación de un doctor a una consulta
 
 const assignDoctorSchema = Joi.object({
-	doctorId: Joi.number().required(),
 	consultationId: Joi.number().required(),
 });
 

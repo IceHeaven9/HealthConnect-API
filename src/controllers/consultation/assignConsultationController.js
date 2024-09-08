@@ -1,4 +1,5 @@
 import { setDoctorId } from '../../database/consultation.js';
+import { generateErrors } from '../../utils/generateErrors.js';
 import { parseAssignDoctorPayload } from '../../validations/consultations.js';
 
 // Controlador para asignar una consulta
