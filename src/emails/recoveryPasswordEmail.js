@@ -5,7 +5,7 @@ import { FRONTEND_HOST } from '../../constants.js';
 
 export async function sendResetPasswordEmail(email, recoveryPasswordCode) {
 	transport.sendMail({
-		from: 'SaludConnect <cristhians7x@gmail.com>',
+		from: 'HealthConnect <cristhians7x@gmail.com>',
 		to: `<${email}>`,
 		subject: 'Recuperación de contraseña',
 		html: `
@@ -29,7 +29,7 @@ export async function sendResetPasswordEmail(email, recoveryPasswordCode) {
             Código de recuperación: <strong>${recoveryPasswordCode}</strong
             </p>
             <p>
-              <a href=${FRONTEND_HOST}/reset}>
+              <a href=${FRONTEND_HOST}/reset-password}>
                 Click aqui para restablecer tu contraseña
               </a>
             </p>
