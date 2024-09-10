@@ -16,14 +16,6 @@ export const uploadConsultationFilesController = async (req, res) => {
 	const user = req.currentUser;
 	const files = req.files.files;
 
-	if (user.userType !== 'patient') {
-		throw generateErrors(
-			403,
-			'SERVER_ERROR',
-			'No tienes permisos para acceder'
-		);
-	}
-
 	const [consultation] = await getConsultationById(id);
 	if (!consultation) {
 		throw generateErrors(404, 'SERVER_ERROR', 'Consulta no encontrada');

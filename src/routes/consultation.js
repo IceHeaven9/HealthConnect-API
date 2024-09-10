@@ -22,15 +22,17 @@ consultationRoutes.post(
 	'/consultations',
 	parseCurrentUser,
 	authGuard,
+	checkUserType('patient'),
 	asyncHandler(createConsultationController)
 );
 
-// Ruta para asignar un medico a una consulta
+// Ruta para asignarse el medico a una consulta
 
 consultationRoutes.post(
 	'/assign-consultation',
 	parseCurrentUser,
 	authGuard,
+	checkUserType('doctor'),
 	asyncHandler(assignConsultationController)
 );
 

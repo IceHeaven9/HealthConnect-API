@@ -33,31 +33,11 @@ export const modifyConsultationController = async (req, res) => {
 		);
 	}
 
-	if (title) {
-		await modifyTitleConsultation(id, title);
-	} else if (title === consultation.title) {
-		throw generateErrors(400, 'BAD_REQUEST', 'El título es el mismo');
-	}
+	await modifyTitleConsultation(id, title);
 
-	if (description) {
-		await modifyDescriptionConsultation(id, description);
-	} else if (description === consultation.description) {
-		throw generateErrors(400, 'BAD_REQUEST', 'La descripción es la misma');
-	}
+	await modifyDescriptionConsultation(id, description);
 
-	if (severity) {
-		await modifySeverityConsultation(id, severity);
-	} else if (severity === consultation.severity) {
-		throw generateErrors(400, 'BAD_REQUEST', 'La severidad es la misma');
-	}
-
-	if (req.body && Object.keys(req.body).length === 0) {
-		throw generateErrors(
-			400,
-			'BAD_REQUEST',
-			'No se proporcionaron datos para la modificación'
-		);
-	}
+	await modifySeverityConsultation(id, severity);
 
 	res.status(200).json({ message: 'Consulta modificada correctamente' });
 };

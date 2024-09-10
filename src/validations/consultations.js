@@ -44,8 +44,8 @@ export const parseAssignDoctorPayload = (payload) => {
 // Validaciones para la modificación de una consulta
 
 const modifyConsultationSchema = Joi.object({
-	title: Joi.string().min(3).max(100),
-	description: Joi.string().min(10).max(1000),
+	title: Joi.string().min(3).max(100).required(),
+	description: Joi.string().min(10).max(1000).required(),
 	severity: Joi.string().valid('low', 'medium', 'high').required(),
 });
 

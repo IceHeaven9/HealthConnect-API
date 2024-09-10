@@ -13,14 +13,6 @@ export const deleteConsultationFileController = async (req, res) => {
 
 	const [consultation] = await getConsultationById(id);
 
-	if (user.userType !== 'patient') {
-		throw generateErrors(
-			403,
-			'SERVER_ERROR',
-			'No tienes permisos para acceder'
-		);
-	}
-
 	if (user.id !== consultation.patientId) {
 		throw generateErrors(
 			403,
