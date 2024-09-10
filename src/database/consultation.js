@@ -385,6 +385,46 @@ export const getPatientsConsultations = async (req, res) => {
 	return uniqueConsultations;
 };
 
+// Funcion para obtener todas las consultas sin asignarse a un doctor
+
+export const getUnassignedConsultationsBySpecialityId = async (
+	req,
+	specialityIds
+) => {
+	const placeholders = specialityIds.map(() => '?').join(',');
+
+	const [consultations] = await Db.query(
+		`SELECT DISTINCT
+        c.id,
+        c.date,
+        c.title,
+        c.severity,
+        c.description,
+        CONCAT(u.firstName, ' ', u.lastName) AS patientName,
+        u.avatar AS patientAvatar,
+        CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+        d.avatar AS doctorAvatar,
+        s.name AS specialityName,
+        c.status
+    FROM 
+        consultations c
+    LEFT JOIN 
+        users u ON c.patientId = u.id
+    LEFT JOIN 
+        users d ON c.doctorId = d.id
+    JOIN 
+        specialities s ON c.specialityId = s.id
+    WHERE 
+        c.specialityId IN (${placeholders}) AND
+        c.status = 'pending' AND
+        c.doctorId IS NULL
+    ORDER BY c.id ASC`,
+		[...specialityIds]
+	);
+
+	return consultations.length > 0 ? consultations : [];
+};
+
 // Funcion para obtener el id del doctor
 
 export const setDoctorId = async (doctorId, consultationId) => {
@@ -451,6 +491,7 @@ export const modifySeverityConsultation = async (id, severity) => {
 };
 
 // Funcion para obtener el status de una consulta
+
 export const getStatusConsultation = async (id) => {
 	const getStatus = await Db.query(
 		'SELECT status FROM consultations WHERE id = ?',
@@ -460,6 +501,7 @@ export const getStatusConsultation = async (id) => {
 };
 
 // Funcion para cancelar una consulta
+
 export const cancelConsultation = async (id) => {
 	const result = await Db.query(
 		'UPDATE consultations SET status = "cancelled" WHERE id = ?',
@@ -544,30 +586,30 @@ export const getFinishedConsultations = async (req, res) => {
 
 // Función para obtener las consultas futuras de un paciente con filtros, búsqueda y ordenación
 
-export const getFutureConsultations = async (req, res) => {
+export const getFutureConsultations = async (req) => {
 	const userId = req.currentUser.id;
 	const { title, severity, doctorName, specialityName, sortBy, sortOrder } =
 		req.query;
 
 	const [rows] = await Db.query(
 		`
-            SELECT DISTINCT
+            SELECT 
                 c.id,
                 c.date,
                 c.title,
                 c.severity,
                 c.description,
                 c.status,
-                fc.fileName AS consultationFileName,
-                fc.filePath AS consultationFilePath,
-                fr.fileName AS responseFileName,
-                fr.filePath AS responseFilePath,
-                u.avatar AS patientAvatar,
-                u.firstName AS patientName,
-                u.email AS patientEmail,
-                d.avatar AS doctorAvatar,
-                CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
-                s.name AS specialityName
+                MAX(fc.fileName) AS consultationFileName,
+                MAX(fc.filePath) AS consultationFilePath,
+                MAX(fr.fileName) AS responseFileName,
+                MAX(fr.filePath) AS responseFilePath,
+                MAX(u.avatar) AS patientAvatar,
+                MAX(u.firstName) AS patientName,
+                MAX(u.email) AS patientEmail,
+                MAX(d.avatar) AS doctorAvatar,
+                CONCAT(MAX(d.firstName), ' ', MAX(d.lastName)) AS doctorName,
+                MAX(s.name) AS specialityName
             FROM 
                 consultations c
             LEFT JOIN 
@@ -589,6 +631,8 @@ export const getFutureConsultations = async (req, res) => {
                 (c.severity LIKE ? OR ? IS NULL) AND
                 (CONCAT(d.firstName, ' ', d.lastName) LIKE ? OR ? IS NULL) AND
                 (s.name LIKE ? OR ? IS NULL)
+            GROUP BY 
+                c.id, c.date, c.title, c.severity, c.description, c.status
             ORDER BY ${sortBy || 'c.date'} ${sortOrder || 'ASC'};
         `,
 		[
@@ -604,12 +648,7 @@ export const getFutureConsultations = async (req, res) => {
 		]
 	);
 
-	// Eliminar duplicados
-	const uniqueConsultations = Array.from(new Set(rows.map((c) => c.id))).map(
-		(id) => rows.find((c) => c.id === id)
-	);
-
-	res.json(uniqueConsultations);
+	return rows;
 };
 
 // Función para insertar archivos a una consulta

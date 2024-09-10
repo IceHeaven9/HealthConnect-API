@@ -30,6 +30,16 @@ export const parseConsultationPayload = (payload) => {
 	return result.value;
 };
 
+// Validacion para obtención de consultas sin asignar a un doctor
+
+const unassignedConsultationsSchema = Joi.object({
+	specialityIds: Joi.array().items(Joi.number()).required(),
+});
+
+export const parseUnassignedConsultationsPayload = (payload) => {
+	const result = validate(unassignedConsultationsSchema, payload);
+	return result.value;
+};
 // Validaciones para la asignación de un doctor a una consulta
 
 const assignDoctorSchema = Joi.object({

@@ -13,6 +13,7 @@ import { uploadConsultationFilesController } from '../controllers/consultation/u
 import { deleteConsultationFileController } from '../controllers/consultation/deleteConsultationFileController.js';
 import { authGuard, parseCurrentUser } from '../middlewares/authMiddleware.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
+import { getUnassignedConsultationsController } from '../controllers/consultation/getUnassignedConsultationsController.js';
 
 export const consultationRoutes = Router();
 
@@ -34,6 +35,16 @@ consultationRoutes.post(
 	authGuard,
 	checkUserType('doctor'),
 	asyncHandler(assignConsultationController)
+);
+
+// Ruta para obtener las consultas que no tienen medico asignado
+
+consultationRoutes.get(
+	'/unassigned-consultations',
+	parseCurrentUser,
+	authGuard,
+	checkUserType('doctor'),
+	asyncHandler(getUnassignedConsultationsController)
 );
 
 // Ruta para obtener todas las consultas de un paciente o de una especialidad de un medico
@@ -96,7 +107,7 @@ consultationRoutes.get(
 // Ruta para obtener proximas consultas de un usuario
 
 consultationRoutes.get(
-	'/consultations/:userId/upcoming',
+	'/consultations/upcoming',
 	parseCurrentUser,
 	authGuard,
 	asyncHandler(getUpcomingConsultationsController)
