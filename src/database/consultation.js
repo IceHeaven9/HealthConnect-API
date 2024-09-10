@@ -84,6 +84,7 @@ export const getAllConsultations = async (req = {}) => {
 
 	return consultations;
 };
+
 // Función para obtener los datos de una consulta por id de consulta y solo si coincide con el id del paciente
 
 export const getConsultationDetailsByPatientId = async (req, res) => {
@@ -153,11 +154,11 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
 	);
 
 	if (rows.length === 0) {
-		throw generateErrors(404, 'SERVER_ERROR', 'Consulta no encontrada');
+		return [];
 	}
-
 	return rows[0];
 };
+
 // Función para obtener una consulta por el id de la consulta
 
 export const getConsultationsDetailsByDoctorId = async (id) => {
@@ -219,6 +220,7 @@ export const getConsultationsDetailsByDoctorId = async (id) => {
 
 	return rows[0];
 };
+
 // Funcion para obtener el resumen de una consulta por id
 
 export const getConsultationById = async (id) => {
@@ -251,6 +253,7 @@ export const getConsultationById = async (id) => {
 	);
 	return consultation;
 };
+
 // Funcion para obtener todas las consultas por la id de su especialidad
 
 export const getDoctorsConsultationsBySpecialityId = async (
@@ -286,6 +289,20 @@ export const getDoctorsConsultationsBySpecialityId = async (
         (? IS NULL OR c.severity LIKE ?) AND
         (? IS NULL OR u.firstName LIKE ?) AND
         (? IS NULL OR s.name LIKE ?)
+    GROUP BY 
+        c.id,
+        c.date,
+        c.title,
+        c.severity,
+        c.description,
+        u.firstName,
+        u.lastName,
+        u.avatar,
+        d.firstName,
+        d.lastName,
+        d.avatar,
+        s.name,
+        c.status
     ORDER BY c.id ASC`,
 		[
 			...specialityIds,
@@ -300,15 +317,10 @@ export const getDoctorsConsultationsBySpecialityId = async (
 		]
 	);
 
-	// Eliminar duplicados
-	const uniqueConsultations = Array.from(
-		new Set(consultations.map((c) => c.id))
-	).map((id) => consultations.find((c) => c.id === id));
-
-	if (uniqueConsultations.length === 0) {
-		throw generateErrors(404, 'SERVER_ERROR', 'Consultas no encontradas');
+	if (consultations.length === 0) {
+		return [];
 	}
-	return uniqueConsultations;
+	return consultations;
 };
 
 // Funcion para obtener todas las consultas con filtros de un paciente
@@ -375,14 +387,10 @@ export const getPatientsConsultations = async (req, res) => {
 		]
 	);
 
-	// Eliminar duplicados
-	const uniqueConsultations = Array.from(new Set(rows.map((c) => c.id))).map(
-		(id) => rows.find((c) => c.id === id)
-	);
-	if (uniqueConsultations.length === 0) {
-		throw generateErrors(404, 'SERVER_ERROR', 'Consultas no encontradas');
+	if (rows.length === 0) {
+		return [];
 	}
-	return uniqueConsultations;
+	return rows;
 };
 
 // Funcion para obtener todas las consultas sin asignarse a un doctor
@@ -460,6 +468,7 @@ export const setDoctorId = async (doctorId, consultationId) => {
 
 	return setDoctor.affectedRows;
 };
+
 // Funcion para modificar el title de una consulta
 
 export const modifyTitleConsultation = async (id, title) => {
@@ -526,16 +535,16 @@ export const getFinishedConsultations = async (req, res) => {
                 c.severity,
                 c.description,
                 c.status,
-                fc.fileName AS consultationFileName,
-                fc.filePath AS consultationFilePath,
-                fr.fileName AS responseFileName,
-                fr.filePath AS responseFilePath,
-                u.avatar AS patientAvatar,
-                u.firstName AS patientName,
-                u.email AS patientEmail,
-                d.avatar AS doctorAvatar,
-                CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
-                s.name AS specialityName
+                MAX(fc.fileName) AS consultationFileName,
+                MAX(fc.filePath) AS consultationFilePath,
+                MAX(fr.fileName) AS responseFileName,
+                MAX(fr.filePath) AS responseFilePath,
+                MAX(u.avatar) AS patientAvatar,
+                MAX(u.firstName) AS patientName,
+                MAX(u.email) AS patientEmail,
+                MAX(d.avatar) AS doctorAvatar,
+                CONCAT(MAX(d.firstName), ' ', MAX(d.lastName)) AS doctorName,
+                MAX(s.name) AS specialityName
             FROM 
                 consultations c
             LEFT JOIN 
@@ -557,6 +566,7 @@ export const getFinishedConsultations = async (req, res) => {
                 c.severity LIKE ? AND
                 CONCAT(d.firstName, ' ', d.lastName) LIKE ? AND
                 s.name LIKE ?
+            GROUP BY c.id
             ORDER BY ${sortBy || 'c.id'} ${sortOrder || 'DESC'};
         `,
 		[
@@ -568,22 +578,12 @@ export const getFinishedConsultations = async (req, res) => {
 		]
 	);
 
-	// Eliminar duplicados
-	const uniqueConsultations = Array.from(new Set(rows.map((c) => c.id))).map(
-		(id) => rows.find((c) => c.id === id)
-	);
-
-	if (uniqueConsultations.length === 0) {
-		throw generateErrors(
-			404,
-			'SERVER_ERROR',
-			'No se encontraron consultas finalizadas'
-		);
+	if (rows.length === 0) {
+		return [];
 	}
 
-	res.json(uniqueConsultations);
+	res.json(rows);
 };
-
 // Función para obtener las consultas futuras de un paciente con filtros, búsqueda y ordenación
 
 export const getFutureConsultations = async (req) => {
