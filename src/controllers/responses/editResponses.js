@@ -29,11 +29,13 @@ export const editResponseController = async (req, res) => {
 	}
 
 	if (response.rating !== null) {
-		throw generateErrors(400, 'SOLICITUD_ERRONEA', 'Respuesta ya evaluada');
+		throw generateErrors(
+			400,
+			'SOLICITUD_ERRONEA',
+			'No se puede modificar una respuesta ya valorada'
+		);
 	}
 
-	if (content) {
-		await editResponse(response.consultationId, content);
-		res.status(200).json({ message: 'Respuesta actualizada con éxito' });
-	}
+	await editResponse(response.consultationId, content);
+	res.status(200).json({ message: 'Respuesta actualizada con éxito' });
 };
