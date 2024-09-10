@@ -46,7 +46,7 @@ export const parseAssignDoctorPayload = (payload) => {
 const modifyConsultationSchema = Joi.object({
 	title: Joi.string().min(3).max(100),
 	description: Joi.string().min(10).max(1000),
-	severity: Joi.string().min(3).max(50),
+	severity: Joi.string().valid('low', 'medium', 'high').required(),
 });
 
 export const parseModifyConsultationPayload = (payload) => {

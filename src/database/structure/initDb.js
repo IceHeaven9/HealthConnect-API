@@ -5,6 +5,8 @@ import {
 	warningLog,
 } from '../../utils/logger.js';
 import { Db } from './db.js';
+import { DB_NAME } from '../../../constants.js';
+import mysql from 'mysql2/promise';
 
 // Inicializacion de la base de datos
 // Eliminación de la base de datos y las tablas si existe
@@ -13,13 +15,13 @@ import { Db } from './db.js';
 async function initDB() {
 	try {
 		warningLog('Eliminando base de datos si existe');
-		await Db.query('DROP DATABASE IF EXISTS citas_medicas');
+		await Db.query(`DROP DATABASE IF EXISTS ${mysql.escapeId(DB_NAME)}`);
 
-		await Db.query('CREATE DATABASE citas_medicas');
-		succesLog('Base de datos citas_medicas creada.');
+		await Db.query(`CREATE DATABASE ${mysql.escapeId(DB_NAME)}`);
+		succesLog(`Base de datos ${DB_NAME} creada.`);
 
-		await Db.query('USE citas_medicas');
-		infoLog('DB en uso: citas_medicas');
+		await Db.query(`USE ${mysql.escapeId(DB_NAME)}`);
+		infoLog(`DB en uso: ${DB_NAME}`);
 
 		warningLog('Eliminando tablas si existen');
 		await Db.query(
@@ -44,10 +46,10 @@ async function initDB() {
                 firstName VARCHAR(50) NOT NULL,
                 lastName VARCHAR(100) DEFAULT NULL,
                 email VARCHAR(255) UNIQUE NOT NULL,
-                password VARCHAR(255) NOT NULL,
+                password VARCHAR(60) NOT NULL,
                 userType ENUM('patient', 'doctor') NOT NULL,
-                userName VARCHAR(255) NOT NULL,
-                biography VARCHAR(500) DEFAULT NULL,
+                userName VARCHAR(40) NOT NULL,
+                biography VARCHAR(5000) DEFAULT NULL,
                 avatar VARCHAR(255) DEFAULT NULL,
                 experience INT DEFAULT NULL,
                 codigoMedico INT DEFAULT NULL,
@@ -75,8 +77,8 @@ async function initDB() {
             CREATE TABLE consultations (
                 id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 date DATETIME NOT NULL,
-                title VARCHAR(255) NOT NULL,
-                description VARCHAR(500) DEFAULT NULL,
+                title VARCHAR(100) NOT NULL,
+                description VARCHAR(1000) DEFAULT NULL,
                 severity ENUM('high', 'medium', 'low') DEFAULT 'low',
                 patientId INT NOT NULL,
                 specialityId INT NOT NULL,

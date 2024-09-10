@@ -16,15 +16,15 @@ export function parseLoginPayload(payload) {
 // Validaciones para el registro
 
 const registerSchema = Joi.object({
-	firstName: Joi.string().min(3).max(60).required(),
-	lastName: Joi.string().min(3).max(60),
+	firstName: Joi.string().min(3).max(50).required(),
+	lastName: Joi.string().min(3).max(100),
+	email: Joi.string().email().max(255).required(),
+	password: Joi.string().min(6).max(60).required(),
+	userType: Joi.string().valid('patient', 'doctor').required(),
 	userName: Joi.string().min(3).max(40).required(),
 	biography: Joi.string().max(5000),
 	codigoMedico: Joi.number().optional(),
 	experience: Joi.number().min(0).max(60),
-	userType: Joi.string().valid('patient', 'doctor').required(),
-	email: Joi.string().email().required(),
-	password: Joi.string().min(6).max(255).required(),
 	specialityId: Joi.array().items(Joi.number()),
 });
 
@@ -36,7 +36,7 @@ export function parseRegisterPayload(payload) {
 // Validaciones para el usuario
 
 const userSchema = {
-	email: Joi.string().email().max(100).required(),
+	email: Joi.string().email().max(255).required(),
 	password: Joi.string().min(8).max(60).required(),
 	resetPasswordToken: Joi.string().optional(),
 	resetPasswordExpires: Joi.date().optional(),
@@ -65,7 +65,7 @@ export function parseChangePasswordPayload(payload) {
 // Validaciones para el controlador de recuperación de contraseña
 
 const recoveryPasswordSchema = Joi.object({
-	email: Joi.string().email().max(100).required(),
+	email: Joi.string().email().max(255).required(),
 });
 
 export function parseRecoveryPasswordPayload(payload) {
