@@ -100,24 +100,17 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
             c.severity,
             c.description,
             c.status,
-            fc.fileName AS consultationFileName,
-            fc.filePath AS consultationFilePath,
-            fr.fileName AS responseFileName,
-            fr.filePath AS responseFilePath,
             u.avatar AS patientAvatar,
             u.firstName AS patientName,
             u.email AS patientEmail,
-            r.rating,
-            r.content AS responseContent,
             d.avatar AS doctorAvatar,
             CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
-            s.name AS specialityName
+            d.email AS doctorEmail,
+            s.name AS specialityName,
+            r.content AS responseContent,
+            r.rating
         FROM 
             consultations c
-        LEFT JOIN 
-            files_consultations fc ON c.id = fc.consultationId
-        LEFT JOIN 
-            files_responses fr ON c.id = fr.responseId
         LEFT JOIN 
             users u ON c.patientId = u.id
         LEFT JOIN 
@@ -131,24 +124,21 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
             c.patientId = ?
         GROUP BY 
             c.id,
+            c.date,
             c.title,
             c.severity,
             c.description,
             c.status,
-            fc.fileName,
-            fc.filePath,
-            fr.fileName,
-            fr.filePath,
             u.avatar,
             u.firstName,
             u.email,
-            r.rating,
-            r.content,
             d.avatar,
             d.firstName,
             d.lastName,
-            s.name
-        ORDER BY c.id DESC;
+            d.email,
+            s.name,
+            r.content,
+            r.rating
     `,
 		[consultationId, userId]
 	);
@@ -158,7 +148,6 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
 	}
 	return rows[0];
 };
-
 // Función para obtener una consulta por el id de la consulta
 
 export const getConsultationsDetailsByDoctorId = async (id) => {

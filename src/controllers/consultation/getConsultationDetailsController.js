@@ -12,16 +12,18 @@ export const getConsultationDetailsController = async (req, res) => {
 	const userId = req.currentUser.id;
 	const user = await findUserById(userId);
 	const { id } = req.params;
-	const consultationFiles = await getConsultationFilesByConsultationId(id);
 
 	if (user.userType === 'patient') {
 		const consultation = await getConsultationDetailsByPatientId(req, res);
+		const consultationId = consultation.id;
+		const consultationFiles =
+			await getConsultationFilesByConsultationId(consultationId);
 		const responseId = consultation.responseId;
 		const responseFiles = await getResponseFilesByResponseId(responseId);
 		const result = {
 			...consultation,
 			consultationFiles,
-			responseFiles
+			responseFiles,
 		};
 
 		res.status(200).json(result);
@@ -29,6 +31,9 @@ export const getConsultationDetailsController = async (req, res) => {
 
 	if (user.userType === 'doctor') {
 		const consultation = await getConsultationsDetailsByDoctorId(id);
+		const consultationId = consultation.id;
+		const consultationFiles =
+			await getConsultationFilesByConsultationId(consultationId);
 		const responseId = consultation.responseId;
 		const responseFiles = await getResponseFilesByResponseId(responseId);
 
