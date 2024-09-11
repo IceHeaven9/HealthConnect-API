@@ -30,7 +30,7 @@ export const getConsultationDetailsController = async (req, res) => {
 	}
 
 	if (user.userType === 'doctor') {
-		const consultation = await getConsultationsDetailsByDoctorId(id);
+		const consultation = await getConsultationsDetailsByDoctorId(req, res);
 		const consultationId = consultation.id;
 		const consultationFiles =
 			await getConsultationFilesByConsultationId(consultationId);

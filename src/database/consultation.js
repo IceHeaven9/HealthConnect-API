@@ -150,61 +150,64 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
 };
 // Función para obtener una consulta por el id de la consulta
 
-export const getConsultationsDetailsByDoctorId = async (id) => {
+export const getConsultationsDetailsByDoctorId = async (req, res) => {
+	const userId = req.currentUser.id;
+	const consultationId = req.params.id;
+
 	const [rows] = await Db.query(
 		`
       SELECT DISTINCT
-        c.id,
-        c.title,
-        c.severity,
-        c.description,
-        c.status,
-        c.date,
-        u.avatar AS patientAvatar,
-        CONCAT(u.firstName, ' ', u.lastName) AS patientName,
-        u.email AS patientEmail,
-        r.id AS responseId,
-        r.rating,
-        r.content AS responseContent,
-        d.avatar AS doctorAvatar,
-        CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
-        s.name AS specialityName
-      FROM 
-        consultations c
-      LEFT JOIN 
-        users u ON c.patientId = u.id
-      LEFT JOIN 
-        responses r ON c.id = r.consultationId
-      LEFT JOIN 
-        users d ON c.doctorId = d.id
-      JOIN 
-        specialities s ON c.specialityId = s.id
-      WHERE 
-        c.id = ?
-      GROUP BY 
-        c.id,
-        c.title,
-        c.severity,
-        c.description,
-        c.status,
-        c.date,
-        u.avatar,
-        u.firstName,
-        u.email,
-        r.id,
-        r.rating,
-        r.content,
-        d.avatar,
-        d.firstName,
-        d.lastName,
-        s.name
-      ORDER BY c.id DESC;
+            c.id,
+            c.date,
+            c.title,
+            c.severity,
+            c.description,
+            c.status,
+            u.avatar AS patientAvatar,
+            u.firstName AS patientName,
+            u.email AS patientEmail,
+            d.avatar AS doctorAvatar,
+            CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
+            d.email AS doctorEmail,
+            s.name AS specialityName,
+            r.content AS responseContent,
+            r.rating
+        FROM 
+            consultations c
+        LEFT JOIN 
+            users u ON c.patientId = u.id
+        LEFT JOIN 
+            responses r ON c.id = r.consultationId
+        LEFT JOIN 
+            users d ON c.doctorId = d.id
+        JOIN 
+            specialities s ON c.specialityId = s.id
+        WHERE 
+            c.id = ? AND
+            c.doctorId = ?
+        GROUP BY 
+            c.id,
+            c.date,
+            c.title,
+            c.severity,
+            c.description,
+            c.status,
+            u.avatar,
+            u.firstName,
+            u.email,
+            d.avatar,
+            d.firstName,
+            d.lastName,
+            d.email,
+            s.name,
+            r.content,
+            r.rating
     `,
-		[id]
+		[consultationId, userId]
 	);
 
 	if (rows.length === 0) {
-		throw generateErrors(404, 'SERVER_ERROR', 'Consulta no encontrada');
+		return [];
 	}
 
 	return rows[0];
