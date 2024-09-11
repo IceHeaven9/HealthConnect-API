@@ -326,7 +326,8 @@ export const getDoctorsConsultationsBySpecialityId = async (
 // Funcion para obtener todas las consultas con filtros de un paciente
 
 export const getPatientsConsultations = async (req, res) => {
-	const { title, severity, specialityName, startDate, endDate } = req.query;
+	const { title, severity, specialityName, startDate, endDate, status } =
+		req.query;
 
 	const patientId = req.currentUser.id;
 
@@ -358,7 +359,8 @@ export const getPatientsConsultations = async (req, res) => {
                 s.name LIKE ? AND
                 c.patientId = ? AND
                 (? IS NULL OR c.date >= ?) AND
-                (? IS NULL OR c.date <= ?)
+                (? IS NULL OR c.date <= ?) AND
+                (? IS NULL OR c.status LIKE ?)
             GROUP BY 
                 c.id,
                 c.date,
@@ -384,6 +386,8 @@ export const getPatientsConsultations = async (req, res) => {
 			startDate || null,
 			endDate || null,
 			endDate || null,
+			status ? `%${status}%` : null,
+			status ? `%${status}%` : null,
 		]
 	);
 
@@ -705,5 +709,14 @@ export const getResponseFilesByResponseId = async (responseId) => {
 	const query =
 		'SELECT fileName, filePath FROM files_responses WHERE responseId = ?';
 	const [rows] = await Db.query(query, [responseId]);
+	return rows || null;
+};
+
+// Funcion para obtener las consultas de un paciente ya pasadas y que aun tengan el status pending
+
+export const getPendingConsultationsByPatientId = async (patientId) => {
+	const query =
+		'SELECT * FROM consultations WHERE patientId = ? AND status = "pending" AND date < NOW()';
+	const [rows] = await Db.query(query, [patientId]);
 	return rows || null;
 };
