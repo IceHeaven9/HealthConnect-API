@@ -16,16 +16,19 @@ export const modifyConsultationController = async (req, res) => {
 	);
 
 	const consultation = await getConsultationDetailsByPatientId(req, res);
-	if (!consultation) {
-		throw generateErrors(404, 'NOT_FOUND', 'Consulta no encontrada');
-	}
-
 	const currentDate = new Date();
 	const consultationDate = consultation.date;
 	const diffTime = Math.abs(consultationDate - currentDate);
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-	if (diffDays < 2) {
+	if (
+		consultation.status === 'completed' ||
+		consultation.status === 'cancelled'
+	) {
+		throw generateErrors(403, 'FORBIDDEN', 'La consulta no se puede modificar');
+	}
+
+	if (diffDays <= 2) {
 		throw generateErrors(
 			400,
 			'BAD_REQUEST',
