@@ -100,7 +100,7 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
             c.severity,
             c.description,
             c.status,
-            c.doctorId,  -- Agregar doctorId aquí
+            c.doctorId, 
             u.avatar AS patientAvatar,
             u.firstName AS patientName,
             u.email AS patientEmail,
@@ -130,7 +130,7 @@ export const getConsultationDetailsByPatientId = async (req, res) => {
             c.severity,
             c.description,
             c.status,
-            c.doctorId,  -- Agregar doctorId aquí también
+            c.doctorId,  
             u.avatar,
             u.firstName,
             u.email,

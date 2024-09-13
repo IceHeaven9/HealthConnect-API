@@ -113,10 +113,9 @@ export const findDoctorById = async (id) => {
 		`SELECT 
             u.id, 
             CONCAT(u.firstName, ' ', u.lastName) AS fullName, 
-            u.email, 
             u.avatar, 
             u.biography, 
-            u.codigoMedico,
+            u.experience,  -- Agregar experiencia aquí
             u.userType,
             GROUP_CONCAT(s.name SEPARATOR ', ') AS specialities,
             (SELECT AVG(r.rating) 
