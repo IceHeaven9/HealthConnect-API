@@ -320,8 +320,15 @@ export const getDoctorsConsultationsBySpecialityId = async (
 // Funcion para obtener todas las consultas con filtros de un paciente
 
 export const getPatientsConsultations = async (req, res) => {
-	const { title, severity, specialityName, startDate, endDate, status } =
-		req.query;
+	const {
+		title,
+		severity,
+		specialityName,
+		startDate,
+		endDate,
+		status,
+		description,
+	} = req.query;
 
 	const patientId = req.currentUser.id;
 
@@ -351,6 +358,7 @@ export const getPatientsConsultations = async (req, res) => {
                 c.title LIKE ? AND
                 c.severity LIKE ? AND
                 s.name LIKE ? AND
+                c.description LIKE ? AND
                 c.patientId = ? AND
                 (? IS NULL OR c.date >= ?) AND
                 (? IS NULL OR c.date <= ?) AND
@@ -375,6 +383,7 @@ export const getPatientsConsultations = async (req, res) => {
 			`%${title || ''}%`,
 			`%${severity || ''}%`,
 			`%${specialityName || ''}%`,
+			`%${description || ''}%`,
 			patientId,
 			startDate || null,
 			startDate || null,
@@ -390,7 +399,6 @@ export const getPatientsConsultations = async (req, res) => {
 	}
 	return rows;
 };
-
 // Funcion para obtener todas las consultas sin asignarse a un doctor
 
 export const getUnassignedConsultationsBySpecialityId = async (
