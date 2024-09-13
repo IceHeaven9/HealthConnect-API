@@ -30,7 +30,7 @@ export const cancelConsultationController = async (req, res) => {
 	const diffTime = Math.abs(consultationDate - currentDate);
 	const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-	if (diffDays < 2) {
+	if (diffDays <= 2) {
 		throw generateErrors(
 			400,
 			'BAD_REQUEST',
