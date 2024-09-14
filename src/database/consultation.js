@@ -320,7 +320,8 @@ export const getDoctorsConsultationsBySpecialityId = async (
 			patientName ? `%${patientName}%` : null,
 			specialityName ? `%${specialityName}%` : null,
 			specialityName ? `%${specialityName}%` : null,
-			doctorId || null,
+            doctorId ? doctorId : null,
+            doctorId ? doctorId : null,
 			parseInt(limit, 10), // Asegurarse de que limit sea un número entero
 			parseInt(offset, 10), // Asegurarse de que offset sea un número entero
 		]
