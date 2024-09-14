@@ -251,13 +251,21 @@ export const getConsultationById = async (id) => {
 // Funcion para obtener todas las consultas por la id de su especialidad
 
 export const getDoctorsConsultationsBySpecialityId = async (
-    req,
-    specialityIds
+	req,
+	specialityIds
 ) => {
-    const { title, severity, patientName, specialityName, offset = 0, limit = 20 } = req.query;
-    const placeholders = specialityIds.map(() => '?').join(',');
-    const [consultations] = await Db.query(
-        `SELECT DISTINCT
+	const {
+		title,
+		severity,
+		patientName,
+		specialityName,
+		doctorId,
+		offset = 0,
+		limit = 20,
+	} = req.query;
+	const placeholders = specialityIds.map(() => '?').join(',');
+	const [consultations] = await Db.query(
+		`SELECT DISTINCT
         c.id,
         c.date,
         c.title,
@@ -267,6 +275,7 @@ export const getDoctorsConsultationsBySpecialityId = async (
         u.avatar AS patientAvatar,
         CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
         d.avatar AS doctorAvatar,
+        d.id AS doctorId,
         s.name AS specialityName,
         c.status
     FROM 
@@ -282,7 +291,8 @@ export const getDoctorsConsultationsBySpecialityId = async (
         (? IS NULL OR c.title LIKE ?) AND
         (? IS NULL OR c.severity LIKE ?) AND
         (? IS NULL OR u.firstName LIKE ?) AND
-        (? IS NULL OR s.name LIKE ?)
+        (? IS NULL OR s.name LIKE ?) AND
+        (? IS NULL OR d.id = ?)
     GROUP BY 
         c.id,
         c.date,
@@ -295,29 +305,31 @@ export const getDoctorsConsultationsBySpecialityId = async (
         d.firstName,
         d.lastName,
         d.avatar,
+        d.id,
         s.name,
         c.status
     ORDER BY c.id ASC
     LIMIT ? OFFSET ?`,
-        [
-            ...specialityIds,
-            title ? `%${title}%` : null,
-            title ? `%${title}%` : null,
-            severity ? `%${severity}%` : null,
-            severity ? `%${severity}%` : null,
-            patientName ? `%${patientName}%` : null,
-            patientName ? `%${patientName}%` : null,
-            specialityName ? `%${specialityName}%` : null,
-            specialityName ? `%${specialityName}%` : null,
-            parseInt(limit, 10), // Asegurarse de que limit sea un número entero
-            parseInt(offset, 10), // Asegurarse de que offset sea un número entero
-        ]
-    );
+		[
+			...specialityIds,
+			title ? `%${title}%` : null,
+			title ? `%${title}%` : null,
+			severity ? `%${severity}%` : null,
+			severity ? `%${severity}%` : null,
+			patientName ? `%${patientName}%` : null,
+			patientName ? `%${patientName}%` : null,
+			specialityName ? `%${specialityName}%` : null,
+			specialityName ? `%${specialityName}%` : null,
+			doctorId || null,
+			parseInt(limit, 10), // Asegurarse de que limit sea un número entero
+			parseInt(offset, 10), // Asegurarse de que offset sea un número entero
+		]
+	);
 
-    if (consultations.length === 0) {
-        return [];
-    }
-    return consultations;
+	if (consultations.length === 0) {
+		return [];
+	}
+	return consultations;
 };
 // Funcion para obtener todas las consultas con filtros de un paciente
 
