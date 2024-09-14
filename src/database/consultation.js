@@ -259,7 +259,10 @@ export const getDoctorsConsultationsBySpecialityId = async (
 		severity,
 		patientName,
 		specialityName,
+		startDate,
+		endDate,
 		doctorId,
+		date,
 		offset = 0,
 		limit = 20,
 	} = req.query;
@@ -292,7 +295,10 @@ export const getDoctorsConsultationsBySpecialityId = async (
         (? IS NULL OR c.severity LIKE ?) AND
         (? IS NULL OR u.firstName LIKE ?) AND
         (? IS NULL OR s.name LIKE ?) AND
-        (? IS NULL OR d.id = ?)
+        (? IS NULL OR c.date >= ?) AND
+        (? IS NULL OR c.date <= ?) AND
+        (? IS NULL OR d.id = ?) AND
+        (? IS NULL OR c.date = ?)
     GROUP BY 
         c.id,
         c.date,
@@ -320,8 +326,14 @@ export const getDoctorsConsultationsBySpecialityId = async (
 			patientName ? `%${patientName}%` : null,
 			specialityName ? `%${specialityName}%` : null,
 			specialityName ? `%${specialityName}%` : null,
-            doctorId ? doctorId : null,
-            doctorId ? doctorId : null,
+			startDate || null,
+			startDate || null,
+			endDate || null,
+			endDate || null,
+			doctorId ? doctorId : null,
+			doctorId ? doctorId : null,
+			date || null,
+			date || null,
 			parseInt(limit, 10), // Asegurarse de que limit sea un número entero
 			parseInt(offset, 10), // Asegurarse de que offset sea un número entero
 		]
