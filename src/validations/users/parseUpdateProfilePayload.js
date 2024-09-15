@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { validate } from './validate.js';
+import { validate } from '../validate.js';
 
 // Validaciones para la modificacion del perfil de usuario
 

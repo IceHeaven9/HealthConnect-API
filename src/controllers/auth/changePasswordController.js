@@ -2,7 +2,7 @@ import { setNewPassword } from '../../database/services/users/setNewPassword.js'
 import { findUserById } from '../../database/services/users/findUserById.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import bcrypt from 'bcrypt';
-import { parseChangePasswordPayload } from '../../validations/auth.js';
+import { parseChangePasswordPayload } from '../../validations/auth/parseChangePasswordPayload.js';
 
 // Controlador para cambiar la contraseña de un usuario
 

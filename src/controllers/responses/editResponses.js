@@ -3,7 +3,7 @@
 
 import { getResponsesByConsultationId } from '../../database/services/responses/getResponsesByConsultationId.js';
 import { editResponse } from '../../database/services/responses/editResponse.js';
-import { parseEditResponsePayload } from '../../validations/responses.js';
+import { parseEditResponsePayload } from '../../validations/responses/parseEditResponsePayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import { getConsultationById } from '../../database/services/consultations/getConsultationById.js';
 

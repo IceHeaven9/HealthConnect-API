@@ -2,7 +2,7 @@
 
 import { setRating } from '../../database/services/responses/setRating.js';
 import { getResponsesByConsultationId } from '../../database/services/responses/getResponsesByConsultationId.js';
-import { parseRatingPayload } from '../../validations/responses.js';
+import { parseRatingPayload } from '../../validations/responses/parseRatingPayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 export const setRatingController = async (req, res) => {

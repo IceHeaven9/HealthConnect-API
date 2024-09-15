@@ -7,7 +7,7 @@ import { assertEmailNotInUse } from '../../database/services/users/assertEmailNo
 import { assertUsernameNotInUse } from '../../database/services/users/assertUsernameNotInUse.js';
 import { sendValidationEmail } from '../../emails/validationEmail.js';
 import { hashPassword } from '../../utils/hashPassword.js';
-import { parseRegisterPayload } from '../../validations/auth.js';
+import { parseRegisterPayload } from '../../validations/auth/parseRegisterPayload.js';
 import { findSpecialitiesByIds } from '../../database/services/specialities/findSpecialitiesByIds.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
