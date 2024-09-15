@@ -1,9 +1,7 @@
-import {
-	findUserByValidationCode,
-	removeValidationCodeFromUser,
-} from '../../database/users.js';
+import { removeValidationCodeFromUser } from '../../database/services/users/removeValidationCodeFromUser.js';
+import { findUserByValidationCode } from '../../database/services/users/findUserByValidationCode.js';
 import { generateErrors } from '../../utils/generateErrors.js';
-import { parseValidationCodePayload } from '../../validations/auth.js';
+import { parseValidationCodePayload } from '../../validations/auth/parseValidationCodePayload.js';
 
 // Controlador para validar el email
 

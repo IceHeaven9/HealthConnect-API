@@ -1,12 +1,10 @@
 // Controlador para poder modificar una consulta antes de 48 horas antes de la fecha de la consulta
 
-import {
-	getConsultationDetailsByPatientId,
-	modifyDescriptionConsultation,
-	modifySeverityConsultation,
-	modifyTitleConsultation,
-} from '../../database/consultation.js';
-import { parseModifyConsultationPayload } from '../../validations/consultations.js';
+import { modifyTitleConsultation } from '../../database/services/consultations/modifyTitleConsultation.js';
+import { modifySeverityConsultation } from '../../database/services/consultations/modifySeverityConsultation.js';
+import { modifyDescriptionConsultation } from '../../database/services/consultations/modifyDescriptionConsultation.js';
+import { getConsultationDetailsByPatientId } from '../../database/services/consultations/getConsultationDetailsByPatientId.js';
+import { parseModifyConsultationPayload } from '../../validations/consultations/parseModifyConsultationPayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 export const modifyConsultationController = async (req, res) => {

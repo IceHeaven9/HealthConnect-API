@@ -2,10 +2,8 @@ import fs from 'fs/promises';
 import path from 'path';
 import { PUBLIC_DIR } from '../../../constants.js';
 import { generateErrors } from '../../utils/generateErrors.js';
-import {
-	deleteResponseFile,
-	getResponsesByConsultationId,
-} from '../../database/responses.js';
+import { getResponsesByConsultationId } from '../../database/services/responses/getResponsesByConsultationId.js';
+import { deleteResponseFile } from '../../database/services/responses/deleteResponseFile.js';
 
 export const deleteResponseFileController = async (req, res) => {
 	const user = req.currentUser;

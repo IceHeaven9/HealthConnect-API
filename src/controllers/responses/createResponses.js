@@ -1,10 +1,8 @@
-import { getConsultationById } from '../../database/consultation.js';
-import {
-	getResponsesByConsultationId,
-	setResponse,
-} from '../../database/responses.js';
-import { findUserById } from '../../database/users.js';
-import { parseResponsePayload } from '../../validations/responses.js';
+import { getConsultationById } from '../../database/services/consultations/getConsultationById.js';
+import { setResponse } from '../../database/services/responses/setResponse.js';
+import { getResponsesByConsultationId } from '../../database/services/responses/getResponsesByConsultationId.js';
+import { findUserById } from '../../database/services/users/findUserById.js';
+import { parseResponsePayload } from '../../validations/responses/parseResponsePayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para crear respuestas

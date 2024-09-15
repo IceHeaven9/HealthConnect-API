@@ -1,10 +1,11 @@
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
-import { findUserById, uploadUserAvatar } from '../../database/users.js';
+import { uploadUserAvatar } from '../../database/services/users/uploadUserAvatar.js';
+import { findUserById } from '../../database/services/users/findUserById.js';
 import { convertAvatarToWebp } from '../../utils/convertToWebp.js';
 import { API_HOST, PUBLIC_DIR } from '../../../constants.js';
-import { parseImage } from '../../validations/images.js';
+import { parseImage } from '../../validations/images/parseImage.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para subir un avatar

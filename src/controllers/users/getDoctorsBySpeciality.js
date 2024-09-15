@@ -1,4 +1,4 @@
-import { getDoctorsBySpecialityId } from '../../database/users.js';
+import { getDoctorsBySpecialityId } from '../../database/services/users/getDoctorsBySpecialityId.js';
 
 export async function getDoctorsBySpecialityController(req, res, next) {
 	const { specialityId } = req.params;

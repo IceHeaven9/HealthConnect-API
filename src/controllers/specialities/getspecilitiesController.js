@@ -1,4 +1,4 @@
-import { getSpecialities } from '../../database/specialities.js';
+import { getSpecialities } from '../../database/services/specialities/getSpecialities.js';
 
 // Controlador para obtener las especialidades
 

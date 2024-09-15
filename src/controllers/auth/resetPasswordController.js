@@ -1,9 +1,7 @@
-import {
-	getUserByRecoveryPasswordCode,
-	setNewPassword,
-	setRecoveryPasswordCodeToNull,
-} from '../../database/users.js';
-import { parseResetPasswordPayload } from '../../validations/auth.js';
+import { setRecoveryPasswordCodeToNull } from '../../database/services/users/setRecoveryPasswordCodeToNull.js';
+import { setNewPassword } from '../../database/services/users/setNewPassword.js';
+import { getUserByRecoveryPasswordCode } from '../../database/services/users/getUserByRecoveryPasswordCode.js';
+import { parseResetPasswordPayload } from '../../validations/auth/parseResetPasswordPayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para restablecer la contraseña
