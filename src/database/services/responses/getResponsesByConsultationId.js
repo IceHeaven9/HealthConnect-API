@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Funcion para obtener las respuestas de una consulta
 export const getResponsesByConsultationId = async (id) => {

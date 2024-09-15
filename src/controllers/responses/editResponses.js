@@ -1,13 +1,11 @@
 // Controlador para editar una respuesta a una consulta (sólo el doctor puede hacerlo, y solo si está sin valorar)
 // Recuperamos la respuesta por su id, comprobamos que el doctor es el que la ha creado, y que la consulta no ha sido valorada
 
-import {
-	editResponse,
-	getResponsesByConsultationId,
-} from '../../database/responses.js';
+import { getResponsesByConsultationId } from '../../database/services/responses/getResponsesByConsultationId.js';
+import { editResponse } from '../../database/services/responses/editResponse.js';
 import { parseEditResponsePayload } from '../../validations/responses.js';
 import { generateErrors } from '../../utils/generateErrors.js';
-import { getConsultationById } from '../../database/consultation.js';
+import { getConsultationById } from '../../database/services/consultations/getConsultationById.js';
 
 export const editResponseController = async (req, res) => {
 	const { id } = req.params;

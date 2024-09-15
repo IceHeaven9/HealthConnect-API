@@ -1,11 +1,9 @@
-import {
-	createConsultation,
-	getConsultationByDateAndPatientId,
-	getConsultationsByDateAndDoctorId,
-	setDoctorId,
-} from '../../database/consultation.js';
-import { getSpecialitiesById } from '../../database/specialities.js';
-import { getDoctorById } from '../../database/users.js';
+import { setDoctorIdInConsultation } from '../../database/services/consultations/setDoctorIdInConsultation.js';
+import { getConsultationsByDateAndDoctorId } from '../../database/services/consultations/getConsultationsByDateAndDoctorId.js';
+import { getConsultationByDateAndPatientId } from '../../database/services/consultations/getConsultationByDateAndPatientId.js';
+import { createConsultation } from '../../database/services/consultations/createConsultation.js';
+import { getSpecialitiesById } from '../../database/services/specialities/getSpecialitiesById.js';
+import { getDoctorById } from '../../database/services/users/getDoctorById.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import { parseConsultationPayload } from '../../validations/consultations.js';
 
@@ -88,7 +86,7 @@ export const createConsultationController = async (req, res) => {
 	});
 
 	// Asignar el doctor a la consulta si se proporciona su ID
-	if (doctorId) await setDoctorId(doctorId, consultationId);
+	if (doctorId) await setDoctorIdInConsultation(doctorId, consultationId);
 
 	res.status(201).json({ message: 'Cita creada', id: consultationId });
 };

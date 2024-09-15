@@ -1,10 +1,8 @@
 // Controlador que cancela uma consulta
 
-import {
-	cancelConsultation,
-	getConsultationDetailsByPatientId,
-	getStatusConsultation,
-} from '../../database/consultation.js';
+import { getStatusConsultation } from '../../database/services/consultations/getStatusConsultation.js';
+import { getConsultationDetailsByPatientId } from '../../database/services/consultations/getConsultationDetailsByPatientId.js';
+import { cancelConsultation } from '../../database/services/consultations/cancelConsultation.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 export const cancelConsultationController = async (req, res) => {

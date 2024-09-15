@@ -1,4 +1,4 @@
-import { getDoctors } from '../../database/users.js';
+import { getDoctors } from '../../database/services/users/getDoctors.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para obtener los doctores

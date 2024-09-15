@@ -2,10 +2,8 @@ import path from 'path';
 import fs from 'fs/promises';
 import { generateErrors } from '../../utils/generateErrors.js';
 import { convertImageToWebp } from '../../utils/convertToWebp.js';
-import {
-	getConsultationById,
-	uploadConsultationFiles,
-} from '../../database/consultation.js';
+import { uploadConsultationFiles } from '../../database/services/consultations/uploadConsultationFiles.js';
+import { getConsultationById } from '../../database/services/consultations/getConsultationById.js';
 import { PUBLIC_DIR } from '../../../constants.js';
 import { allowedMimeTypes } from '../../validations/consultations.js';
 

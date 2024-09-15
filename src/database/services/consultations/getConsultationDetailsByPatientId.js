@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Función para obtener los datos de una consulta por id de consulta y solo si coincide con el id del paciente
 

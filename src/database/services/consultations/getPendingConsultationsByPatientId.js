@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Funcion para obtener las consultas de un paciente ya pasadas y que aun tengan el status pending
 

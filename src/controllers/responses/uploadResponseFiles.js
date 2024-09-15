@@ -4,10 +4,8 @@ import { generateErrors } from '../../utils/generateErrors.js';
 import { convertImageToWebp } from '../../utils/convertToWebp.js';
 import { PUBLIC_DIR } from '../../../constants.js';
 import { allowedMimeTypes } from '../../validations/consultations.js';
-import {
-	getResponsesByConsultationId,
-	uploadResponseFiles,
-} from './../../database/responses.js';
+import { uploadResponseFiles } from './../../database/services/responses/uploadResponseFiles.js';
+import { getResponsesByConsultationId } from './../../database/services/responses/getResponsesByConsultationId.js';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 

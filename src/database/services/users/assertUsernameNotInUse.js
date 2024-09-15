@@ -1,5 +1,5 @@
-import { Db } from './structure/db.js';
-import { generateErrors } from '../utils/generateErrors.js';
+import { Db } from '../../structure/db.js';
+import { generateErrors } from '../../../utils/generateErrors.js';
 
 // Funcion para verificar que el username no este en uso
 

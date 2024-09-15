@@ -1,5 +1,5 @@
-import { hashPassword } from '../utils/hashPassword.js';
-import { Db } from './structure/db.js';
+import { hashPassword } from '../../../utils/hashPassword.js';
+import { Db } from '../../structure/db.js';
 
 // Funcion para setear una nueva contraseña a un usuario
 

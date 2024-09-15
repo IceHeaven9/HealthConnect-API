@@ -1,9 +1,7 @@
 // controlador para insertar un rating a una respuesta
 
-import {
-	getResponsesByConsultationId,
-	setRating,
-} from '../../database/responses.js';
+import { setRating } from '../../database/services/responses/setRating.js';
+import { getResponsesByConsultationId } from '../../database/services/responses/getResponsesByConsultationId.js';
 import { parseRatingPayload } from '../../validations/responses.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 

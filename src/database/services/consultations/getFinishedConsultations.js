@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Función para obtener las consultas finalizadas con filtros, búsqueda y ordenación
 
