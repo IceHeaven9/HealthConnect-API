@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Funcion para actualizar el apellido de un usuario
 export const updateLastName = async (id, lastName) => {

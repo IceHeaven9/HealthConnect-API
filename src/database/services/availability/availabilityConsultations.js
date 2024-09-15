@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 export const availabilityConsultations = async (specialityId, date) => {
 	const [rows] = await Db.query(

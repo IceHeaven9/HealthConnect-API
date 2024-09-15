@@ -1,4 +1,5 @@
-import { findUserById, setNewPassword } from '../../database/users.js';
+import { setNewPassword } from '../../database/services/users/setNewPassword.js';
+import { findUserById } from '../../database/services/users/findUserById.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import bcrypt from 'bcrypt';
 import { parseChangePasswordPayload } from '../../validations/auth.js';

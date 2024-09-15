@@ -1,4 +1,4 @@
-import { generateErrors } from '../utils/generateErrors.js';
+import { generateErrors } from '../../../utils/generateErrors.js';
 
 // Funcion para verificar que el email no este en uso
 

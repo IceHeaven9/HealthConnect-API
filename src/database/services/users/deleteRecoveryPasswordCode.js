@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Funcion para borrar el validation code de un usuario en la base de datos
 

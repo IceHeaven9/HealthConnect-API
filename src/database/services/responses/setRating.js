@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Función para insertar un rating en una respuesta
 

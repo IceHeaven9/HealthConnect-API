@@ -1,8 +1,6 @@
-import {
-	getPatientsConsultations,
-	getDoctorsConsultationsBySpecialityId,
-} from '../../database/consultation.js';
-import { findUserById } from '../../database/users.js';
+import { getDoctorsConsultationsBySpecialityId } from '../../database/services/consultations/getDoctorsConsultationsBySpecialityId.js';
+import { getPatientsConsultations } from '../../database/services/consultations/getPatientsConsultations.js';
+import { findUserById } from '../../database/services/users/findUserById.js';
 
 // Controlador para obtener las consultas
 

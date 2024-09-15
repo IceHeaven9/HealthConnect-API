@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Funcion para obtener las consultas de un doctor por su fecha
 

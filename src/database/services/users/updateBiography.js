@@ -1,4 +1,4 @@
-import { Db } from './structure/db.js';
+import { Db } from '../../structure/db.js';
 
 // Funcion para actualizar la biografia de un usuario
 export const updateBiography = async (id, biography) => {

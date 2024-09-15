@@ -1,5 +1,4 @@
-import { Db } from './structure/db.js';
-
+import { Db } from '../../structure/db.js';
 // Funcion para crear una respuesta
 
 export const setResponse = async (content, id) => {

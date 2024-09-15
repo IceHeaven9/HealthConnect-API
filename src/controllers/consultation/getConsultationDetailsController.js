@@ -1,10 +1,8 @@
-import {
-	getConsultationDetailsByPatientId,
-	getConsultationFilesByConsultationId,
-	getConsultationsDetailsByDoctorId,
-	getResponseFilesByResponseId,
-} from '../../database/consultation.js';
-import { findUserById } from '../../database/users.js';
+import { getResponseFilesByResponseId } from '../../database/services/consultations/getResponseFilesByResponseId.js';
+import { getConsultationsDetailsByDoctorId } from '../../database/services/consultations/getConsultationsDetailsByDoctorId.js';
+import { getConsultationFilesByConsultationId } from '../../database/services/consultations/getConsultationFilesByConsultationId.js';
+import { getConsultationDetailsByPatientId } from '../../database/services/consultations/getConsultationDetailsByPatientId.js';
+import { findUserById } from '../../database/services/users/findUserById.js';
 
 // Controlador para obtener los detalles de una consulta
 

@@ -1,7 +1,5 @@
-import {
-	getConsultationById,
-	deleteConsultationFile,
-} from '../../database/consultation.js';
+import { deleteConsultationFile } from '../../database/services/consultations/deleteConsultationFile.js';
+import { getConsultationById } from '../../database/services/consultations/getConsultationById.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { PUBLIC_DIR } from '../../../constants.js';

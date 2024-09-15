@@ -1,6 +1,6 @@
 // Controlador para obtener la lista de las consultas que están sin asignarse a un médico
 
-import { getUnassignedConsultationsBySpecialityId } from '../../database/consultation.js';
+import { getUnassignedConsultationsBySpecialityId } from '../../database/services/consultations/getUnassignedConsultationsBySpecialityId.js';
 import { parseUnassignedConsultationsPayload } from '../../validations/consultations.js';
 
 export const getUnassignedConsultationsController = async (req, res) => {

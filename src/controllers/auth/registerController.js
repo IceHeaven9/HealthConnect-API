@@ -1,16 +1,14 @@
 import crypto from 'node:crypto';
 import { CODIGO_MEDICO } from '../../../constants.js';
-import {
-	assertEmailNotInUse,
-	assertUsernameNotInUse,
-	assignSpecialitiesToUser,
-	createUserDoctor,
-	createUserPatient,
-} from '../../database/users.js';
+import { createUserPatient } from '../../database/services/users/createUserPatient.js';
+import { createUserDoctor } from '../../database/services/users/createUserDoctor.js';
+import { assignSpecialitiesToUser } from '../../database/services/users/assignSpecialitiesToUser.js';
+import { assertEmailNotInUse } from '../../database/services/users/assertEmailNotInUse.js';
+import { assertUsernameNotInUse } from '../../database/services/users/assertUsernameNotInUse.js';
 import { sendValidationEmail } from '../../emails/validationEmail.js';
 import { hashPassword } from '../../utils/hashPassword.js';
 import { parseRegisterPayload } from '../../validations/auth.js';
-import { findSpecialitiesByIds } from '../../database/specialities.js';
+import { findSpecialitiesByIds } from '../../database/services/specialities/findSpecialitiesByIds.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 // Controlador para registrar un usuario

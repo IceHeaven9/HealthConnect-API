@@ -1,6 +1,6 @@
 // CONTROLADOR PARA OBTENER LA INFORMACION DE UN MÉDICO
 
-import { findDoctorById } from '../../database/users.js';
+import { findDoctorById } from '../../database/services/users/findDoctorById.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 export const getDoctorById = async (req, res) => {

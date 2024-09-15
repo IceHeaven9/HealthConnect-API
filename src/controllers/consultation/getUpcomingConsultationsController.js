@@ -1,6 +1,6 @@
 // Controlador para obtener todas las consultas futuras de un usuario
 
-import { getFutureConsultations } from '../../database/consultation.js';
+import { getFutureConsultations } from '../../database/services/consultations/getFutureConsultations.js';
 
 export const getUpcomingConsultationsController = async (req, res) => {
 	const consultations = await getFutureConsultations(req);

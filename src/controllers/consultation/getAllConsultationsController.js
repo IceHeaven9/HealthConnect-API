@@ -1,4 +1,4 @@
-import { getAllConsultations } from '../../database/consultation.js';
+import { getAllConsultations } from '../../database/services/consultations/getAllConsultations.js';
 
 export const getAllConsultationsController = async (req, res) => {
 	const consultations = await getAllConsultations(req);
