@@ -199,15 +199,17 @@ succesLog('Datos responses insertados correctamente');
 
 async function createFilesConsultations() {
 	for (let i = 0; i < 200; i++) {
+		const username = faker.internet.userName();
 		const filesConsultations = {
 			consultationId: faker.helpers.arrayElement(getConsultationsIds),
-			fileName: faker.helpers.arrayElement([
+			fileName: faker.system.fileName(),
+			filePath: faker.helpers.arrayElement([
 				`${faker.system.commonFileName('pdf')}`,
 				`${faker.system.commonFileName('txt')}`,
 				`${faker.system.commonFileName('docx')}`,
-				`https://i.pravatar.cc/150?u=${faker.internet.userName()}`,
+				`https://i.pravatar.cc/150?u=${username}`,
 			]),
-			filePath: faker.system.filePath(),
+	
 		};
 
 		await Db.query(
@@ -229,15 +231,16 @@ const getResponsesIds = getResponses[0].map((response) => response.id);
 
 async function createFilesResponses() {
 	for (let i = 0; i < 200; i++) {
+		const username = faker.internet.userName();
 		const filesResponses = {
 			responseId: faker.helpers.arrayElement(getResponsesIds),
-			fileName: faker.helpers.arrayElement([
-				`${faker.system.commonFileName('pdf')}`,
-				`${faker.system.commonFileName('txt')}`,
-				`${faker.system.commonFileName('docx')}`,
-				`https://i.pravatar.cc/150?u=${faker.internet.userName()}`,
+			fileName: faker.system.fileName(),
+			filePath: faker.helpers.arrayElement([
+				`${faker.system.commonFileName(`pdf`)}`,
+				`${faker.system.commonFileName(`txt`)}`,
+				`${faker.system.commonFileName(`docx`)}`,
+				`https://i.pravatar.cc/150?u=${username}`,
 			]),
-			filePath: faker.system.filePath(),
 		};
 
 		await Db.query(
