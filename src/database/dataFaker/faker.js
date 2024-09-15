@@ -179,7 +179,7 @@ async function createResponses() {
 		const responses = {
 			content: faker.lorem.paragraph(),
 			consultationId: faker.helpers.arrayElement(getConsultationsIds),
-			rating: faker.helpers.arrayElement([0, 1, 2, 3, 4, 5]),
+			rating: faker.helpers.arrayElement([null, 0, 1, 2, 3, 4, 5]),
 		};
 
 		await Db.query(
@@ -201,7 +201,12 @@ async function createFilesConsultations() {
 	for (let i = 0; i < 200; i++) {
 		const filesConsultations = {
 			consultationId: faker.helpers.arrayElement(getConsultationsIds),
-			fileName: faker.system.fileName(),
+			fileName: faker.helpers.arrayElement([
+				`${faker.system.commonFileName('pdf')}`,
+				`${faker.system.commonFileName('txt')}`,
+				`${faker.system.commonFileName('docx')}`,
+				`https://i.pravatar.cc/150?u=${faker.internet.userName()}`,
+			]),
 			filePath: faker.system.filePath(),
 		};
 
@@ -211,7 +216,6 @@ async function createFilesConsultations() {
 		);
 	}
 }
-
 infoLog('Insertando datos de files_consultations...');
 
 await createFilesConsultations();
@@ -227,7 +231,12 @@ async function createFilesResponses() {
 	for (let i = 0; i < 200; i++) {
 		const filesResponses = {
 			responseId: faker.helpers.arrayElement(getResponsesIds),
-			fileName: faker.system.fileName(),
+			fileName: faker.helpers.arrayElement([
+				`${faker.system.commonFileName('pdf')}`,
+				`${faker.system.commonFileName('txt')}`,
+				`${faker.system.commonFileName('docx')}`,
+				`https://i.pravatar.cc/150?u=${faker.internet.userName()}`,
+			]),
 			filePath: faker.system.filePath(),
 		};
 
@@ -237,7 +246,6 @@ async function createFilesResponses() {
 		);
 	}
 }
-
 infoLog('Insertando datos de files_responses...');
 
 await createFilesResponses();
