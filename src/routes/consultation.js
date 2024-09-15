@@ -39,7 +39,7 @@ consultationRoutes.post(
 
 // Ruta para obtener las consultas que no tienen medico asignado
 
-consultationRoutes.get(
+consultationRoutes.post(
 	'/unassigned-consultations',
 	parseCurrentUser,
 	authGuard,
