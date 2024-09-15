@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import { generateErrors } from '../../utils/generateErrors.js';
 import { convertImageToWebp } from '../../utils/convertToWebp.js';
 import { PUBLIC_DIR } from '../../../constants.js';
-import { allowedMimeTypes } from '../../validations/consultations.js';
+import { allowedMimeTypes } from '../../validations/consultations/allowedMimeTypes.js';
 import { uploadResponseFiles } from './../../database/services/responses/uploadResponseFiles.js';
 import { getResponsesByConsultationId } from './../../database/services/responses/getResponsesByConsultationId.js';
 

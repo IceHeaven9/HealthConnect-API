@@ -5,7 +5,7 @@ import { convertImageToWebp } from '../../utils/convertToWebp.js';
 import { uploadConsultationFiles } from '../../database/services/consultations/uploadConsultationFiles.js';
 import { getConsultationById } from '../../database/services/consultations/getConsultationById.js';
 import { PUBLIC_DIR } from '../../../constants.js';
-import { allowedMimeTypes } from '../../validations/consultations.js';
+import { allowedMimeTypes } from '../../validations/consultations/allowedMimeTypes.js';
 
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 

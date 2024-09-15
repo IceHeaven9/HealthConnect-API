@@ -5,7 +5,7 @@ import { createConsultation } from '../../database/services/consultations/create
 import { getSpecialitiesById } from '../../database/services/specialities/getSpecialitiesById.js';
 import { getDoctorById } from '../../database/services/users/getDoctorById.js';
 import { generateErrors } from '../../utils/generateErrors.js';
-import { parseConsultationPayload } from '../../validations/consultations.js';
+import { parseConsultationPayload } from '../../validations/consultations/parseConsultationPayload.js';
 
 // Controlador para crear una consulta
 

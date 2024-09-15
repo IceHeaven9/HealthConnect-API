@@ -1,7 +1,7 @@
 import { setRecoveryPasswordCode } from '../../database/services/users/setRecoveryPasswordCode.js';
 import { findUserByEmail } from '../../database/services/users/findUserByEmail.js';
 import { sendResetPasswordEmail } from '../../emails/recoveryPasswordEmail.js';
-import { parseRecoveryPasswordPayload } from '../../validations/auth.js';
+import { parseRecoveryPasswordPayload } from '../../validations/auth/parseRecoveryPasswordPayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import crypto from 'crypto';
 

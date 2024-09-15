@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { JWT_SECRET } from '../../../constants.js';
 import { findUserByEmail } from '../../database/services/users/findUserByEmail.js';
 import { generateErrors } from '../../utils/generateErrors.js';
-import { parseLoginPayload } from '../../validations/auth.js';
+import { parseLoginPayload } from '../../validations/auth/parseLoginPayload.js';
 
 // Controlador para iniciar sesión
 

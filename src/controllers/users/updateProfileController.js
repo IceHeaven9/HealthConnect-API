@@ -5,7 +5,7 @@ import { updateLastName } from '../../database/services/users/updateLastName.js'
 import { updateFirstName } from '../../database/services/users/updateFirstName.js';
 import { updateExperience } from '../../database/services/users/updateExperience.js';
 import { updateBiography } from '../../database/services/users/updateBiography.js';
-import { parseUpdateProfilePayload } from '../../validations/users.js';
+import { parseUpdateProfilePayload } from '../../validations/users/parseUpdateProfilePayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 
 export const updateProfileController = async (req, res) => {
