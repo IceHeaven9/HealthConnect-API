@@ -5,6 +5,7 @@ import { findUserById } from '../../database/services/users/findUserById.js';
 import { parseResponsePayload } from '../../validations/responses/parseResponsePayload.js';
 import { generateErrors } from '../../utils/generateErrors.js';
 import { editResponse } from '../../database/services/responses/editResponse.js';
+import { setStatusConsultation } from '../../database/services/consultations/setStatusConsultation.js';
 
 // Controlador para crear respuestas
 
@@ -31,6 +32,7 @@ export const createResponsesController = async (req, res) => {
 		return;
 	}
 	await setResponse(content, id, userId, rating);
+	await setStatusConsultation(id, 'completed');
 
 	res.status(201).json({ message: 'Respuesta creada exitosamente' });
 };
