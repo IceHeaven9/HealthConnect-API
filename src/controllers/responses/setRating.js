@@ -14,14 +14,6 @@ export const setRatingController = async (req, res) => {
 		throw generateErrors(404, 'NO_ENCONTRADO', 'Respuesta no encontrada');
 	}
 
-	if (response.rating) {
-		throw generateErrors(
-			400,
-			'SOLICITUD_ERRONEA',
-			'La respuesta ya ha sido valorada'
-		);
-	}
-
 	if (String(response.consultationId) !== String(id)) {
 		throw generateErrors(
 			400,
