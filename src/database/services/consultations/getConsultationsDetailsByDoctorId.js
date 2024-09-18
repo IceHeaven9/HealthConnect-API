@@ -22,6 +22,7 @@ export const getConsultationsDetailsByDoctorId = async (req, res) => {
             CONCAT(d.firstName, ' ', d.lastName) AS doctorName,
             d.email AS doctorEmail,
             s.name AS specialityName,
+            r.id AS responseId,
             r.content AS responseContent,
             r.rating
         FROM 
@@ -52,6 +53,7 @@ export const getConsultationsDetailsByDoctorId = async (req, res) => {
             d.lastName,
             d.email,
             s.name,
+            r.id,
             r.content,
             r.rating
     `,
