@@ -37,7 +37,7 @@ export const getConsultationsDetailsByDoctorId = async (req, res) => {
             specialities s ON c.specialityId = s.id
         WHERE 
             c.id = ? AND
-            c.doctorId = ?
+                       (c.doctorId = ? OR c.doctorId IS NULL)
         GROUP BY 
             c.id,
             c.date,
