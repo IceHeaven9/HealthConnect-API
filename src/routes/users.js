@@ -20,7 +20,7 @@ usersRoutes.get('/doctors/:id', asyncHandler(getDoctorById));
 // Endpoint para obtener la info de un user
 
 usersRoutes.get(
-  '/profile/:id',
+  '/profile',
   parseCurrentUser,
   authGuard,
   asyncHandler(getUserProfileController)
