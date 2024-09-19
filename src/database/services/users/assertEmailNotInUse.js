@@ -1,4 +1,5 @@
 import { generateErrors } from '../../../utils/generateErrors.js';
+import { findUserByEmail } from './findUserByEmail.js';
 
 // Funcion para verificar que el email no este en uso
 

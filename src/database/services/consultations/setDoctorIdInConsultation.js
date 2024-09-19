@@ -1,3 +1,4 @@
+import { generateErrors } from '../../../utils/generateErrors.js';
 import { Db } from '../../structure/db.js';
 
 // Funcion para asignar un doctor a una consulta
