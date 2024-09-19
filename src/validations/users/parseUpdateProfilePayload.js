@@ -8,7 +8,7 @@ const updateProfileSchema = Joi.object({
 	lastName: Joi.string().min(3).max(100),
 	userName: Joi.string().min(3).max(40),
 	biography: Joi.string().min(3).max(5000),
-	experience: Joi.string().min(0).max(60),
+	experience: Joi.number().min(0).max(60),
 });
 
 export const parseUpdateProfilePayload = (payload) => {
