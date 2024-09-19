@@ -36,7 +36,7 @@ export const getUnassignedConsultationsBySpecialityId = async (
         c.specialityId IN (${placeholders}) AND
         c.status = 'pending' AND
         c.doctorId IS NULL
-    ORDER BY c.id ASC
+    ORDER BY c.date ASC
     LIMIT ? OFFSET ?`,
         [...specialityIds, limit, offset]
     );
