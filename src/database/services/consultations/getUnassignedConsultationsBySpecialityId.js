@@ -3,16 +3,16 @@ import { Db } from '../../structure/db.js';
 // Funcion para obtener todas las consultas sin asignarse a un doctor
 
 export const getUnassignedConsultationsBySpecialityId = async (
-    req,
-    specialityIds
+	req,
+	specialityIds
 ) => {
-    const placeholders = specialityIds.map(() => '?').join(',');
+	const placeholders = specialityIds.map(() => '?').join(',');
 
-    const limit = parseInt(req.query.limit, 10) || 10;
-    const offset = parseInt(req.query.offset, 10) || 0;
+	const limit = parseInt(req.query.limit, 10) || 10;
+	const offset = parseInt(req.query.offset, 10) || 0;
 
-    const [consultations] = await Db.query(
-        `SELECT DISTINCT
+	const [consultations] = await Db.query(
+		`SELECT DISTINCT
         c.id,
         c.date,
         c.title,
@@ -38,8 +38,8 @@ export const getUnassignedConsultationsBySpecialityId = async (
         c.doctorId IS NULL
     ORDER BY c.date ASC
     LIMIT ? OFFSET ?`,
-        [...specialityIds, limit, offset]
-    );
+		[...specialityIds, limit, offset]
+	);
 
-    return consultations.length > 0 ? consultations : [];
+	return consultations.length > 0 ? consultations : [];
 };
