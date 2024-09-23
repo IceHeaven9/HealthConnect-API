@@ -6,16 +6,16 @@ import {
 	notFoundController,
 	errorController,
 } from './src/controllers/errors/index.js';
-
-import { PORT } from './constants.js';
+import { corsOptions, PORT } from './constants.js';
 import { infoLog } from './src/utils/logger.js';
 import { consultationRoutes } from './src/routes/consultation.js';
 import { authRoutes } from './src/routes/auth.js';
 import { specilitiesRoutes } from './src/routes/specialities.js';
 import { usersRoutes } from './src/routes/users.js';
 import { responsesRoutes } from './src/routes/responses.js';
-import {availabilityRoutes} from './src/routes/availability.js';
+import { availabilityRoutes } from './src/routes/availability.js';
 import path from 'path';
+
 const app = express();
 
 // Middlewares
@@ -26,12 +26,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware cors
 
-const corsOptions = {
-  origin: 'http://localhost:5173', // Permitir solo solicitudes desde localhost:5173
-  methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Métodos HTTP permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
-  credentials: true, // Permitir el envío de cookies o credenciales
-};
 app.use(cors(corsOptions));
 
 // Middleware para morgan
@@ -58,7 +52,7 @@ app.use(specilitiesRoutes);
 
 app.use(usersRoutes);
 
-app.use(availabilityRoutes)
+app.use(availabilityRoutes);
 
 // Middleware de Ruta no encontrada
 

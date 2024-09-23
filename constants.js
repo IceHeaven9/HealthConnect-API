@@ -32,3 +32,9 @@ export const {
 } = process.env;
 
 export const PUBLIC_DIR = path.join(process.cwd(), 'public');
+
+export const corsOptions = {
+	origin: 'http://localhost:5173', // Permitir solo solicitudes desde localhost:5173
+	methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Métodos HTTP permitidos
+	credentials: true, // Permitir el envío de cookies o credenciales
+};
