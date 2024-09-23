@@ -15,6 +15,7 @@ import { specilitiesRoutes } from './src/routes/specialities.js';
 import { usersRoutes } from './src/routes/users.js';
 import { responsesRoutes } from './src/routes/responses.js';
 import {availabilityRoutes} from './src/routes/availability.js';
+import path from 'path';
 const app = express();
 
 // Middlewares
@@ -25,7 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware cors
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:5173', // Permitir solo solicitudes desde localhost:5173
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Métodos HTTP permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+  credentials: true, // Permitir el envío de cookies o credenciales
+};
+app.use(cors(corsOptions));
 
 // Middleware para morgan
 
@@ -37,7 +44,7 @@ app.use(fileUpload());
 
 // Establecemos el directorio público
 
-app.use('/public', express.static('./public'));
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 // Rutas
 
