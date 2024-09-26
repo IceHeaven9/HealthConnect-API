@@ -5,7 +5,10 @@ import { validate } from '../validate.js';
 
 const loginSchema = Joi.object({
 	email: Joi.string().email().max(100).required(),
-	password: Joi.string().min(8).max(60).required(),
+	password: Joi.string().min(8).max(60).required().messages({
+		'string.min':
+			'Contraseña demasiado corta, debe tener al menos 8 caracteres',
+	}),
 });
 
 export function parseLoginPayload(payload) {
