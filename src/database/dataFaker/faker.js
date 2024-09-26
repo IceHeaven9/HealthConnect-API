@@ -207,9 +207,8 @@ async function createFilesConsultations() {
 				`${faker.system.commonFileName('pdf')}`,
 				`${faker.system.commonFileName('txt')}`,
 				`${faker.system.commonFileName('docx')}`,
-				`https://i.pravatar.cc/150?u=${username}`,
+				`/public/defaultFile.webp`,
 			]),
-	
 		};
 
 		await Db.query(
@@ -239,7 +238,7 @@ async function createFilesResponses() {
 				`${faker.system.commonFileName(`pdf`)}`,
 				`${faker.system.commonFileName(`txt`)}`,
 				`${faker.system.commonFileName(`docx`)}`,
-				`https://i.pravatar.cc/150?u=${username}`,
+				`/public/defaultFile.webp`,
 			]),
 		};
 
