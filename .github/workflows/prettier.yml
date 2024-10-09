@@ -1,0 +1,16 @@
+name: Prettier
+
+on: [pull_request]
+
+jobs:
+  prettier-check:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4.2.1 #Llevamos código del repositorio a la máquina virtual
+      - uses: actions/setup-node@v4.0.4 #Instalamos Node.js
+        with:
+          node-version: 20 #Versión de Node.js 20 que usamos en el proyecto
+      - name: Instalar dependencias
+        run: npm install prettier
+      - name: prettier check
+        run: npx prettier --check .
