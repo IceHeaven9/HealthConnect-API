@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Middleware cors
-
+//prueba de comentario
 app.use(cors(corsOptions));
 
 // Middleware para morgan
