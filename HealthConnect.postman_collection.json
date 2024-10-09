@@ -25,13 +25,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/register",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"register"
-							]
+							"path": ["register"]
 						}
 					},
 					"response": []
@@ -52,13 +48,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/validate-email",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"validate-email"
-							]
+							"path": ["validate-email"]
 						}
 					},
 					"response": []
@@ -79,13 +71,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/login",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"login"
-							]
+							"path": ["login"]
 						}
 					},
 					"response": []
@@ -106,13 +94,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/login",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"login"
-							]
+							"path": ["login"]
 						}
 					},
 					"response": []
@@ -139,13 +123,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/change-password",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"change-password"
-							]
+							"path": ["change-password"]
 						}
 					},
 					"response": []
@@ -166,13 +146,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/recover-password",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"recover-password"
-							]
+							"path": ["recover-password"]
 						}
 					},
 					"response": []
@@ -193,13 +169,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/reset",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"reset"
-							],
+							"path": ["reset"],
 							"query": [
 								{
 									"key": "token",
@@ -238,13 +210,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations"
-							]
+							"path": ["consultations"]
 						}
 					},
 					"response": []
@@ -271,13 +239,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/assign-consultation",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"assign-consultation"
-							]
+							"path": ["assign-consultation"]
 						}
 					},
 					"response": []
@@ -308,15 +272,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/1/files",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"1",
-								"files"
-							]
+							"path": ["consultations", "1", "files"]
 						}
 					},
 					"response": []
@@ -334,13 +292,9 @@
 						],
 						"url": {
 							"raw": "localhost:3000/unassigned-consultation",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"unassigned-consultation"
-							]
+							"path": ["unassigned-consultation"]
 						}
 					},
 					"response": []
@@ -370,13 +324,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/my-consultations",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"my-consultations"
-							],
+							"path": ["my-consultations"],
 							"query": [
 								{
 									"key": "title",
@@ -443,13 +393,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/my-consultations",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"my-consultations"
-							],
+							"path": ["my-consultations"],
 							"query": [
 								{
 									"key": "title",
@@ -504,15 +450,9 @@
 						],
 						"url": {
 							"raw": "localhost:3000/consultations/64/details",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"64",
-								"details"
-							]
+							"path": ["consultations", "64", "details"]
 						}
 					},
 					"response": []
@@ -530,15 +470,9 @@
 						],
 						"url": {
 							"raw": "localhost:3000/consultations/3/details",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"3",
-								"details"
-							]
+							"path": ["consultations", "3", "details"]
 						}
 					},
 					"response": []
@@ -556,13 +490,9 @@
 						],
 						"url": {
 							"raw": "localhost:3000/consultations",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations"
-							],
+							"path": ["consultations"],
 							"query": [
 								{
 									"key": "doctorName",
@@ -604,14 +534,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/completed",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"completed"
-							],
+							"path": ["consultations", "completed"],
 							"query": [
 								{
 									"key": "title",
@@ -658,15 +583,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/1/upcoming",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"1",
-								"upcoming"
-							],
+							"path": ["consultations", "1", "upcoming"],
 							"query": [
 								{
 									"key": "sortBy",
@@ -700,13 +619,9 @@
 						"header": [],
 						"url": {
 							"raw": "localhost:3000/availability?specialityId=6&date=2024-10-10&doctorId=52",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"availability"
-							],
+							"path": ["availability"],
 							"query": [
 								{
 									"key": "specialityId",
@@ -747,14 +662,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/1",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"1"
-							]
+							"path": ["consultations", "1"]
 						}
 					},
 					"response": []
@@ -772,15 +682,9 @@
 						],
 						"url": {
 							"raw": "localhost:3000/consultations/1/cancel",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"1",
-								"cancel"
-							]
+							"path": ["consultations", "1", "cancel"]
 						}
 					},
 					"response": []
@@ -798,9 +702,7 @@
 						],
 						"url": {
 							"raw": "localhost:3000/consultations/1/1-496e7c3a77-e455-4c10-8fef-ccbb480d45ab.webp",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
 							"path": [
 								"consultations",
@@ -838,15 +740,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/2/response",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"2",
-								"response"
-							]
+							"path": ["consultations", "2", "response"]
 						}
 					},
 					"response": []
@@ -873,16 +769,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/1/response/edit",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"1",
-								"response",
-								"edit"
-							]
+							"path": ["consultations", "1", "response", "edit"]
 						}
 					},
 					"response": []
@@ -909,16 +798,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/1/response/rate",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"1",
-								"response",
-								"rate"
-							]
+							"path": ["consultations", "1", "response", "rate"]
 						}
 					},
 					"response": []
@@ -946,16 +828,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/consultations/2/response/files",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"consultations",
-								"2",
-								"response",
-								"files"
-							]
+							"path": ["consultations", "2", "response", "files"]
 						}
 					},
 					"response": []
@@ -973,9 +848,7 @@
 						],
 						"url": {
 							"raw": "localhost:3000/consultations/2/response/files/105-85-a625e60d-7db9-4e9a-9102-350c0d7514c7.webp",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
 							"path": [
 								"consultations",
@@ -1000,13 +873,9 @@
 						"header": [],
 						"url": {
 							"raw": "localhost:3000/doctors",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"doctors"
-							]
+							"path": ["doctors"]
 						}
 					},
 					"response": []
@@ -1018,15 +887,9 @@
 						"header": [],
 						"url": {
 							"raw": "localhost:3000/specialities/6/doctors",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"specialities",
-								"6",
-								"doctors"
-							]
+							"path": ["specialities", "6", "doctors"]
 						}
 					},
 					"response": []
@@ -1038,14 +901,9 @@
 						"header": [],
 						"url": {
 							"raw": "localhost:3000/doctors/51",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"doctors",
-								"51"
-							]
+							"path": ["doctors", "51"]
 						}
 					},
 					"response": []
@@ -1072,13 +930,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/change-password",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"change-password"
-							]
+							"path": ["change-password"]
 						}
 					},
 					"response": []
@@ -1106,15 +960,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/profile/85/avatar",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"profile",
-								"85",
-								"avatar"
-							]
+							"path": ["profile", "85", "avatar"]
 						}
 					},
 					"response": []
@@ -1141,14 +989,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/profile/85",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"profile",
-								"85"
-							]
+							"path": ["profile", "85"]
 						}
 					},
 					"response": []
@@ -1177,13 +1020,9 @@
 						},
 						"url": {
 							"raw": "localhost:3000/specialities",
-							"host": [
-								"localhost"
-							],
+							"host": ["localhost"],
 							"port": "3000",
-							"path": [
-								"specialities"
-							]
+							"path": ["specialities"]
 						}
 					},
 					"response": []
